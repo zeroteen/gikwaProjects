@@ -1,0 +1,35 @@
+﻿@model Grikwa.Models.Institution_Resident
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Institution_Resident</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Institution.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Institution.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resident.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resident.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IRID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

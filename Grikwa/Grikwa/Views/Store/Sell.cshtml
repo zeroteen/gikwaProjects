@@ -1,0 +1,118 @@
+﻿@model Grikwa.Models.SellProductModel
+
+@{
+    ViewBag.Title = "Sell Something";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Sell Your Product</h2>
+
+@using (Html.BeginForm("Sell", "Store", FormMethod.Post, new { @enctype = "multipart/form-data" , @id="sellForm"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductImage, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input id="ProductImage" name="ProductImage" type="file" class="form-control width-30" />
+                @Html.ValidationMessageFor(model => model.ProductImage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control limited", maxlength = "25" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Categories, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="Categories" id="Categories" class="chzn-select form-control" multiple="multiple">
+                    @foreach (var option in (ViewBag.Categories as MultiSelectList))
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected="selected">@option.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Categories)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShortDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control limited", maxlength = "25" })
+                @Html.ValidationMessageFor(model => model.ShortDescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LongDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.LongDescription, 4, 50, new { @class = "form-control limited", maxlength = "250" })
+                @Html.ValidationMessageFor(model => model.LongDescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+                @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2" }) 
+             <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @id = "input-mask-price", data_a_sign = "R " })
+                @Html.ValidationMessageFor(model => model.Price)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeyWords, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.KeyWords, new { @class = "form-control limited", maxlength = "250" })
+                @Html.ValidationMessageFor(model => model.KeyWords)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailNotification, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.EmailNotification, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmailNotification)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfSaleRequests, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.NumberOfSaleRequests, ViewBag.NumberOfSaleRequests as SelectList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NumberOfSaleRequests)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.ActionLink("Agree To Terms and Conditions", "Terms", "Home", null, new { @class = "control-label col-md-2", @for = "AcceptTerms" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.AcceptTerms, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AcceptTerms)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

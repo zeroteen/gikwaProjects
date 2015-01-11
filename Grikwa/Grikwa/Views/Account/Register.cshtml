@@ -1,0 +1,101 @@
+﻿@model Grikwa.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "reg" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a new account.</h4>
+    <hr />
+    @Html.ValidationSummary()
+    <div class="form-group">
+        @Html.LabelFor(m => m.InstitutionID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.InstitutionID, Model.InstitutionSelectList, "--select--", new
+       {
+           @class = "form-control",
+           onchange = "getQ();"
+       })
+            @Html.ValidationMessage("Institution")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.QualificationID, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <select name="QualificationID" class="form-control" id="QualificationID">
+                <option value="">--select--</option>
+                @foreach (var item in Model.Qualifications)
+                {
+                    if (item.QualificationID == Model.QualificationID)
+                    {
+                        <option value="@item.QualificationID" selected="selected">(@item.Code) @item.FullName</option>
+                    }
+                    else
+                    {
+                        <option value="@item.QualificationID">(@item.Code) @item.FullName</option>
+                    }
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Title.TitleID, Model.TitleSelectList, "--select--", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Initials, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Initials, new { @class = "form-control limited", maxlength = "3" })
+            @Html.ValidationMessageFor(model => model.Initials)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control limited", maxlength = "50" })
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control limited", maxlength = "250" })
+            @Html.ValidationMessageFor(model => model.Email)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword)
+        </div>
+        </div>
+    <div class="form-group">
+        @Html.ActionLink("Agree To Terms and Conditions", "Terms", "Home", null, new { @class = "control-label col-md-2", @for = "AcceptTerms" })
+        <div class="col-md-10">
+            @Html.CheckBoxFor(model => model.AcceptTerms, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.AcceptTerms)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Register" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

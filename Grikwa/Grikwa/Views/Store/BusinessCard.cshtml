@@ -1,0 +1,40 @@
+﻿@model Grikwa.Models.BusinessCardModel
+
+@{
+    ViewBag.Title = "My Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+
+    <div class="col-sm-2">
+        @*@Html.Partial("_CategoryPartial")*@
+    </div>
+
+    <div class="col-sm-10">
+
+        @Html.Partial("_BusinessCardPartial", @Model)
+
+        @if (Model.Products == null || Model.Products.Count() == 0)
+        {
+            <div class="body-content">
+                <h1>No products found</h1>
+            </div>
+        }
+        else
+        {
+            <div class="row table-responsive">
+                @foreach (var item in Model.Products)
+                {
+                    @Html.Partial("_CatalogProductPartial", item)
+                }
+            </div>
+        }
+
+    </div>
+    <div class="row center">
+        @Html.Partial("_PaginationPartial")
+    </div>
+</div>

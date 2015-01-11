@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Grikwa.Models.CatalogProductModel>
+
+@{
+    ViewBag.Title = "Store";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@Session["currentInstitution"]</h2>
+
+<h3>@Html.ActionLink("Click Here To Sell Something", "Sell", "Store", new { @class = "btn btn-lg btn-purple btn-block" })</h3>
+
+<div class="row">
+
+    <div class="col-sm-3 btn-purple">
+        @Html.Partial("_CategoryPartial", (Session["categories"] as IEnumerable<Grikwa.Models.Category>))
+    </div>
+
+    <div class="col-sm-9">
+        @if (Model == null || Model.Count() == 0)
+        {
+            <div class="body-content">
+                <h1>No products found</h1>
+            </div>
+        }
+        else
+        {
+            <div class="row body-content">
+                @foreach (var item in Model)
+                {
+                    @Html.Partial("_CatalogProductPartial", item)
+                }
+            </div>
+        }
+    </div>
+    <div class="row center">
+        @Html.Partial("_PaginationPartial")
+    </div>
+</div>

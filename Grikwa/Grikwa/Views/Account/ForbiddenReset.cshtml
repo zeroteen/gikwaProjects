@@ -1,0 +1,8 @@
+﻿@{
+    ViewBag.Title = "Reset Password Not Allowed";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+<p>The token being used is not valid anymore. Request new token @Html.ActionLink("here", "RequestResetToken", "Account").</p>
+

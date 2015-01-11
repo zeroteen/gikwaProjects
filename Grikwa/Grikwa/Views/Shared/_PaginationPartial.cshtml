@@ -1,0 +1,56 @@
+﻿@using Grikwa.Models
+
+@if (PaginationModel.TotalItems != 0)
+{
+    <ul class="pagination pagination-lg">
+        @if (PaginationModel.AtStart())
+        {
+            <li class="disabled">
+                <a href="@(PaginationModel.FilterURL + PaginationModel.PreviousPage())">
+                    <i class="icon-double-angle-left"></i>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@(PaginationModel.FilterURL + PaginationModel.PreviousPage())">
+                    <i class="icon-double-angle-left"></i>
+                </a>
+            </li>
+        }
+
+        @for (var i = PaginationModel.CurrentStartPage; i <= PaginationModel.CurrentEndPage; i++)
+        {
+            if (PaginationModel.CurrentPage == i)
+            {
+                <li class="active">
+                    <a href="@(PaginationModel.FilterURL + i)">@i</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@(PaginationModel.FilterURL + i)">@i</a>
+                </li>
+            }
+        }
+
+        @if (PaginationModel.AtEnd())
+        {
+            <li class="disabled">
+                <a href="@(PaginationModel.FilterURL + PaginationModel.NextPage())">
+                    <i class="icon-double-angle-right"></i>
+                </a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="@(PaginationModel.FilterURL + PaginationModel.NextPage())">
+                    <i class="icon-double-angle-right"></i>
+                </a>
+            </li>
+        }
+    </ul>
+}

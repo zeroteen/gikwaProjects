@@ -1,0 +1,8 @@
+﻿@model Grikwa.Models.Qualification
+
+<div class="col-md-10" id="qs">
+    @Html.DropDownListFor(m => m.Qualification.QualificationID, ViewBag.QualificationSelectList, "--select--", new
+       {
+           @class = "form-control"@*, @id = "qs"*@ })
+    @Html.ValidationMessage("Qualification")
+</div>

@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "FAQ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>FAQ</h2>
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <div class="tabbable">
+            <ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
+                <li class="active">
+                    <a data-toggle="tab" href="#faq-tab-1">
+                        <i class="blue icon-question-sign bigger-120"></i>
+                        General
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#faq-tab-2">
+                        <i class="green icon-user bigger-120"></i>
+                        Account
+                    </a>
+                </li>
+
+
+                <li >
+                    <a data-toggle="tab" href="##faq-tab-4">
+                        <i class="purple icon-magic bigger-120"></i>
+
+                        Misc
+
+                    </a>
+
+                </li>
+            </ul>
+
+            <div class="tab-content no-border padding-24">
+                <div id="faq-tab-1" class="tab-pane fade in active">
+                    <h4 class="blue">
+                        <i class="icon-ok bigger-110"></i>
+                        General Questions
+                    </h4>
+
+                    <div class="space-8"></div>
+
+                    <div id="faq-list-1" class="panel-group accordion-style1 accordion-style2">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-1-1" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-chevron-left pull-right" data-icon-hide="icon-chevron-down" data-icon-show="icon-chevron-left"></i>
+
+                                    <i class="icon-user bigger-130"></i>
+                                    &nbsp; What is Grikwa?
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-1-1">
+                                <div class="panel-body">
+                                    Grikwa was founded and developed by Julian Nkuna (21), Masilo Mapaila (20), Martin Nkala(21) and Majuba Ngoyama(21) as an online solution to the day to day problem of archaic methods of buying and selling useful  items in a learning institution.  Grikwa distinguishes itself from other online stores in its emphasis on safe, exclusive and relevant trade between people who are in the same institutions. 
+                                </div>
+                            </div>
+                        </div>
+                        
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-1-4" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-chevron-left pull-right" data-icon-hide="icon-chevron-down" data-icon-show="icon-chevron-left"></i>
+
+                                    <i class="icon-copy bigger-130"></i>
+                                    &nbsp; Who owns Grikwa?
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-1-4">
+                                <div class="panel-body">
+                                   @Html.ActionLink("About", "About", "Home")
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+
+                <div id="faq-tab-2" class="tab-pane fade">
+                    <h4 class="blue">
+                        <i class="green icon-user bigger-110"></i>
+                        Account Questions
+                    </h4>
+
+                    <div class="space-8"></div>
+
+                    <div id="faq-list-2" class="panel-group accordion-style1 accordion-style2">
+                       
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-2-2" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-chevron-right smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
+                                    &nbsp;
+                                    How do I recover my password?
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-2-2">
+                                <div class="panel-body">
+                                   Click the "reset" link and follow the instructions <a href="/Account/RequestResetToken">Reset</a>.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-2-3" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-chevron-right middle smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
+                                    &nbsp;
+                                    How does Grikwa protect my privacy and keep my information secure?
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-2-3">
+                                <div class="panel-body">
+                                   Under any circumstances Grikwa does not sell or provide information to any one.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-2-4" data-parent="#faq-list-2" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-chevron-right smaller-80" data-icon-hide="icon-chevron-down align-top" data-icon-show="icon-chevron-right"></i>
+                                    &nbsp;
+                                    What can I do to keep personal information private?
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-2-4">
+                                <div class="panel-body">
+                                    It's advisable that Grikwa users should not give anyone their passwords.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div id="faq-tab-4" class="tab-pane fade">
+                    <h4 class="blue">
+                        <i class="purple icon-magic bigger-110"></i>
+                        Miscellaneous Questions
+                    </h4>
+
+                    <div class="space-8"></div>
+
+                    <div id="faq-list-4" class="panel-group accordion-style1 accordion-style2">
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-4-3" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+                                    &nbsp;
+                                    Someone’s cyberbullying me. What can I do??
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-4-3">
+                                <div class="panel-body">
+                                    It advisable that you contact Grikwa first, the contacts are on contact us. Grikwa will contact whoever is involved to stop or may be banned, Cyberbullying is a Crime South Africa according to the Protection from Harassment Act, 2010 Grikwa has a right to report the matter to the police. Grikwa users are adviced to get counseling if they are severly affected immotional.  
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a href="#faq-4-4" data-parent="#faq-list-4" data-toggle="collapse" class="accordion-toggle collapsed">
+                                    <i class="icon-plus smaller-80" data-icon-hide="icon-minus" data-icon-show="icon-plus"></i>
+                                    &nbsp;
+                                    What shouldn’t I post??
+                                </a>
+                            </div>
+
+                            <div class="panel-collapse collapse" id="faq-4-4">
+                                <div class="panel-body">
+                                    It is advisable that users should not post inappropriate images or products.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+
+
+

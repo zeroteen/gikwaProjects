@@ -1,0 +1,33 @@
+﻿@model Grikwa.Models.BusinessCardModel
+
+<div class="widget-box width-40">
+    <div class="widget-header widget-header-flat widget-header-small">
+        <h5>
+            Business Card
+        </h5>
+
+    </div>
+
+    <div class="widget-body">
+        <div class=" row">
+            <div class="row-fluid">
+                @if (Model.HasPicture)
+                {
+                    <div class="col-md-4">
+                        <img width="100" height="100" class="img-thumbnail" src="@Url.Action("ProfilePicture", "Account", new { @id= Model.Id})" alt="profile picture">
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-4">
+                        <img src="~/Images/gallery/defaultProf.jpg" alt="profile picture" width="100" height="100" class="img-thumbnail" />
+                    </div>
+                }
+                <h5>@Model.Name </h5>
+                <h6>@Model.Institution</h6>
+                <h6>@Model.Qualification</h6>
+            </div>
+        </div>
+
+    </div>
+</div>

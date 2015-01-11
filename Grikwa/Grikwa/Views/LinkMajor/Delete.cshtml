@@ -1,0 +1,41 @@
+﻿@model Grikwa.Models.Institution_Faculty_Qualification_Major
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Institution_Faculty_Qualification_Major</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Institution_Faculty_Qualification.IFQID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Institution_Faculty_Qualification.IFQID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Major.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Major.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

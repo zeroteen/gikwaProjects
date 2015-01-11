@@ -1,0 +1,51 @@
+﻿@model Grikwa.Models.SlotSetting
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>SlotSetting</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinutesRange)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinutesRange)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxQuantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxQuantity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.SlotSettingID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,63 @@
+﻿@using Grikwa.Models;
+@using Microsoft.AspNet.Identity
+
+@if (Request.IsAuthenticated)
+{
+
+    if (Session == null || Session["userName"] == null)
+    {
+        Grikwa.Controllers.AccountController.SetCurrentUserSessionInfo(Request, Session);
+    }
+    
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+    @Html.AntiForgeryToken()
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="">
+            <a href="@Url.Action("Chat","Store")" title="Transactions">
+                <i id="messageBell" class="icon-envelope icon-animated-vertical"></i>
+                <span id="messageCount" class="badge badge-important">0</span>
+                My Transactions
+            </a>
+            <input type="hidden" id="uid" value="@Session["userID"].ToString()" />
+        </li>
+        <li>
+            <a href="@Url.Action("BusinessCard","Store",new { @id = @Session["userID"].ToString()})" title="My Store">
+                <i class="icon-star"></i>
+                My Store
+            </a>
+        </li>
+        <li>
+            <a href="@Url.Action("Manage","Account")" title="Manage">
+                <i class="icon-user"></i>
+                @Session["userName"].ToString()
+            </a>
+        </li>
+
+        <li>
+            <a href="javascript:document.getElementById('logoutForm').submit()">
+                <i class="icon-power-off"></i>
+                Log off
+            </a>
+        </li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a id="registerLink" href="@Url.Action("Register","Account")" title="Register">
+                <i class="icon-signout"></i>
+                Register
+            </a>
+        </li>
+        <li>
+            <a id="loginLink" href="@Url.Action("Login","Account")" title="Log in">
+                <i class="icon-power-off"></i>
+                Log in
+            </a>
+        </li>
+    </ul>
+}

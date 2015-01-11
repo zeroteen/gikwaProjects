@@ -1,0 +1,12 @@
+﻿
+@{
+    ViewBag.Title = "Manage Account";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<ul>
+    <li>@Html.ActionLink("Manage Profile","ManageProfile")</li>
+    <li>@Html.ActionLink("Manage Password", "ManagePassword")</li>
+</ul>

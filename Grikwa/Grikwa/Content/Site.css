@@ -1,0 +1,82 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    height: 80%;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+/* styles for validation helpers */
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.bottom-nav {
+    width: 100%;
+    background-color: #68217a;
+    overflow: hidden;
+}
+
+
+    .bottom-nav div {
+        float: left;
+        margin: 0 1em 0 1em;
+        width: 30%;
+        list-style: none;
+    }
+
+        .bottom-nav div ul {
+            list-style: none;
+            text-decoration: none;
+        }
+
+#img_logo {
+    background: no-repeat top left;
+    display: block;
+    width: 250px;
+    height: 100px;
+}
+
+#footer-bottom {
+    text-align: center;
+    color: black;
+    bottom: 0;
+    width: 100%;
+}
+
+.university-icon{
+    background-size: 50px 50px;
+}

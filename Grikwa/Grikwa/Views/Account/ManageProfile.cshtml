@@ -1,0 +1,63 @@
+﻿@model Grikwa.Models.ManageProfileViewModel
+
+@{
+    ViewBag.Title = "Manage Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("ManageProfile", "Account", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Edit profile</h4>
+    <hr />
+    @Html.ValidationSummary()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.HasPicture)
+
+    if (Model.HasPicture)
+    {
+        <img width="100" height="100" class="img-thumbnail" src="@Url.Action("ProfilePicture", "Account", new { @id=Model.Id})" alt="profile picture">
+    }
+    else
+    {
+        <img src="~/Images/gallery/defaultProf.jpg" alt="profile picture" width="100" height="100" class="img-thumbnail" />
+    }
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ProfileImage, new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input id="ProfileImage" name="ProfileImage" type="file" class="form-control width-30" />
+            @Html.ValidationMessageFor(model => model.ProfileImage)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.Title.TitleID, Model.TitleSelectList, "--select--", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Initials, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Initials, new { @class = "form-control limited", maxlength = "3" })
+            @Html.ValidationMessageFor(model => model.Initials)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control limited", maxlength = "50" })
+            @Html.ValidationMessageFor(model => model.Surname)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+}
+<p>@Html.ActionLink("Back to Manage Account", "Manage")</p>
+

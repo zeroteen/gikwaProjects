@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Grikwa.Models.InstitutionViewModel>
+
+@{
+    ViewBag.Title = "Select Institution Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="space-10"></div>
+<div class="widget-header widget-header-small green">
+    <h6>
+        Please select your Institution
+    </h6>
+</div>
+
+<div class="body-content">
+    @foreach (var institution in Model)
+    {
+        <div class="col-md-4">
+            <div class="widget-container-span">
+                <div class="widget-box light-border">
+                    <div class="widget-body">
+                        <div class="widget-main padding-2">
+                            @*<div style="background-color: #E5E4E2;" class="alert alert-info"> @Html.ActionLink(institution.Name, "Institution", "Store", new { name = institution.Code }, null)</div>*@
+                            <div style="background-color: #E5E4E2;" class="alert alert-info"><img class="university-icon" src="~/App_Data/Images/Slide1.JPG" /></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<br />

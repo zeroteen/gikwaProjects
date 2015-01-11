@@ -1,0 +1,19 @@
+﻿@model Grikwa.Models.SoldProductModel
+
+@{
+    ViewBag.Title = "Chat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Chat</h2>
+<input type="hidden" id="inChat" value="true"/>
+<div class="row">
+    <div class="col-sm-3">
+        @Html.Partial("_UserListSideBarPartial")
+    </div>
+    <div class="col-sm-9">
+        @Html.Partial("_ChatPartial")
+
+        @Html.Partial("_SellProductPartial", Model)
+    </div>
+</div>

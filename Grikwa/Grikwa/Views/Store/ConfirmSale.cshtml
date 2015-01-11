@@ -1,0 +1,30 @@
+﻿@model Grikwa.Models.ConfirmProductSaleModel
+
+@{
+    ViewBag.Title = "Confirm Sale";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if(@Model.CustomerID.Equals("OutsideGrikwa"))
+    {
+         <h3>Are you sure you have sold <strong>@Model.ProductName</strong> to <strong>@Model.FullName</strong> ?</h3>
+    }
+    else
+    {
+        <h3>Are you sure you want to sell <strong>@Model.ProductName</strong> to <strong>@Model.FullName</strong> ?</h3>
+    }
+
+
+@using (Html.BeginForm("SaleConfirmed","Store"))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.CustomerID)
+    @Html.HiddenFor(m => m.ProductID)
+    <div class="form-actions no-color">
+        <input type="submit" value="Sell" class="btn btn-default" /> |
+        @Html.ActionLink("Cancel", "Index","Store")
+    </div>
+}
+

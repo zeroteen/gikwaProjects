@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Grikwa.Models.Institution_Faculty_Qualification>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Institution_Faculty.IFID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qualification.Code)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Institution_Faculty.IFID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Qualification.Code)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IFQID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IFQID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IFQID })
+        </td>
+    </tr>
+}
+
+</table>

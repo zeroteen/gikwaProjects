@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Grikwa.Models.Room>
+
+@{
+    ViewBag.Title = "GetActiveChatRooms";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+<h2>List of Active Chat Rooms In Ram</h2>
+
+@foreach(var room in Model)
+{
+    @(count = count + 1);
+    <h4>[@room.User1ID : @room.User1Name] - [@room.User2ID : @room.User2Name]</h4>
+}

@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Grikwa.Models.Sale>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Customer.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.UserID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Supplier.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalePrice)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Customer.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Product.UserID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Supplier.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalePrice)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.SaleID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.SaleID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.SaleID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Grikwa.Models.SendBulkTokenEmailModel>
+
+@{
+    //ViewBag.Title = "SendBulkVerificationEmail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4>The users who received the email:</h4>
+@foreach (var user in Model)
+{
+    <h6>@user.TitleID @user.Intials @user.Surname : @user.Email -> @user.IssueDate</h6>
+}
+

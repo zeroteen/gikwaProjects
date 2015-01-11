@@ -1,0 +1,15 @@
+﻿@model IEnumerable<Grikwa.Models.UserViewModel>
+
+@{
+    ViewBag.Title = "Verified Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 0;
+}
+
+<h2>@ViewBag.Title</h2>
+
+@foreach(var user in Model)
+{
+    @(count = count + 1)
+    <h5>[@user.UserName] - [@user.FullName]</h5>
+}

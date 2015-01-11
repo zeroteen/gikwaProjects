@@ -1,0 +1,35 @@
+﻿@model Grikwa.Models.Institution_Faculty_Qualification_Major
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Institution_Faculty_Qualification_Major</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Institution_Faculty_Qualification.IFQID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Institution_Faculty_Qualification.IFQID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Major.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Major.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IFQMID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

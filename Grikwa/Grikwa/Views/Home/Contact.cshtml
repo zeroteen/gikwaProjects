@@ -1,0 +1,59 @@
+﻿@model Grikwa.Models.ContactUsModel
+
+@{
+    ViewBag.Title = "Contact Us";
+}
+<h2>@ViewBag.Title.</h2>
+
+<address>
+    Room A4<br />
+    University House<br />
+    1 Matopo<br />
+    Mowbray<br />
+    7700<br />
+</address>
+<address>
+    <strong>Email:</strong>   <a href="mailto:grikwa@gmail.com">grikwa@gmail.com</a><br /> 
+    <strong>Phone:</strong> 082 972 4738
+</address>
+
+<hr />
+@using (Html.BeginForm("Contact", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Contact Us Form</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control limited", maxlength = "30" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.From, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.From, new { @class = "form-control limited", maxlength = "50" })
+                @Html.ValidationMessageFor(model => model.From)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Message, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Message, 5, 60, new { @class = "form-control limited", maxlength = "300" })
+                @Html.ValidationMessageFor(model => model.Message)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Send" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

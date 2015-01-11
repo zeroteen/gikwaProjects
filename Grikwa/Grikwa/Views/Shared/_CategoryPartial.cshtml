@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Grikwa.Models.Category>
+
+<ul id="sidebar" class="nav-list">
+
+    <li>
+        <a href="@Url.Action("Index", "Store")">
+            <i class="icon-home"></i>
+            <span class="menu-text">All</span>
+        </a>
+    </li>
+
+    @foreach (var cat in Model)
+    {
+        <li>
+            <a href="@Url.Action("Category", "Store", new { category = cat.Code })" >
+                <i class="@cat.IconName"></i>
+                <span class="menu-text"> @cat.Name </span>
+            </a>
+        </li>
+    }
+</ul>

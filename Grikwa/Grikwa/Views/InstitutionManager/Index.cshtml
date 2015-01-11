@@ -1,0 +1,71 @@
+﻿@model IEnumerable<Grikwa.Models.Institution>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.abbreviation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Extension1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Extension2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Extension3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Extension4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Extension5)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.abbreviation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Extension1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Extension2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Extension3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Extension4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Extension5)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.InstitutionID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.InstitutionID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.InstitutionID })
+        </td>
+    </tr>
+    
+}
+
+</table>
