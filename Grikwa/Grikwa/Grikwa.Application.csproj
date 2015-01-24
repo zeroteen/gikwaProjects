@@ -327,7 +327,6 @@
     <Content Include="Content\jquery-ui-1.10.3.custom.min.css" />
     <Content Include="Content\jquery-ui-1.10.3.full.min.css" />
     <Content Include="Content\jquery.gritter.css" />
-    <Content Include="Content\LOGO.jpg" />
     <Content Include="Content\navbar-static-top.css" />
     <Content Include="Content\prettify.css" />
     <Content Include="Content\select2-spinner.gif" />
@@ -352,6 +351,7 @@
     <Content Include="Images\forward_enabled_hover.png" />
     <Content Include="Images\Backgrounds\headphone.jpg" />
     <Content Include="Images\Backgrounds\backdog.jpg" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\Profiles\defaultProf.jpg" />
     <Content Include="Images\Backgrounds\zeb2.jpg" />
     <Content Include="Images\Backgrounds\zebra.jpg" />
@@ -416,6 +416,8 @@
     <Content Include="Scripts\chat.js" />
     <Content Include="Scripts\chosen.jquery.js" />
     <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\circletype.js" />
+    <Content Include="Scripts\circletype.min.js" />
     <Content Include="Scripts\date-time\bootstrap-datepicker.js" />
     <Content Include="Scripts\date-time\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\date-time\bootstrap-timepicker.js" />
@@ -572,6 +574,7 @@
     <Content Include="Scripts\markdown\to-markdown.js" />
     <Content Include="Scripts\markdown\to-markdown.min.js" />
     <Content Include="Scripts\modernizr-2.7.1.js" />
+    <Content Include="Scripts\plugins.js" />
     <Content Include="Scripts\prettify.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

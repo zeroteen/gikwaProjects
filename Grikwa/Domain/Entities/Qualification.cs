@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.Entities
 {
-    public class Category
+    public class Qualification
     {
-        public virtual int CategoryID { get; set; }
-        public virtual string Name { get; set; }
+        [Key]
+        public virtual int QualificationID { get; set; }
         public virtual string Code { get; set; }
-        public virtual string IconName { get; set; }
+        public virtual string FullName { get; set; }
     }
 }

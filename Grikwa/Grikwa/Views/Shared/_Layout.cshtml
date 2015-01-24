@@ -20,11 +20,11 @@
             <div class="navbar-header pull-left">
                 <a href="/Home" class="navbar-brand">
                     <small>
-                        <i><img src="~/Images/logo4.jpg" width="230" height="55" /> </i>
+                        <i><img src="~/Images/Logos/logo4.jpg" width="230" height="55" /> </i>
                     </small>
                 </a>
             </div>
-            <div class="navbar-left">
+            <div class="navbar-search">
                 @Html.Partial("_SearchPartial")
             </div>
             <div class="navbar-right">
@@ -78,22 +78,16 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    
 
     <script type="text/javascript">
         if ("ontouchend" in document) document.write("<script src='~/Scripts/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
+    @RenderSection("scripts", required: false)
     <script src="~/Scripts/typeahead-bs2.min.js"></script>
     <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
     <script src="~/Scripts/chosen.jquery.min.js"></script>
-    <script src="~/Scripts/date-time/bootstrap-datepicker.min.js"></script>
-    <script src="~/Scripts/jqGrid/jquery.jqGrid.min.js"></script>
-    <script src="~/Scripts/jqGrid/i18n/grid.locale-en.js"></script>
-    <script src="~/Scripts/ace-elements.min.js"></script>
-    <script src="~/Scripts/ace.min.js"></script>
-    <script src="~/Scripts/dropzone.min.js"></script>
-    <script src="~/Scripts/bootstrap-tag.min.js"></script>
     <script src="~/Scripts/jquery.slimscroll.min.js"></script>
     <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
 
@@ -102,6 +96,6 @@
     <script src="~/Scripts/chat.js"></script>
 
     <script src="~/Scripts/site.js"></script>
-
+    
 </body>
 </html>

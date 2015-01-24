@@ -157,89 +157,91 @@ namespace Grikwa.Controllers
         public ActionResult PopulateDatabase()
         {
 
-            //// fill institutions
-            //db.Institutions.Add(new Institution()
-            //                        {
-            //                            Name = "University of Cape Town",
-            //                            abbreviation = "UCT",
-            //                            Extension1 = "myuct.ac.za"
-            //                        });
-            //db.Institutions.Add(new Institution()
-            //                        {
-            //                            Name = "University of Western Cape",
-            //                            abbreviation = "UWC",
-            //                            Extension1 = "myuwc.ac.za"
-            //                        });
+            // fill institutions
+            db.Institutions.Add(new Institution()
+                                    {
+                                        Name = "University of Cape Town",
+                                        abbreviation = "UCT",
+                                        Extension1 = "myuct.ac.za"
+                                    });
+            db.Institutions.Add(new Institution()
+                                    {
+                                        Name = "University of Western Cape",
+                                        abbreviation = "UWC",
+                                        Extension1 = "myuwc.ac.za"
+                                    });
 
-            ////// fill faculties
-            //db.Faculties.Add(new Faculty() { Name = "Science" });
-            //db.Faculties.Add(new Faculty() {Name = "Commerce" });
-            //db.Faculties.Add(new Faculty() { Name = "Law" });
-            //db.Faculties.Add(new Faculty() { Name = "Engineering" });
+            //// fill faculties
+            db.Faculties.Add(new Faculty() { Name = "Science" });
+            db.Faculties.Add(new Faculty() { Name = "Commerce" });
+            db.Faculties.Add(new Faculty() { Name = "Law" });
+            db.Faculties.Add(new Faculty() { Name = "Engineering" });
 
-            ////// fill qualifications
-            //db.Qualifications.Add(new Qualification() { Code = "BSc", FullName = "Bachelor of Science" });
-            //db.Qualifications.Add(new Qualification() { Code = "BEng", FullName = "Bachelor of Engineering" });
-            //db.Qualifications.Add(new Qualification() { Code = "BCom", FullName = "Bachelor of Commerce" });
-            //db.Qualifications.Add(new Qualification() { Code = "LLB", FullName = "Bachelor of Law" });
+            //// fill qualifications
+            db.Qualifications.Add(new Qualification() { Code = "BSc", FullName = "Bachelor of Science" });
+            db.Qualifications.Add(new Qualification() { Code = "BEng", FullName = "Bachelor of Engineering" });
+            db.Qualifications.Add(new Qualification() { Code = "BCom", FullName = "Bachelor of Commerce" });
+            db.Qualifications.Add(new Qualification() { Code = "LLB", FullName = "Bachelor of Law" });
 
-            ////// fill majors
-            //db.Majors.Add(new Major() { Name = "Computer Science" });
-            //db.Majors.Add(new Major() { Name = "Information Systems" });
-            //db.Majors.Add(new Major() { Name = "3D Game Design" });
-            //db.Majors.Add(new Major() { Name = "Mathematics" });
-            //db.Majors.Add(new Major() { Name = "Applied Mathematics" });
-            //db.Majors.Add(new Major() { Name = "Statistics" });
-            //db.Majors.Add(new Major() { Name = "Physical Science" });
+            //// fill majors
+            db.Majors.Add(new Major() { Name = "Computer Science" });
+            db.Majors.Add(new Major() { Name = "Information Systems" });
+            db.Majors.Add(new Major() { Name = "3D Game Design" });
+            db.Majors.Add(new Major() { Name = "Mathematics" });
+            db.Majors.Add(new Major() { Name = "Applied Mathematics" });
+            db.Majors.Add(new Major() { Name = "Statistics" });
+            db.Majors.Add(new Major() { Name = "Physical Science" });
 
-            //// fill residents
-            //db.Residents.Add(new Resident() { Name = "Home" });
-            //db.Residents.Add(new Resident() { Name = "Leo Marquard Hall" });
-            //db.Residents.Add(new Resident() { Name = "Liesbeeck Gardens" });
-            //db.Residents.Add(new Resident() { Name = "Forest Hill"});
-            //db.Residents.Add(new Resident() { Name = "Tugwel" });
-            //db.Residents.Add(new Resident() { Name = "Kopano"});
-            //db.Residents.Add(new Resident() { Name = "Baxter Hall" });
-            //db.Residents.Add(new Resident() { Name = "College House" });
-            //db.Residents.Add(new Resident() { Name = "University House" });
+            // fill residents
+            db.Residents.Add(new Resident() { Name = "Home" });
+            db.Residents.Add(new Resident() { Name = "Leo Marquard Hall" });
+            db.Residents.Add(new Resident() { Name = "Liesbeeck Gardens" });
+            db.Residents.Add(new Resident() { Name = "Forest Hill" });
+            db.Residents.Add(new Resident() { Name = "Tugwel" });
+            db.Residents.Add(new Resident() { Name = "Kopano" });
+            db.Residents.Add(new Resident() { Name = "Baxter Hall" });
+            db.Residents.Add(new Resident() { Name = "College House" });
+            db.Residents.Add(new Resident() { Name = "University House" });
 
-            ////// fill titles
-            //db.Titles.Add(new Title() { TitleID = "Mr", Description="A man" });
-            //db.Titles.Add(new Title() { TitleID = "Miss", Description="Not marries woman" });
-            //db.Titles.Add(new Title() { TitleID = "Mrs" , Description="Married woman"});
-            //db.Titles.Add(new Title() { TitleID = "Ms", Description="Not married anymore woman" });
-            //db.Titles.Add(new Title() { TitleID = "Prof", Description="A professor" });
-            //db.Titles.Add(new Title() { TitleID = "Dr", Description="A doctor" });
+            //// fill titles
+            db.Titles.Add(new Title() { TitleID = "Mr", Description = "A man" });
+            db.Titles.Add(new Title() { TitleID = "Miss", Description = "Not marries woman" });
+            db.Titles.Add(new Title() { TitleID = "Mrs", Description = "Married woman" });
+            db.Titles.Add(new Title() { TitleID = "Ms", Description = "Not married anymore woman" });
+            db.Titles.Add(new Title() { TitleID = "Prof", Description = "A professor" });
+            db.Titles.Add(new Title() { TitleID = "Dr", Description = "A doctor" });
 
-            //// fill categories
-            //db.Categories.Add(new Category() { Name = "Textbooks", IconName = "icon-book", Code = "textbooks" });
-            //db.Categories.Add(new Category() { Name = "Electronics", IconName = "icon-cogs", Code = "electronics" });
-            //db.Categories.Add(new Category() { Name = "Kitchen and Lifestyle", IconName = "icon-food", Code = "k&l" });
-            //db.Categories.Add(new Category() { Name = "Accommodation", IconName = "icon-map-marker", Code = "accommodation" });
-            //db.Categories.Add(new Category() { Name = "Services", IconName = "icon-male", Code = "services" });
-            //db.Categories.Add(new Category() { Name = "Other", IconName = "icon-star", Code = "other" });
+            // fill categories
+            db.Categories.Add(new Category() { Name = "Textbooks", IconName = "icon-book", Code = "textbooks" });
+            db.Categories.Add(new Category() { Name = "Electronics", IconName = "icon-cogs", Code = "electronics" });
+            db.Categories.Add(new Category() { Name = "Kitchen and Lifestyle", IconName = "icon-food", Code = "k&l" });
+            db.Categories.Add(new Category() { Name = "Accommodation", IconName = "icon-map-marker", Code = "accommodation" });
+            db.Categories.Add(new Category() { Name = "Services", IconName = "icon-male", Code = "services" });
+            db.Categories.Add(new Category() { Name = "Other", IconName = "icon-star", Code = "other" });
 
-            //db.SaveChangesAsync();
+            db.SaveChangesAsync();
 
-            //var user = new ApplicationUser()
-            //{
-            //    UserName = "mplmas009",
-            //    Email = "mplmas009@myuct.ac.za",
-            //    Faculty = new Faculty() { Name = "Humanity" },
-            //    Intials = "MB",
-            //    Surname = "Mapaila",
-            //    Title = new Title() { TitleID = "Sir", Description = "A Sir" },
-            //    Qualification = new Qualification() { Code = "BA", FullName = "Bachelor in Arts" },
-            //    Institution = new Institution() { abbreviation = "Stellies", Name = "Stellenbosch University", Extension1 = "sun.ac.za" },
-            //    Resident = new Resident() { Name = "Woolsack Resident" },
-            //    Verified = true
-            //};
+            var user = new ApplicationUser()
+            {
+                UserName = "mplmas009",
+                Email = "mplmas009@myuct.ac.za",
+                Faculty = new Faculty() { Name = "Humanity" },
+                Intials = "MB",
+                Surname = "Mapaila",
+                Title = new Title() { TitleID = "Sir", Description = "A Sir" },
+                Qualification = new Qualification() { Code = "BA", FullName = "Bachelor in Arts" },
+                Institution = new Institution() { abbreviation = "Stellies", Name = "Stellenbosch University", Extension1 = "sun.ac.za" },
+                Resident = new Resident() { Name = "Woolsack Resident" },
+                Verified = true,
+                LastSeen = DateTime.Now,
+                RegistrationDate = DateTime.Now
+            };
 
-            //UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
-            
-            
-            //UserManager.Create(user, "springs35");
-            ////UserManager.CreateIdentity(user, "admin");
+            UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+
+            UserManager.Create(user, "springs35");
+            //UserManager.CreateIdentity(user, "admin");
 
             return View();
         }

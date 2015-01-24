@@ -101,3 +101,5 @@
 /// <reference path="date-time/locales/bootstrap-datepicker.zh-cn.js" />
 /// <reference path="date-time/locales/bootstrap-datepicker.zh-tw.js" />
 /// <reference path="fuelux/data/fuelux.tree-sampledata.js" />
+/// <reference path="circletype.js" />
+/// <reference path="plugins.js" />
