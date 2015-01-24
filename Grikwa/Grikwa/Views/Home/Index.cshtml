@@ -5,20 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="space-10"></div>
-<div class="widget-header widget-header-small green">
-    <h6>
-        Please select your Institution
-    </h6>
-</div>
-
-<div class="body-content">
+<div class="center institution-list">
     @foreach (var institution in Model)
     {
         <div class="col-md-3">
-            <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span style="width:200px;" class="community">@institution.Name</span></a>
+            <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span class="community">@institution.Name</span></a>
         </div>
     }
+    @*@foreach (var institution in Model)
+        {
+            <div class="col-md-3">
+                <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span style="width:200px;" class="community">@institution.Name</span></a>
+            </div>
+        }*@
 </div>
 <br />
 @section scripts{

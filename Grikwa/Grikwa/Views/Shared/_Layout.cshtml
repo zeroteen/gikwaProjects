@@ -14,9 +14,9 @@
     <script src="~/Scripts/ace-extra.min.js"></script>
     
 </head>
-<body style="background-image:url(Images/Backgrounds/headphone.jpg);">
-    <div style="margin-top:-50px;" class="navbar">
-        <div class="navbar-inner">
+<body>
+    <div class="navbar navbar-default">
+        <div class="navbar-container">
             <div class="navbar-header pull-left">
                 <a href="/Home" class="navbar-brand">
                     <small>
@@ -24,14 +24,12 @@
                     </small>
                 </a>
             </div>
-            <div class="navbar-search">
-                @Html.Partial("_SearchPartial")
-            </div>
-            <div class="navbar-right">
-            
-            </div>
+            @*<div class="">
+                    @Html.Partial("_SearchPartial")
+                </div>*@
 
-            <div class="navbar-inner navbar-inverse" style="background-color: #68217a;">
+
+            <div class="navbar-header pull-right">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -39,15 +37,15 @@
                         <span class="icon-bar"></span>
                     </button>
                 </div>
-                @Html.Partial("_LoginPartial")
+                <div class="navbar-collapse collapse" style="height: 1px;">
+                    @Html.Partial("_loginpartial")
+                </div>
             </div>
         </div>
     </div>
-    <div class="row" style="min-height:600px;">
-        <div class="col-sm-11">
-            <div class="body-content">
-                @RenderBody()
-            </div>
+    <div class="row" style="min-height:280px;">
+        <div class="body-content">
+            @RenderBody()
         </div>
     </div>
     <hr />

@@ -40,7 +40,7 @@
 	function injector(t, splitter, klass, after) {
 		var text = t.text()
 		, a = text.split(splitter)
-		, inject = '<img src="/Images/logo.png" style="margin-left: 2px;margin-top: 21px;">';
+		, inject = '<img src="/Images/logo1.png" style="margin-left: 2px;margin-top: 21px;">';
 		if (a.length) {
 			$(a).each(function(i, item) {
 				inject += '<span class="'+klass+(i+1)+'" aria-hidden="true">'+item+'</span>'+after;

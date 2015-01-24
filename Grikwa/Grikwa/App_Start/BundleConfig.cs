@@ -26,7 +26,7 @@ namespace Grikwa
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/font-awesome.min.css",
+                      //"~/Content/font-awesome.min.css",
                       "~/Content/jquery-ui-1.10.3.full.min.css",
                       "~/Content/datepicker.css",
                       "~/Content/ui.jqgrid.css",

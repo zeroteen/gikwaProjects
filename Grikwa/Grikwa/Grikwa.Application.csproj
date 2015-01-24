@@ -352,6 +352,7 @@
     <Content Include="Images\Backgrounds\headphone.jpg" />
     <Content Include="Images\Backgrounds\backdog.jpg" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\logo1.png" />
     <Content Include="Images\Profiles\defaultProf.jpg" />
     <Content Include="Images\Backgrounds\zeb2.jpg" />
     <Content Include="Images\Backgrounds\zebra.jpg" />
@@ -412,6 +413,7 @@
     <Content Include="font\glyphicons-halflings-regular.eot">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="font\Abel-Regular.ttf" />
     <None Include="Properties\PublishProfiles\pailkun.pubxml" />
     <Content Include="Scripts\chat.js" />
     <Content Include="Scripts\chosen.jquery.js" />
