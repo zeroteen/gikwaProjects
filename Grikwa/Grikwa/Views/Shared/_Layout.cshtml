@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNet.Identity
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,27 +8,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewBag.Title Grikwa Store</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 
-    <script src="~/Scripts/ace-extra.min.js"></script>
-    
+    @*<script src="~/Scripts/ace-extra.min.js"></script>*@
+
 </head>
 <body>
     <div class="navbar navbar-default">
-        <div class="navbar-container">
+        <div class="navbar-container container">
             <div class="navbar-header pull-left">
                 <a href="/Home" class="navbar-brand">
-                    <small>
-                        <i><img src="~/Images/Logos/logo4.jpg" width="230" height="55" /> </i>
-                    </small>
+                    <img src="~/Images/Logos/grikwa.png" />
                 </a>
             </div>
-            @*<div class="">
+            @*<div class="center">
                     @Html.Partial("_SearchPartial")
-                </div>*@
+            </div>*@
 
 
-            <div class="navbar-header pull-right">
+            <div class="navbar-header pull-right" role="navigation">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
@@ -43,57 +39,61 @@
             </div>
         </div>
     </div>
-    <div class="row" style="min-height:280px;">
-        <div class="body-content">
+    <div class="clearfix"></div>
+    <div class="container main-container" id="main-container">
+        <div class="main-container-inner" style="min-height:280px;">
             @RenderBody()
         </div>
+        <div class="clearfix"></div>
+        <footer id="footer-bottom">
+            <hr />
+            <div class="row">
+                <div class="col-md-4">
+                    <p><strong>CUSTOMER SERVICE</strong></p>
+                    <p>@Html.ActionLink("Help", "Help", "Home")</p>
+                    <p>@Html.ActionLink("FAQ", "FAQ", "Home")</p>
+                    <p>@Html.ActionLink("Contact Us", "Contact", "Home")</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>TERMS OF USE</strong></p>
+                    <p>@Html.ActionLink("Terms and Conditions", "Terms", "Home")</p>
+                    <p>@Html.ActionLink("Privacy", "Privacy", "Home")</p>
+                    <p>@Html.ActionLink("About Us", "About", "Home")</p>
+                </div>
+                <div class="col-md-4">
+                    <p><strong>FOLLOW US</strong></p>
+                    <p><a href="https://twitter.com/welcome/recommendations/search?q=google" target="_blank"><img src="~/Images/twitter.png" width="30" height="30" alt="Twitter" /></a></p>
+                    <p><a href="https://www.facebook.com/www.grikwa.co.za?fref=ts" target="_blank"><img src="~/Images/facebook.png" width="30" height="30" alt="Facebook" /></a></p>
+                    <p><a href="https://plus.google.com" target="_blank"><img src="~/Images/google.png" width="30" height="30" alt="Googleplus" /></a></p>
+                </div>
+            </div>
+            <hr />
+            <p class="text-center">&copy; @DateTime.Now.Year - Grikwa</p>
+        </footer>
     </div>
-    <hr />
-    <footer id="footer-bottom">
-        <div class="row">
-            <div class="col-md-4">
-                <p><strong>CUSTOMER SERVICE</strong></p>
-                <p>@Html.ActionLink("Help", "Help", "Home")</p>
-                <p>@Html.ActionLink("FAQ", "FAQ", "Home")</p>
-                <p>@Html.ActionLink("Contact Us", "Contact", "Home")</p>
-            </div>
-            <div class="col-md-4">
-                <p><strong>TERMS OF USE</strong></p>
-                <p>@Html.ActionLink("Terms and Conditions", "Terms", "Home")</p>
-                <p>@Html.ActionLink("Privacy", "Privacy", "Home")</p>
-                <p>@Html.ActionLink("About Us", "About", "Home")</p>
-            </div>
-            <div class="col-md-4">
-                <p><strong>FOLLOW US</strong></p>
-                <p><a href="https://twitter.com/welcome/recommendations/search?q=google" target="_blank"><img src="~/Images/twitter.png" width="30" height="30" alt="Twitter" /></a></p>
-                <p><a href="https://www.facebook.com/www.grikwa.co.za?fref=ts" target="_blank"><img src="~/Images/facebook.png" width="30" height="30" alt="Facebook" /></a></p>
-                <p><a href="https://plus.google.com" target="_blank"><img src="~/Images/google.png" width="30" height="30" alt="Googleplus" /></a></p>
-            </div>
-        </div>
-        <hr />
-        <p class="text-center">&copy; @DateTime.Now.Year - Grikwa</p>
-    </footer>
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    
+    @Scripts.Render("~/bundles/modernizr")
 
     <script type="text/javascript">
         if ("ontouchend" in document) document.write("<script src='~/Scripts/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/typeahead-bs2.min.js"></script>
-    <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
-    <script src="~/Scripts/chosen.jquery.min.js"></script>
-    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
-    <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
+    @*<script src="~/Scripts/typeahead-bs2.min.js"></script>
+        <script src="~/Scripts/jquery-ui-1.10.3.custom.min.js"></script>
+        <script src="~/Scripts/jquery.ui.touch-punch.min.js"></script>
+        <script src="~/Scripts/chosen.jquery.min.js"></script>
+        <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+        <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
 
-    <script src="~/Scripts/jquery.signalR-2.0.2.min.js"></script>
-    <script src="/signalr/hubs" type="text/javascript"></script>
-    <script src="~/Scripts/chat.js"></script>
+        <script src="~/Scripts/jquery.signalR-2.0.2.min.js"></script>
+        <script src="/signalr/hubs" type="text/javascript"></script>
+        <script src="~/Scripts/chat.js"></script>
 
-    <script src="~/Scripts/site.js"></script>
-    
+        <script src="~/Scripts/site.js"></script>*@
+
 </body>
 </html>

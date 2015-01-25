@@ -5,21 +5,18 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="center institution-list">
+<div class="main-content center community-list">
     @foreach (var institution in Model)
     {
-        <div class="col-md-3">
+        for (var i = 0; i < 5; i++) 
+        { 
+        <div class="col-md-3 community-item">
             <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span class="community">@institution.Name</span></a>
         </div>
+        }
     }
-    @*@foreach (var institution in Model)
-        {
-            <div class="col-md-3">
-                <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span style="width:200px;" class="community">@institution.Name</span></a>
-            </div>
-        }*@
+    
 </div>
-<br />
 @section scripts{
     <script src="~/Scripts/plugins.js"></script>
     <script src="~/Scripts/circletype.js"></script>

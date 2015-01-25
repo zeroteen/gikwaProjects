@@ -9,7 +9,7 @@
         Grikwa.Controllers.AccountController.SetCurrentUserSessionInfo(Request, Session);
     }
     
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right account-menu" }))
     {
     @Html.AntiForgeryToken()
 
@@ -46,7 +46,7 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right account-menu">
         <li>
             <a id="registerLink" href="@Url.Action("Register","Account")" title="Register">
                 <i class="icon-signout"></i>
