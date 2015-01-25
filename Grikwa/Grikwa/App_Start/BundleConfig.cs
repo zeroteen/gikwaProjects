@@ -25,17 +25,12 @@ namespace Grikwa
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
-                      //"~/Content/font-awesome.min.css",
-                      "~/Content/jquery-ui-1.10.3.full.min.css",
-                      "~/Content/datepicker.css",
-                      "~/Content/ui.jqgrid.css",
+                      "~/Content/font-awesome.min.css",
                       "~/Content/ace-fonts.css",
-                      "~/Content/ace.min.css",
+                      "~/Content/ace.css",
                       "~/Content/ace-rtl.min.css",
                       "~/Content/ace-skins.min.css",
-                      "~/Content/dropzone.css",
-                      "~/Content/chosen.css"));
+                      "~/Content/site.css"));
         }
     }
 }

@@ -1,13 +1,6 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
     height: 80%;
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
 }
 
 h1{
@@ -52,7 +45,6 @@ input[type="checkbox"].input-validation-error {
     overflow: hidden;
 }
 
-
     .bottom-nav div {
         float: left;
         margin: 0 1em 0 1em;
@@ -73,6 +65,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 #footer-bottom {
+    padding-top:20px;
     text-align: center;
     color: black;
     bottom: 0;
@@ -83,7 +76,18 @@ input[type="checkbox"].input-validation-error {
     background-size: 50px 50px;
 }
 
-.institution-list{
+.community-list{
     margin-top:6%;
-    /*margin-left:17%;*/
 }
+
+.community-item{
+    padding:10px;
+}
+
+.account-menu{
+    margin-top:15px;
+}
+
+    .account-menu > a:hover{
+        color:#68217a;
+    }
