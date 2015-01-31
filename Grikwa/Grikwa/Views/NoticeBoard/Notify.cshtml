@@ -1,0 +1,152 @@
+﻿@model Grikwa.Models.NotifyPosterModel
+@{
+    ViewBag.Title = "Notify";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/dropzone.css" rel="stylesheet" />
+    <link href="~/Content/chosen.min.css" rel="stylesheet" />
+    <style>
+        .dropzone {
+            min-height: 250px !important;
+        }
+    </style>
+}
+
+<h2>Notify About Something</h2>
+
+@using (Html.BeginForm("Notify", "NoticeBoard", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "notifyForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Poster</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PosterImage, new { @class = "control-label col-md-2" })
+            <div class="col-md-6 dropzone dz-clickable">
+                <input id="ProductImage" style="display:none;" multiple="multiple" name="ProductImage" type="file" class="form-control" />
+                <div class="dz-default dz-message">
+                    <span>
+                        <span class="smaller-90 bolder">
+                            <i class="icon-caret-right red"></i> Drop files
+                        </span>to upload
+                        <span class="smaller-40 grey">(or click)</span>
+                        <br>
+                        <i class="upload-icon icon-cloud-upload blue icon-3x"></i>
+                    </span>
+                </div>
+                <div class="clearfix"></div>
+                @Html.ValidationMessageFor(model => model.PosterImage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control limited", maxlength = "25" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Categories, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="Categories" id="Categories" class="chzn-select form-control" multiple="multiple">
+                    @foreach (var option in (ViewBag.Categories as MultiSelectList))
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected="selected">@option.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Categories)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Email, new { @class = "form-control limited", maxlength = "50" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.PhoneNumber, new { @class = "form-control limited", maxlength = "13" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, 4, 50, new { @class = "form-control limited", maxlength = "300" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeyWords, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.KeyWords, new { @class = "form-control limited", maxlength = "250" })
+                @Html.ValidationMessageFor(model => model.KeyWords)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.ActionLink("Agree To Terms and Conditions", "Terms", "Home", null, new { @class = "control-label col-md-2", @for = "AcceptTerms" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(model => model.AcceptTerms, new { @class = "form-control form-checkbox" })
+                @Html.ValidationMessageFor(model => model.AcceptTerms)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+@section scripts{
+    <script src="~/Scripts/typeahead-bs2.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script src="~/Scripts/ace-elements.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+
+        jQuery(function ($) {
+            try {
+                $(".dropzone").dropzone({
+                    paramName: "file", // The name that will be used to transfer the file
+                    maxFilesize: 0.5, // MB
+                    addRemoveLinks: true,
+                    dictDefaultMessage:
+                    '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
+				    <span class="smaller-80 grey">(or click)</span> <br /> \
+				    <i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
+                    dictResponseError: 'Error while uploading file!',
+
+                    //change the previewTemplate to use Bootstrap progress bars
+                    previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
+                });
+            } catch (e) {
+                alert('Dropzone.js does not support older browsers!');
+            }
+        });
+    </script>
+}
+
+
+
