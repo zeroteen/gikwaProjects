@@ -9,7 +9,7 @@
     @foreach (var institution in Model)
     {
         <div class="col-md-3 community-item">
-            <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span class="community">@institution.Name</span></a>
+            <a href="@Url.Action("Institution", "NoticeBoard", new { name = institution.Code })"><span class="community">@institution.Name</span></a>
         </div>
     }
     

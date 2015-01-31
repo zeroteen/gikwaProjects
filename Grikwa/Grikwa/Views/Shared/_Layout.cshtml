@@ -5,8 +5,15 @@
     <link rel="shortcut icon" type="image/x-icon" href="~/Images/faviconfinak.ico">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@ViewBag.Title Grikwa Store</title>
+    <title>@ViewBag.Title Grikwa NoticeBoard</title>
     @Styles.Render("~/Content/css")
+
+    <link href="~/Content/ace.min.css" rel="stylesheet" />
+    <link href="~/Content/ace-rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/ace-fonts.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <div class="navbar navbar-default">
@@ -66,7 +73,7 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/modernizr")
-
+    <script src="~/Scripts/ace.min.js"></script>
     <script type="text/javascript">
         if ("ontouchend" in document) document.write("<script src='~/Scripts/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>

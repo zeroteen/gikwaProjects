@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Post Advert";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Post An Advert</h1>
+<h4>What are your intentions?</h4>
+<hr />
+<div class="center community-list">
+    <a href="@Url.Action("Sell","NoticeBoard")"><h2>Sell An Item</h2></a>
+    <a href="@Url.Action("Notify","NoticeBoard")"><h2>Notify About Something</h2></a>
+</div>

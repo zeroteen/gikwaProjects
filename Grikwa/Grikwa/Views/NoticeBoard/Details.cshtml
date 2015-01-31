@@ -7,10 +7,10 @@
 
 <h2>Details</h2>
 
-<div class="col-xs-4 col-sm-5 pricing-box">
+<div class="col-xs-4 col-sm-5 pricing-box details-box">
     <div class="widget-box">
         <div class="widget-header header-color-purple">
-            <h6 class="lighter">@Model.Name</h6>
+            <span>@Model.Name</span>
         </div>
 
         <div class="widget-body">
@@ -19,7 +19,7 @@
                     @{
                         try
                         {
-                            <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("ProductImage", "Store", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
+                            <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
                         }
                         catch (Exception e)
                         {
@@ -28,7 +28,7 @@
                     }
                     <ul class="list-unstyled">
                         <li>
-                            <strong>By:</strong> @Html.ActionLink(Model.UserFullName, "BusinessCard", "Store", new { @id = Model.UserID }, null)
+                            <strong>By:</strong> @Html.ActionLink(Model.UserFullName, "BusinessCard", "NoticeBoard", new { @id = Model.UserID }, null)
                         </li>
                         <li>
                             <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
@@ -48,22 +48,6 @@
                 {
                     <span class="badge badge-info" title="Offers">@Model.Offers Offers</span>
                 }*@
-                @{
-                    var facebookLink = "https://www.facebook.com/sharer/sharer.php?u=" + Url.Encode(Url.Action("Details", "Store", new { @id = Model.ProductID }, "http"));
-                    var twitterLink = "https://twitter.com/share?url=" + Url.Encode(Url.Action("Details", "Store", new { @id = Model.ProductID }, "http"));
-                    var googleLink = "https://plus.google.com/share?url=" + Url.Encode(Url.Action("Details", "Store", new { @id = Model.ProductID }, "http"));
-                }
-                <a class="badge badge-info" title="Share" href="@facebookLink" target="_blank">
-                    <i class=" icon-facebook">
-                    </i>
-                </a>
-                <a class="badge badge-info" title="Share" href="@twitterLink" target="_blank">
-                    <i class="icon-twitter"></i>
-                </a>
-                <a class="badge badge-danger" title="Share" href="@googleLink" target="_blank">
-                    <i class="icon-google-plus"></i>
-                </a>
-                <hr />
                 <div data-a-sign="R " class="price">
                     @Model.Price
                 </div>

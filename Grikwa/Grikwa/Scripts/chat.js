@@ -174,7 +174,7 @@ function addMessageToChatWindow(message) {
                                         + "</span>"
                                     + "</div>"
                                     + "<div class='name'>"
-                                        + "<a href='/Store/BusinessCard/" + message.SenderID + "' >"
+                                        + "<a href='/NoticeBoard/BusinessCard/" + message.SenderID + "' >"
                                         + name
                                         + "</a>"
                                     + "</div>"
@@ -202,12 +202,12 @@ function clearChatRoomForChange(chatRoomName) {
         var productList = "Products: "
         for (var product = 0; product < chatRoom.Products.length; product++) {
             if (product == 0) {
-                productList += "<a href='/Store/Details?id="
+                productList += "<a href='/NoticeBoard/Details?id="
                                 + chatRoom.Products[product].ProductID + "'>"
                                 + chatRoom.Products[product].Name + "</a>";
             }
             else {
-                productList += ", <a href='/Store/Details?id="
+                productList += ", <a href='/NoticeBoard/Details?id="
                                 + chatRoom.Products[product].ProductID + "'>"
                                 + chatRoom.Products[product].Name + "</a>";
             }

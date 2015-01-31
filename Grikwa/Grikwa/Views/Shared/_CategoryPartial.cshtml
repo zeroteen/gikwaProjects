@@ -3,7 +3,7 @@
 <ul id="sidebar" class="nav-list">
 
     <li>
-        <a href="@Url.Action("Index", "Store")">
+        <a href="@Url.Action("Index", "NoticeBoard")">
             <i class="icon-home"></i>
             <span class="menu-text">All</span>
         </a>
@@ -12,7 +12,7 @@
     @foreach (var cat in Model)
     {
         <li>
-            <a href="@Url.Action("Category", "Store", new { category = cat.Code })" >
+            <a href="@Url.Action("Category", "NoticeBoard", new { category = cat.Code })" >
                 <i class="@cat.IconName"></i>
                 <span class="menu-text"> @cat.Name </span>
             </a>

@@ -83,3 +83,25 @@ input[type="checkbox"].input-validation-error {
     .account-menu > a:hover{
         color:#68217a;
     }
+
+.form-checkbox{
+    width:35px;
+}
+
+.btn-purple{
+}
+
+.advert-thumbnail{
+    padding:0px !important;
+    border-radius:0px !important;
+    max-height: 100% !important;
+    height: auto;
+}
+
+.advert-body{
+    padding:4px;
+}
+
+.details-box{
+    left:30%;
+}

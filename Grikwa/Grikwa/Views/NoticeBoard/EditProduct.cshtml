@@ -2,14 +2,13 @@
 
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Edit Product";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Edit Product</h2>
 
-
-@using (Html.BeginForm("Edit", "Store", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "editForm" }))
+@using (Html.BeginForm("EditProduct", "NoticeBoard", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "editForm" }))
 {
     @Html.AntiForgeryToken()
 
@@ -58,18 +57,18 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ShortDescription, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control limited", maxlength = "25" })
-                @Html.ValidationMessageFor(model => model.ShortDescription)
+                @Html.TextAreaFor(model => model.Email, new { @class = "form-control limited", maxLength="50" })
+                @Html.ValidationMessageFor(model => model.Email)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LongDescription, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.LongDescription, 4, 50, new { @class = "form-control limited", maxlength = "250" })
-                @Html.ValidationMessageFor(model => model.LongDescription)
+                @Html.TextAreaFor(model => model.PhoneNumber, new { @class = "form-control limited", maxLength = "15" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
             </div>
         </div>
 
@@ -82,38 +81,26 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.ShortDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control limited", maxlength = "25" })
+                @Html.ValidationMessageFor(model => model.ShortDescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LongDescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.LongDescription, 4, 50, new { @class = "form-control limited", maxlength = "300" })
+                @Html.ValidationMessageFor(model => model.LongDescription)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.KeyWords, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextAreaFor(model => model.KeyWords, new { @class = "form-control limited", maxlength = "250" })
                 @Html.ValidationMessageFor(model => model.KeyWords)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmailNotification, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.CheckBoxFor(model => model.EmailNotification, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EmailNotification)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfSaleRequests, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <select name="NumberOfSaleRequests" id="NumberOfSaleRequests" class="form-control">
-                    @foreach (var option in (ViewBag.NumberOfSaleRequests as SelectList))
-                    {
-                        if (option.Selected)
-                        {
-                            <option value="@option.Value" selected="selected">@option.Text</option>
-                        }
-                        else
-                        {
-                            <option value="@option.Value">@option.Text</option>
-                        }
-                    }
-                </select>
-                @Html.ValidationMessageFor(model => model.NumberOfSaleRequests)
             </div>
         </div>
 
@@ -123,5 +110,12 @@
             </div>
         </div>
     </div>
+}
+
+@section scripts{
+    <script src="~/Scripts/typeahead-bs2.min.js"></script>
+    <script src="~/Scripts/dropzone.min.js"></script>
+    <script src="~/Scripts/ace-elements.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
 }
 

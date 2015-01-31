@@ -15,7 +15,7 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li class="">
-            <a href="@Url.Action("Chat","Store")" title="Transactions">
+            <a href="@Url.Action("Chat", "NoticeBoard")" title="Transactions">
                 <i id="messageBell" class="icon-envelope icon-animated-vertical"></i>
                 <span id="messageCount" class="badge badge-important">0</span>
                 My Transactions
@@ -23,7 +23,7 @@
             <input type="hidden" id="uid" value="@Session["userID"].ToString()" />
         </li>
         <li>
-            <a href="@Url.Action("BusinessCard","Store",new { @id = @Session["userID"].ToString()})" title="My Store">
+            <a href="@Url.Action("BusinessCard", "NoticeBoard", new { @id = @Session["userID"].ToString() })" title="My Store">
                 <i class="icon-star"></i>
                 My Store
             </a>

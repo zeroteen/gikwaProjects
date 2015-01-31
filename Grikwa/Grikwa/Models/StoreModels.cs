@@ -25,6 +25,12 @@ namespace Grikwa.Models
         REQUESTED
     }
 
+    public enum ProductIntention
+    {
+        SELL,
+        NOTIFY
+    }
+
     public enum MessageStatus
     {
         READ,
@@ -52,7 +58,7 @@ namespace Grikwa.Models
         [MaxLength(100)]
         public virtual string ShortDescription { get; set; }
 
-        [MaxLength(250)]
+        [MaxLength(300)]
         public virtual string LongDescription { get; set; }
 
         [DataType(DataType.Currency)]
@@ -62,12 +68,16 @@ namespace Grikwa.Models
 
         public virtual ProductStatus ProductStatus { get; set; }
 
-        public virtual bool EmailNotification { get; set; }
+        [MaxLength(50)]
+        public virtual string ContactEmail { get; set; }
 
-        public virtual byte NumberOfSaleRequests { get; set; }
+        [MaxLength(15)]
+        public virtual string ContactNumber { get; set; }
 
         [MaxLength(250)]
         public virtual string KeyWords { get; set; }
+
+        public virtual ProductIntention ProductIntention { get; set; }
 
         public virtual bool AcceptedTerms { get; set; }
 
@@ -284,11 +294,11 @@ namespace Grikwa.Models
                 string subject = "Grikwa Sale Request";
                 string bodyHTML = "<h1><strong>Dear " + supplierName + "</strong>.</h1>"
                                   + "<h4>You have a sale request on Grikwa regarding product: " + productName + ".</h4>"
-                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Store</a> to perform the transaction.</p>"
+                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to perform the transaction.</p>"
                                   + " <br/> <h5>Grikwa Team</h5>";
                 string bodyText = "Dear " + supplierName + ". "
                                   + "You have a sale request on Grikwa regarding product: " + productName + ". "
-                                  + "Go to the Grikwa Store at http://www.grikwa.co.za to perform the transaction. Grikwa Team";
+                                  + "Go to the Grikwa Notice Board at http://www.grikwa.co.za to perform the transaction. Grikwa Team";
 
                 // To
                 mail.To.Add(supplierEmail);
@@ -331,11 +341,11 @@ namespace Grikwa.Models
                 string subject = "Grikwa Reply To Sale Request";
                 string bodyHTML = "<h1><strong>Dear " + customerName + "</strong>.</h1>"
                                   + "<h4><strong>" + supplierName + "</strong> have replied to your sale request on Grikwa.</h4>"
-                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Store</a> to perform the transaction.</p>"
+                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to perform the transaction.</p>"
                                   + " <br/> <h5>Grikwa Team</h5>";
                 string bodyText = "Dear " + customerName + ". "
                                   + supplierName + " have replied to your sale request on Grikwa. "
-                                  + "Go to the Grikwa Store at http://www.grikwa.co.za to perform the transaction. Grikwa Team";
+                                  + "Go to the Grikwa Notice Board at http://www.grikwa.co.za to perform the transaction. Grikwa Team";
 
                 // To
                 mail.To.Add(customerEmail);
@@ -562,13 +572,7 @@ namespace Grikwa.Models
             }
 
             // Send a sale request email to the supplier
-            if (product.EmailNotification)
-            {
-                if (((currentSaleRequestNumber + 1) % product.NumberOfSaleRequests == 0))
-                {
-                    ChatRooms.SendSaleRequestEmail(supplierDetails.Email, supplierDetails.name, product.Name);
-                }
-            }
+            ChatRooms.SendSaleRequestEmail(supplierDetails.Email, supplierDetails.name, product.Name);
         }
 
         /// <summary>

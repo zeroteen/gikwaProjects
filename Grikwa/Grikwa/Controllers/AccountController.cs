@@ -87,7 +87,7 @@ namespace Grikwa.Controllers
 
                         Session.Add("currentInstitution", institution.abbreviation);
 
-                        return RedirectToAction("Index", "Store");
+                        return RedirectToAction("Index", "NoticeBoard");
                     }
                     return RedirectToLocal(returnUrl);
                 }
@@ -217,7 +217,7 @@ namespace Grikwa.Controllers
 
             if (token == null || email == null)
             {
-                return RedirectToAction("Index", "Store");
+                return RedirectToAction("Index", "NoticeBoard");
             }
             else
             {
@@ -477,7 +477,7 @@ namespace Grikwa.Controllers
         {
             if (token == null || email == null)
             {
-                return RedirectToAction("Index", "Store");
+                return RedirectToAction("Index", "NoticeBoard");
             }
             else if (AccountHelper.IsTokenValid(token, 120, email))
             {
@@ -516,14 +516,14 @@ namespace Grikwa.Controllers
                                                    select c).ToList());
                     }
 
-                    // go to institution store
-                    return RedirectToAction("Index", "Store");
+                    // go to institution NoticeBoard
+                    return RedirectToAction("Index", "NoticeBoard");
                 }
             }
 
             // something went wrong
             Trace.WriteLine("*** WARNING: Verification of user with email: " + email + " failed.", "Verification Failed");
-            return RedirectToAction("Index", "Store");
+            return RedirectToAction("Index", "NoticeBoard");
         }
 
 

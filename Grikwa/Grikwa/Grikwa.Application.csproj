@@ -231,7 +231,7 @@
     <Compile Include="Controllers\ResidentManagerController.cs" />
     <Compile Include="Controllers\SaleManagerController.cs" />
     <Compile Include="Controllers\SlotSettingManagerController.cs" />
-    <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\NoticeBoardController.cs" />
     <Compile Include="Controllers\UnitManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -577,8 +577,8 @@
     <Content Include="Views\ProductCategory\Edit.cshtml" />
     <Content Include="Views\ProductCategory\Index.cshtml" />
     <Content Include="Views\Account\_QualificationListPartial.cshtml" />
-    <Content Include="Views\Store\Index.cshtml" />
-    <Content Include="Views\Store\Sell.cshtml" />
+    <Content Include="Views\NoticeBoard\Index.cshtml" />
+    <Content Include="Views\NoticeBoard\Sell.cshtml" />
     <Content Include="Views\Shared\_ChatPartial.cshtml" />
     <Content Include="Views\Shared\_BusinessCardPartial.cshtml" />
     <Content Include="Views\Shared\_CatalogProductPartial.cshtml" />
@@ -587,23 +587,23 @@
     <Content Include="Views\Home\Terms.cshtml" />
     <Content Include="Views\Shared\_CategoryPartial.cshtml" />
     <Content Include="Views\Shared\_UserListSideBarPartial.cshtml" />
-    <Content Include="Views\Store\Chat.cshtml" />
+    <Content Include="Views\NoticeBoard\Chat.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\Shared\_BuyNotificationPartial.cshtml" />
-    <Content Include="Views\Store\BusinessCard.cshtml" />
-    <Content Include="Views\Store\Details.cshtml" />
+    <Content Include="Views\NoticeBoard\BusinessCard.cshtml" />
+    <Content Include="Views\NoticeBoard\Details.cshtml" />
     <Content Include="Views\Shared\_NotificationPartial.cshtml" />
-    <Content Include="Views\Store\Buy.cshtml" />
+    <Content Include="Views\NoticeBoard\Buy.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Shared\_SoldPartial.cshtml" />
     <Content Include="Views\Account\Verification.cshtml" />
-    <Content Include="Views\Store\Edit.cshtml" />
+    <Content Include="Views\NoticeBoard\EditProduct.cshtml" />
     <Content Include="Views\Shared\_PaginationPartial.cshtml" />
     <Content Include="Views\Account\RestoreRooms.cshtml" />
     <Content Include="Views\Account\ForbiddenReset.cshtml" />
     <Content Include="Views\Account\ResetSuccess.cshtml" />
     <Content Include="Views\Account\RequestResetToken.cshtml" />
-    <Content Include="Views\Store\Delete.cshtml" />
+    <Content Include="Views\NoticeBoard\Delete.cshtml" />
     <Content Include="Views\Account\SendBulkVerificationEmail.cshtml" />
     <Content Include="Views\Shared\_SellProductPartial.cshtml" />
     <Content Include="Views\ConversationRoomProductManager\Create.cshtml" />
@@ -616,15 +616,15 @@
     <Content Include="Views\ConversationRoomManager\Details.cshtml" />
     <Content Include="Views\ConversationRoomManager\Edit.cshtml" />
     <Content Include="Views\ConversationRoomManager\Index.cshtml" />
-    <Content Include="Views\Store\ConfirmSale.cshtml" />
+    <Content Include="Views\NoticeBoard\ConfirmSale.cshtml" />
     <Content Include="Views\Account\GetActiveChatRooms.cshtml" />
-    <Content Include="Views\Store\SaleRequestSent.cshtml" />
+    <Content Include="Views\NoticeBoard\SaleRequestSent.cshtml" />
     <Content Include="Views\Home\MessageReceived.cshtml" />
     <Content Include="Views\Account\ManagePassword.cshtml" />
     <Content Include="Views\Account\ManageProfile.cshtml" />
     <Content Include="Views\Account\GetVerifiedUsers.cshtml" />
     <Content Include="Views\Account\GetUnverifiedUsers.cshtml" />
-    <Content Include="Views\Store\Forbidden.cshtml" />
+    <Content Include="Views\NoticeBoard\Forbidden.cshtml" />
     <Content Include="Views\Account\GiveRole.cshtml" />
     <Content Include="Views\Account\GetOnlineUsers.cshtml" />
     <Content Include="Views\LocationManager\Create.cshtml" />
@@ -692,6 +692,9 @@
     <Content Include="Views\InstitutionCompanyManager\Details.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Edit.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Index.cshtml" />
+    <Content Include="Views\NoticeBoard\Notify.cshtml" />
+    <Content Include="Views\NoticeBoard\PostAdvert.cshtml" />
+    <Content Include="Views\NoticeBoard\EditNotice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

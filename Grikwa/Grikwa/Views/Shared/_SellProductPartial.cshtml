@@ -1,6 +1,6 @@
 @model Grikwa.Models.SoldProductModel
 
-@using (Html.BeginForm("SellProduct", "Store", FormMethod.Post, new { @class = "form-horizontal col-sm-2", role = "form", @id = "sellProductForm" }))
+@using (Html.BeginForm("SellProduct", "NoticeBoard", FormMethod.Post, new { @class = "form-horizontal col-sm-2", role = "form", @id = "sellProductForm" }))
 {
     <h4>Sell Product.</h4>
     @Html.AntiForgeryToken()

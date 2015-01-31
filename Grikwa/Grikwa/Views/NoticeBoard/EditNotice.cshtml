@@ -1,20 +1,23 @@
-﻿@model Grikwa.Models.SellProductModel
+﻿@model Grikwa.Models.EditPosterModel
 
 @{
-    ViewBag.Title = "Sell Something";
+    ViewBag.Title = "Edit Notice";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Sell Your Product</h2>
+<h2>Edit Notice</h2>
 
-@using (Html.BeginForm("Sell", "Store", FormMethod.Post, new { @enctype = "multipart/form-data" , @id="sellForm"}))
+@using (Html.BeginForm("EditNotice", "NoticeBoard", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "editForm" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Product</h4>
+        <h4>Poster</h4>
         <hr />
         @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.PosterID)
+        @Html.HiddenFor(model => model.UserID)
+        <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("ProductImage", "Store", new { @id=Model.PosterID, sizeType = 1})" alt="product image">
 
         <div class="form-group">
             @Html.LabelFor(model => model.ProductImage, new { @class = "control-label col-md-2" })
@@ -53,26 +56,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ShortDescription, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control limited", maxlength = "25" })
-                @Html.ValidationMessageFor(model => model.ShortDescription)
+                @Html.TextAreaFor(model => model.Email, new { @class = "form-control limited", maxLength = "50" })
+                @Html.ValidationMessageFor(model => model.Email)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LongDescription, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.LongDescription, 4, 50, new { @class = "form-control limited", maxlength = "250" })
-                @Html.ValidationMessageFor(model => model.LongDescription)
+                @Html.TextAreaFor(model => model.PhoneNumber, new { @class = "form-control limited", maxLength = "15" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
             </div>
         </div>
 
         <div class="form-group">
-                @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2" }) 
-             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @id = "input-mask-price", data_a_sign = "R " })
-                @Html.ValidationMessageFor(model => model.Price)
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Description, 4, 50, new { @class = "form-control limited", maxlength = "300" })
+                @Html.ValidationMessageFor(model => model.Description)
             </div>
         </div>
 
@@ -85,34 +88,13 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EmailNotification, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.CheckBoxFor(model => model.EmailNotification, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.EmailNotification)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.NumberOfSaleRequests, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(model => model.NumberOfSaleRequests, ViewBag.NumberOfSaleRequests as SelectList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NumberOfSaleRequests)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.ActionLink("Agree To Terms and Conditions", "Terms", "Home", null, new { @class = "control-label col-md-2", @for = "AcceptTerms" })
-            <div class="col-md-10">
-                @Html.CheckBoxFor(model => model.AcceptTerms, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AcceptTerms)
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 
+@section scripts{
+    
+}

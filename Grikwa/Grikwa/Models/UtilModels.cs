@@ -375,12 +375,12 @@ namespace Grikwa.Models
                 string subject = "Grikwa Student Verification";
 
                 string bodyHTML = "<h1><strong>Dear " + toName
-                                    + "</strong>, welcome to the Grikwa Store.</h1>"
+                                    + "</strong>, welcome to the Grikwa Notice Board.</h1>"
                                     + "<h4>Your username is <strong>" + toUserName + "</strong>.</h4> Click <a href='"
                                     + authenticationUrl + "'>here</a> to verify your account"
                                     + " <br/> <h5>Grikwa Team</h5>";
                 string bodyText = "Dear " + toName
-                                    + ", welcome to the Grikwa Store."
+                                    + ", welcome to the Grikwa Notice Board."
                                     + "Your username is " + toUserName + ". Go to the following address: "
                                     + authenticationUrl + " to verify your account. Grikwa Team";
 
