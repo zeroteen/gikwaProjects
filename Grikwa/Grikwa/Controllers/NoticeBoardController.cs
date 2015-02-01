@@ -24,10 +24,8 @@ namespace Grikwa.Controllers
 
         //
         // GET: /NoticeBoard/
-        [AllowAnonymous]
         public async Task<ActionResult> Index(int id = 1)
         {
-
             // set pagination filter url
             PaginationModel.FilterURL = Url.Action("Index", "NoticeBoard") + "?id=";
 
@@ -39,7 +37,7 @@ namespace Grikwa.Controllers
 
                 // get all products in this institution
                 var ps = from p in db.Products
-                         where p.User.Institution.abbreviation.Equals(name)
+                         where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention==ProductIntention.SELL
                          select new CatalogProductModel()
                          {
                              ProductID = p.ProductID,
@@ -50,10 +48,23 @@ namespace Grikwa.Controllers
                              Price = p.Price,
                              ShortDescription = p.ShortDescription,
                              ProductStatus = p.ProductStatus,
-                             DatePosted = p.DatePosted,
-                             Offers = (from cp in db.ConversationRoomProducts
-                                      where cp.ProductID == p.ProductID
-                                      select cp).Count()
+                             ProductIntention = p.ProductIntention,
+                             DatePosted = p.DatePosted
+                         };
+                var ps2 = from p in db.Products
+                         where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention == ProductIntention.NOTIFY
+                         select new CatalogProductModel()
+                         {
+                             ProductID = p.ProductID,
+                             Name = p.Name,
+                             UserID = p.UserID,
+                             UserName = p.User.UserName,
+                             UserFullName = p.User.TitleID + " " + p.User.Intials + " " + p.User.Surname,
+                             Price = p.Price,
+                             ShortDescription = p.ShortDescription,
+                             ProductStatus = p.ProductStatus,
+                             ProductIntention = p.ProductIntention,
+                             DatePosted = p.DatePosted
                          };
 
                 // setup pagination
@@ -61,10 +72,11 @@ namespace Grikwa.Controllers
                 var pageIndex = PaginationModel.GoToPage(id) - 1;
 
                 SetFilters();
-
-                var unpendingProducts = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PageSize).Take(PaginationModel.PageSize).ToListAsync();
-
-                return View(await SetPendingProducts(unpendingProducts));
+                var unpendingPosters = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
+                var n = unpendingPosters.Count;
+                var unpendingProducts = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+                unpendingPosters.AddRange(unpendingProducts);
+                return View(await SetPendingProducts(unpendingPosters));
             }
 
             // get all products at the default institution ("UCT")
@@ -117,7 +129,6 @@ namespace Grikwa.Controllers
             return products;
         }
 
-        [AllowAnonymous]
         public async Task<ActionResult> Category(string category, int page = 1)
         {
             // bad request
@@ -185,7 +196,6 @@ namespace Grikwa.Controllers
             }
         }
 
-        [AllowAnonymous]
         public async Task<ActionResult> Search(string query, int page = 1)
         {
 
@@ -235,7 +245,6 @@ namespace Grikwa.Controllers
             return View("Index", await SetPendingProducts(products));
         }
 
-        [AllowAnonymous]
         public async Task<ActionResult> BusinessCard(string id, int page = 1)
         {
             // bad request
@@ -297,7 +306,6 @@ namespace Grikwa.Controllers
             return View(user);
         }
 
-        [AllowAnonymous]
         public ActionResult Institution(string name)
         {
             Session.Add("currentInstitution", name);
@@ -306,7 +314,6 @@ namespace Grikwa.Controllers
             return RedirectToAction("Index", "NoticeBoard");
         }
 
-        [AllowAnonymous]
         public async Task<ActionResult> AdvertImage(int? id, int? sizeType)
         {
             if (id == null || sizeType == null)
@@ -371,7 +378,7 @@ namespace Grikwa.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Notify([Bind(Include = "PosterImage,Name,Categories,Email,PhoneNumber,Description,AcceptTerms,KeyWords")] NotifyPosterModel poster)
+        public async Task<ActionResult> Notify([Bind(Include = "PosterImage,Name,Categories,WebsiteLink,Email,PhoneNumber,Description,AcceptTerms,KeyWords")] NotifyPosterModel poster)
         {
             if (ModelState.IsValid)
             {
@@ -385,7 +392,7 @@ namespace Grikwa.Controllers
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(poster.PosterImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
-                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(150, 150, callback, IntPtr.Zero);
+                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(300, 300, callback, IntPtr.Zero);
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
@@ -446,6 +453,8 @@ namespace Grikwa.Controllers
                             DatePosted = DateTime.Now,
                             KeyWords = poster.KeyWords,
                             User = user,
+                            WebsiteLink = poster.WebsiteLink,
+                            ProductIntention = ProductIntention.NOTIFY,
                             ThumbnailImage = thumbnailImage,
                             FullSizeImage = fullSizeImage
                         };
@@ -484,7 +493,7 @@ namespace Grikwa.Controllers
         // POST: /NoticeBoard/SellProduct?=
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Sell([Bind(Include = "ProductImage,Name,Categories,ShortDescription,LongDescription,Price,AcceptTerms,KeyWords")] SellProductModel product)
+        public async Task<ActionResult> Sell([Bind(Include = "ProductImage,Name,Categories,Email,PhoneNumber,ShortDescription,LongDescription,Price,AcceptTerms,KeyWords")] SellProductModel product)
         {
             if (ModelState.IsValid)
             {
@@ -498,7 +507,7 @@ namespace Grikwa.Controllers
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(product.ProductImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
-                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(150, 150, callback, IntPtr.Zero);
+                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(300, 300, callback, IntPtr.Zero);
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
@@ -559,6 +568,7 @@ namespace Grikwa.Controllers
                             Price = product.Price,
                             ProductStatus = ProductStatus.NEW,
                             DatePosted = DateTime.Now,
+                            ProductIntention = ProductIntention.SELL,
                             KeyWords = product.KeyWords,
                             User = user,
                             ThumbnailImage = thumbnailImage,
@@ -604,7 +614,7 @@ namespace Grikwa.Controllers
         //
         // GET: /NoticeBoard/BuyProduct
         //remove later
-        public async Task<ActionResult> Buy(int? id)
+        public async Task<ActionResult> Get(int? id)
         {
 
             if (id == null)
@@ -627,7 +637,7 @@ namespace Grikwa.Controllers
                 return View("Forbidden", new ForbiddenMessageModel()
                             {
                                 Title = "Sale Request Not Allowed",
-                                Message = "You are not allowed to buy a product from a student from another institution."
+                                Message = "You can only enquire about or get items from the community you belong."
                             });
             }
 
@@ -809,7 +819,6 @@ namespace Grikwa.Controllers
             return Json(await users.ToListAsync(), JsonRequestBehavior.AllowGet);
         }
 
-        [AllowAnonymous]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -840,6 +849,9 @@ namespace Grikwa.Controllers
                 ProductStatus = product.ProductStatus,
                 DatePosted = product.DatePosted,
                 ProductIntention = product.ProductIntention,
+                Email = product.ContactEmail,
+                WebsiteLink = product.WebsiteLink,
+                PhoneNumber = product.ContactNumber,
                 Offers = (from cp in db.ConversationRoomProducts
                           where cp.ProductID == product.ProductID
                           select cp).Count()
@@ -926,6 +938,7 @@ namespace Grikwa.Controllers
                               PosterID = p.ProductID,
                               Email = p.ContactEmail,
                               PhoneNumber = p.ContactNumber,
+                              WebsiteLink = p.WebsiteLink,
                               UserID = p.UserID,
                           };
 
@@ -952,7 +965,7 @@ namespace Grikwa.Controllers
         // POST: /NoticeBoard/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditProduct([Bind(Include = "ProductImage,ProductID,UserID,Name,ShortDescription,Categories,LongDescription,Price,EmailNotification,NumberOfSaleRequests,KeyWords")] EditProductModel product)
+        public async Task<ActionResult> EditProduct([Bind(Include = "ProductImage,ProductID,UserID,Name,Email,PhoneNumber,ShortDescription,Categories,LongDescription,Price,KeyWords")] EditProductModel product)
         {
             if (ModelState.IsValid)
             {
@@ -970,7 +983,7 @@ namespace Grikwa.Controllers
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(product.ProductImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
-                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(150, 150, callback, IntPtr.Zero);
+                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(300, 300, callback, IntPtr.Zero);
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
@@ -1004,6 +1017,8 @@ namespace Grikwa.Controllers
                 // put other edits
                 editedProduct.Name = ti.ToTitleCase(product.Name);
                 editedProduct.ShortDescription = product.ShortDescription;
+                editedProduct.ContactNumber = product.PhoneNumber;
+                editedProduct.ContactEmail = product.Email;
                 editedProduct.LongDescription = product.LongDescription;
                 editedProduct.Price = product.Price;
                 editedProduct.KeyWords = product.KeyWords;
@@ -1043,6 +1058,103 @@ namespace Grikwa.Controllers
             ViewBag.Categories = await GetCategories(product.Categories);
 
             return View(product);
+        }
+
+        // POST: /NoticeBoard/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditNotice([Bind(Include = "PosterImage,PosterID,UserID,Name,Email,WebsiteLink,PhoneNumber,Categories,Description,KeyWords")] EditPosterModel poster)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var editedposter = await db.Products.FindAsync(poster.PosterID);
+
+                // fill in the poster image
+                if (poster.PosterImage != null)
+                {
+                    // get images
+                    byte[] fullSizeImage = null;
+                    byte[] thumbnailImage = null;
+                    try
+                    {
+                        System.Drawing.Image originalImage = System.Drawing.Image.FromStream(poster.PosterImage.InputStream);
+                        System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
+                        System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
+                        System.Drawing.Image thumbNailImg = originalImage.GetThumbnailImage(300, 300, callback, IntPtr.Zero);
+
+                        // get large image
+                        MemoryStream ms = new MemoryStream();
+                        fullImg.Save(ms, ImageFormat.Png);
+                        fullSizeImage = ms.ToArray();
+                        ms.Dispose();
+
+                        // get small image
+                        MemoryStream ms2 = new MemoryStream();
+                        thumbNailImg.Save(ms2, ImageFormat.Png);
+                        thumbnailImage = ms2.ToArray();
+                        ms2.Dispose();
+
+                        // free memory
+                        thumbNailImg.Dispose();
+                        fullImg.Dispose();
+                        originalImage.Dispose();
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine(e.Message, "Poster Image Creation Failed During Edit.");
+                    }
+
+                    editedposter.FullSizeImage = fullSizeImage;
+                    editedposter.ThumbnailImage = thumbnailImage;
+                }
+
+                // set text info to be able to capitalize the poster name
+                TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
+
+                // put other edits
+                editedposter.Name = ti.ToTitleCase(poster.Name);
+                editedposter.ContactNumber = poster.PhoneNumber;
+                editedposter.ContactEmail = poster.Email;
+                editedposter.LongDescription = poster.Description;
+                editedposter.WebsiteLink = poster.WebsiteLink;
+                editedposter.KeyWords = poster.KeyWords;
+
+
+                // Get old selected categories
+                var oldSelectedCategories = await (from c in db.ProductCategories
+                                                   where c.ProductID == poster.PosterID
+                                                   select c.CategoryID).ToListAsync();
+                // determine categories to be deleted from the database
+                var toBeDelectedCategories = poster.Categories.Union(oldSelectedCategories).Except(poster.Categories);
+                // determine new categories to be added to the database
+                var toBeAddedCategories = poster.Categories.Union(oldSelectedCategories).Except(oldSelectedCategories);
+
+                // add new poster categories
+                foreach (var categoryID in toBeAddedCategories)
+                {
+                    var category = await (from c in db.Categories
+                                          where c.CategoryID == categoryID
+                                          select c).FirstAsync();
+                    db.ProductCategories.Add(new ProductCategory() { Category = category, Product = editedposter });
+                }
+                // delete old poster categories
+                foreach (var categoryID in toBeDelectedCategories)
+                {
+                    var posterCategory = await (from pc in db.ProductCategories
+                                                where pc.CategoryID == categoryID && pc.ProductID == editedposter.ProductID
+                                                 select pc).FirstAsync();
+                    db.ProductCategories.Remove(posterCategory);
+                }
+
+                db.Entry(editedposter).State = System.Data.Entity.EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Categories = await GetCategories(poster.Categories);
+
+            return View(poster);
         }
 
         // GET: /NoticeBoard/Delete/5

@@ -118,35 +118,12 @@ namespace Grikwa.Models
     {
 
         public IEnumerable<Institution> Institutions { get; set; }
-        public IEnumerable<Qualification> Qualifications { get; set; }
-        public IEnumerable<Title> Titles { get; set; }
-        public System.Web.Mvc.SelectList InstitutionSelectList { get; set; }
-        public System.Web.Mvc.SelectList QualificationSelectList { get; set; }
-        public System.Web.Mvc.SelectList TitleSelectList { get; set; }
 
-        [Required]
-        [Display(Name = "Institution")]
-        public int InstitutionID { get; set; }
-
-        //[Required]
-        [Display(Name = "Qualification")]
-        public int QualificationID { get; set; }
-
-        [Required]
-        [Display(Name = "Title")]
-        public Title Title { get; set; }
-
-        [Required]
-        [Display(Name = "Initials")]
-        public string Initials { get; set; }
-
-        [Required]
-        [Display(Name = "Surname")]
-        public string Surname { get; set; }
+        [Required(ErrorMessage = "Plesae select a community")]
+        public int Institution { get; set; }
 
         [Required]
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "Student Email")]
         public string Email { get; set; }
 
         [Required]
@@ -154,14 +131,6 @@ namespace Grikwa.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; }
-
-        [Required]
-        public bool AcceptTerms { get; set; }
 
     }
 

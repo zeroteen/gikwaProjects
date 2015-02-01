@@ -1,19 +1,17 @@
 ﻿@model Grikwa.Models.Product
 
 @{
-    ViewBag.Title = "Buy";
+    ViewBag.Title = "Get";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Buy</h2>
+<h2>Send Email</h2>
 
-@using (Html.BeginForm("SaleRequestSent", "Store", FormMethod.Get, new {@id = "saleRequestForm" }))
+@using (Html.BeginForm("SaleRequestSent", "NoticeBoard", FormMethod.Get, new {@id = "saleRequestForm" }))
 {
     <div>
         <label for="form-field-9">
-            Message to @Html.ActionLink(Model.User.TitleID + " " +
-                                    Model.User.Intials + " " +
-                                    Model.User.Surname, "Profile", "Store", new { @id = Model.User.Id }, null) .
+            Email message to @Model.ContactEmail.
             Regarding product: @Html.ActionLink(Model.Name, "Details", "Store", new { @id = Model.ProductID }, null) .
             <font color="red">
                 *
@@ -28,12 +26,12 @@
 
     </p>
     <p>
-        By clicking "Send buy request" you agree to the <a href="@Url.Action("Terms","Home")">Terms and Conditions</a>.
+        By clicking "Send" you agree to the <a href="@Url.Action("Terms","Home")">Terms and Conditions</a>.
     </p>
     <p>
         <button id="sendSaleRequest" class="btn btn-info" type="button" value="submit">
             <i class="icon-ok bigger-110"></i>
-            Send buy request
+            Send
         </button>
     </p>
     <input id="saleProductID" type="hidden" value="@Model.ProductID" />

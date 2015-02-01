@@ -69,10 +69,15 @@ namespace Grikwa.Models
         public virtual ProductStatus ProductStatus { get; set; }
 
         [MaxLength(50)]
+        [DataType(DataType.EmailAddress)]
         public virtual string ContactEmail { get; set; }
 
         [MaxLength(15)]
+        [DataType(DataType.PhoneNumber)]
         public virtual string ContactNumber { get; set; }
+
+        [MaxLength(200)]
+        public virtual string WebsiteLink { get; set; }
 
         [MaxLength(250)]
         public virtual string KeyWords { get; set; }
@@ -284,21 +289,27 @@ namespace Grikwa.Models
         /// <param name="supplierEmail"></param>
         /// <param name="supplierName"></param>
         /// <param name="productName"></param>
-        public static void SendSaleRequestEmail(string supplierEmail, string supplierName, string productName)
+        public static void SendSaleRequestEmail(string supplierEmail, string customerEmail, string productName, string customerMessage)
         {
             try
             {
                 MailMessage mail = new MailMessage();
 
-                string from = "sales@grikwa.co.za";
-                string subject = "Grikwa Sale Request";
-                string bodyHTML = "<h1><strong>Dear " + supplierName + "</strong>.</h1>"
-                                  + "<h4>You have a sale request on Grikwa regarding product: " + productName + ".</h4>"
-                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to perform the transaction.</p>"
+                string from = customerEmail;
+                string subject = "Grikwa - Reply To Advert";
+                string bodyHTML = "<h1><strong>Dear Grikwa User</strong>.</h1>"
+                                  + "<h4>You have a reply on Grikwa regarding product: " + productName + ".</h4>"
+                                  + "<p>You can go to the <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to see the transaction.</p>"
+                                  + "<p>Below is the message from the customer:</p>"
+                                  + "<p>"+customerMessage+"</p>"
+                                  + "<p>You can reply to this email to start communicating with the customer.</p>"
                                   + " <br/> <h5>Grikwa Team</h5>";
-                string bodyText = "Dear " + supplierName + ". "
+                string bodyText = "Dear Grikwa User. "
                                   + "You have a sale request on Grikwa regarding product: " + productName + ". "
-                                  + "Go to the Grikwa Notice Board at http://www.grikwa.co.za to perform the transaction. Grikwa Team";
+                                  + "You can go to the Grikwa Notice Board at http://www.grikwa.co.za to see the transaction."
+                                  + "The following is the message from the customer:"
+                                  + customerMessage + ". You can reply to this email to start communicating with the customer."
+                                  + "Grikwa Team";
 
                 // To
                 mail.To.Add(supplierEmail);
@@ -331,21 +342,21 @@ namespace Grikwa.Models
             }
         }
 
-        public static void SendSaleRequestReplyEmail(string customerEmail, string customerName, string supplierName)
+        public static void SendChatRequestEmail(string supplierEmail, string customerEmail, string productName, string customerMessage)
         {
             try
             {
                 MailMessage mail = new MailMessage();
 
                 string from = "sales@grikwa.co.za";
-                string subject = "Grikwa Reply To Sale Request";
-                string bodyHTML = "<h1><strong>Dear " + customerName + "</strong>.</h1>"
-                                  + "<h4><strong>" + supplierName + "</strong> have replied to your sale request on Grikwa.</h4>"
-                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to perform the transaction.</p>"
+                string subject = "Grikwa - Reply To Advert";
+                string bodyHTML = "<h1><strong>Dear Grikwa User</strong>.</h1>"
+                                  + "<h4>Someone is interested in your product:"+productName+".</h4>"
+                                  + "<p>Go to the <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to have a chat with the person.</p>"
                                   + " <br/> <h5>Grikwa Team</h5>";
-                string bodyText = "Dear " + customerName + ". "
-                                  + supplierName + " have replied to your sale request on Grikwa. "
-                                  + "Go to the Grikwa Notice Board at http://www.grikwa.co.za to perform the transaction. Grikwa Team";
+                string bodyText = "Dear Dear Grikwa User. "
+                                  + "Someone is interested in your product:"+productName+"."
+                                  + "Go to the Grikwa Notice Board at http://www.grikwa.co.za to have a chat with the person. Grikwa Team";
 
                 // To
                 mail.To.Add(customerEmail);
@@ -366,15 +377,15 @@ namespace Grikwa.Models
             }
             catch (SmtpFailedRecipientException smtpFailedRecipientException)
             {
-                Trace.WriteLine(smtpFailedRecipientException.Message, "Sale Request Reply Email To: " + customerEmail);
+                Trace.WriteLine(smtpFailedRecipientException.Message, "Chat Request Email To: " + customerEmail);
             }
             catch (SmtpException smtpException)
             {
-                Trace.WriteLine(smtpException.Message, "Sale Request Reply Email To: " + customerEmail);
+                Trace.WriteLine(smtpException.Message, "Chat Request Email To: " + customerEmail);
             }
             catch (Exception e)
             {
-                Trace.WriteLine(e.Message, "Sale Request Reply Email To: " + customerEmail);
+                Trace.WriteLine(e.Message, "Chat Request Email To: " + customerEmail);
             }
         }
         #endregion
@@ -489,7 +500,8 @@ namespace Grikwa.Models
             // Get possible room names
             string roomName = customerID + "_" + supplierID;
             string roomName2 = supplierID + "_" + customerID;
-
+            var user1 = db.Users.Find(customerID);
+            string customerEmail = user1.Email;
             /*Create new room or add product to existing room*/
             if (ChatRooms.Exists(roomName)) // room exists
             {
@@ -528,7 +540,6 @@ namespace Grikwa.Models
             else // room does not exist
             {
                 // Get users involved
-                var user1 = db.Users.Find(customerID);
                 var user2 = db.Users.Find(supplierID);
 
                 // Create new room
@@ -572,7 +583,113 @@ namespace Grikwa.Models
             }
 
             // Send a sale request email to the supplier
-            ChatRooms.SendSaleRequestEmail(supplierDetails.Email, supplierDetails.name, product.Name);
+            ChatRooms.SendSaleRequestEmail(product.ContactEmail, customerEmail , product.Name, requestMessage);
+        }
+
+        public async Task CreateChatRoomForLiveChat(string requestMessage, string customerID, string customerName, string supplierID, int productId)
+        {
+
+            // (Task) Get more necessary supplier details
+            var supplierDetails = await (from u in db.Users
+                                         where u.Id.Equals(supplierID)
+                                         select new { id = u.UserName, name = u.TitleID + " " + u.Intials + " " + u.Surname, Email = u.Email }).FirstAsync();
+
+            // (Task) Get more details of product involved
+            var product = await db.Products.FindAsync(productId);
+
+            // (Task) Get the number of sale requests of the product
+            var currentSaleRequestNumber = await (from sr in db.ConversationRoomProducts
+                                                  where sr.ProductID == productId
+                                                  select sr).CountAsync();
+
+            // Get possible room names
+            string roomName = customerID + "_" + supplierID;
+            string roomName2 = supplierID + "_" + customerID;
+            var user1 = db.Users.Find(customerID);
+            string customerEmail = user1.Email;
+            /*Create new room or add product to existing room*/
+            if (ChatRooms.Exists(roomName)) // room exists
+            {
+                // Get room
+                var room = ChatRooms.getRoom(roomName);
+                var conRoom = await (from cr in db.ConversationRooms
+                                     where cr.Name.Equals(roomName)
+                                     select cr).FirstAsync();
+
+                // Add product to room
+                db.ConversationRoomProducts.Add(new ConversationRoomProduct() { ConversationRoom = conRoom, Product = product });
+
+                // save changes
+                await db.SaveChangesAsync();
+
+                // Send sale request message
+                await Send(roomName, requestMessage, customerID, customerName, 1);
+            }
+            else if (ChatRooms.Exists(roomName2)) // room exists
+            {
+                // Get room
+                var room = ChatRooms.getRoom(roomName2);
+                var conRoom = await (from cr in db.ConversationRooms
+                                     where cr.Name.Equals(roomName2)
+                                     select cr).FirstAsync();
+
+                // Add product to room
+                db.ConversationRoomProducts.Add(new ConversationRoomProduct() { ConversationRoom = conRoom, Product = product });
+
+                // save changes
+                await db.SaveChangesAsync();
+
+                // Send sale request message
+                await Send(roomName2, requestMessage, customerID, customerName, 1);
+            }
+            else // room does not exist
+            {
+                // Get users involved
+                var user2 = db.Users.Find(supplierID);
+
+                // Create new room
+                var conRoom = new ConversationRoom() { User1 = user1, User2 = user2, Name = roomName };
+                db.ConversationRoomProducts.Add(new ConversationRoomProduct() { ConversationRoom = conRoom, Product = product });
+                Room room = new Room()
+                {
+                    Name = roomName,
+                    User1ID = Context.User.Identity.Name,
+                    User1Name = customerName,
+                    User1LastSeen = user1.LastSeen,
+                    User1DatabaseID = customerID,
+                    User2ID = supplierDetails.id,
+                    User2Name = supplierDetails.name,
+                    User2LastSeen = user2.LastSeen,
+                    User2DatabaseID = supplierID,
+                };
+
+                // Add room to list of rooms
+                ChatRooms.Add(room);
+
+                // Join room
+                await Join(room.Name);
+
+                // Send room details to client (browser)
+                await Clients.User(supplierDetails.id).addChatRoom(new
+                {
+                    Name = room.Name,
+                    OtherUserID = room.User2DatabaseID,
+                    OtherUserName = room.User2Name,
+                    LastSeen = room.User2LastSeen,
+                    Messages = new { },
+                    Products = new { }
+                });
+
+                // save changes
+                await db.SaveChangesAsync();
+
+                // Send sale request message
+                await Send(roomName, requestMessage, customerID, customerName, 1);
+            }
+
+            // Send a sale request email to the supplier
+            var supplierEmail = (string.IsNullOrEmpty(product.ContactEmail) || string.IsNullOrWhiteSpace(product.ContactEmail)) ? supplierDetails.Email : product.ContactEmail;
+            ChatRooms.SendChatRequestEmail(supplierEmail, customerEmail, product.Name, requestMessage);
         }
 
         /// <summary>
@@ -607,29 +724,29 @@ namespace Grikwa.Models
                         messageType == 1 ? MessageType.SALEREQUEST : MessageType.SYSTEM;
 
             // get last message sent by receiver to sender and check if it was a sale request
-            var sendReplyEmail = false;
-            var receiverName = "";
-            var receiverEmail = "";
-            if (mType == MessageType.NORMAL)
-            {
-                var conv = from c in db.Conversations
-                           where c.FromUser.UserName.Equals(receiverID) && c.ToUser.UserName.Equals(sender.UserName)
-                           orderby c.Time descending
-                           select c;
+            //var sendReplyEmail = false;
+            //var receiverName = "";
+            //var receiverEmail = "";
+            //if (mType == MessageType.NORMAL)
+            //{
+            //    var conv = from c in db.Conversations
+            //               where c.FromUser.UserName.Equals(receiverID) && c.ToUser.UserName.Equals(sender.UserName)
+            //               orderby c.Time descending
+            //               select c;
 
-                var count = await conv.CountAsync();
-                if (count > 0)
-                {
-                    var con = await conv.FirstAsync();
-                    sendReplyEmail = con.MessageType == MessageType.SALEREQUEST;
+            //    var count = await conv.CountAsync();
+            //    if (count > 0)
+            //    {
+            //        var con = await conv.FirstAsync();
+            //        sendReplyEmail = con.MessageType == MessageType.SALEREQUEST;
 
-                    if (sendReplyEmail)
-                    {
-                        receiverName = receiver.TitleID + " " + receiver.Intials + " " + receiver.Surname;
-                        receiverEmail = receiver.Email;
-                    }
-                }
-            }
+            //        if (sendReplyEmail)
+            //        {
+            //            receiverName = receiver.TitleID + " " + receiver.Intials + " " + receiver.Surname;
+            //            receiverEmail = receiver.Email;
+            //        }
+            //    }
+            //}
 
             // Add conversation
             db.Conversations.Add(new Conversation()
@@ -664,10 +781,10 @@ namespace Grikwa.Models
             UpdateLastSeen();
 
             // send reply email to receiver
-            if (sendReplyEmail)
-            {
-                ChatRooms.SendSaleRequestReplyEmail(receiverEmail, receiverName, senderName);
-            }
+            //if (sendReplyEmail)
+            //{
+            //    ChatRooms.SendSaleRequestReplyEmail(receiverEmail, receiverName, senderName);
+            //}
 
         }
 

@@ -22,8 +22,11 @@ namespace Grikwa.Models
         public Title Title { get; set; }
 
         [MaxLength(50)]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
         [MaxLength(50)]
+        [DataType(DataType.EmailAddress)]
         public string OptionalEmail { get; set; }
 
         public int QualificationID { get; set; }

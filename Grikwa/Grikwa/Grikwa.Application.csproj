@@ -260,6 +260,10 @@
     <Compile Include="Migrations\201403060956486_AddInstitutionCompanyTable.Designer.cs">
       <DependentUpon>201403060956486_AddInstitutionCompanyTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502012323517_Grikwav2.cs" />
+    <Compile Include="Migrations\201502012323517_Grikwav2.Designer.cs">
+      <DependentUpon>201502012323517_Grikwav2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModels.cs" />
@@ -316,6 +320,8 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Backgrounds\home.jpg" />
+    <Content Include="Images\Backgrounds\home2.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\faviconfinak.ico" />
     <Content Include="Images\favicongri.ico" />
@@ -593,7 +599,7 @@
     <Content Include="Views\NoticeBoard\BusinessCard.cshtml" />
     <Content Include="Views\NoticeBoard\Details.cshtml" />
     <Content Include="Views\Shared\_NotificationPartial.cshtml" />
-    <Content Include="Views\NoticeBoard\Buy.cshtml" />
+    <Content Include="Views\NoticeBoard\Get.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Shared\_SoldPartial.cshtml" />
     <Content Include="Views\Account\Verification.cshtml" />
@@ -725,6 +731,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201403060956486_AddInstitutionCompanyTable.resx">
       <DependentUpon>201403060956486_AddInstitutionCompanyTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502012323517_Grikwav2.resx">
+      <DependentUpon>201502012323517_Grikwav2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

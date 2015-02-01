@@ -374,12 +374,12 @@ namespace Grikwa.Models
                 string from = VERIFICATION_FROM_EMAIL_ADDRESS;
                 string subject = "Grikwa Student Verification";
 
-                string bodyHTML = "<h1><strong>Dear " + toName
+                string bodyHTML = "<h1><strong>Dear Grikwa User"
                                     + "</strong>, welcome to the Grikwa Notice Board.</h1>"
                                     + "<h4>Your username is <strong>" + toUserName + "</strong>.</h4> Click <a href='"
                                     + authenticationUrl + "'>here</a> to verify your account"
                                     + " <br/> <h5>Grikwa Team</h5>";
-                string bodyText = "Dear " + toName
+                string bodyText = "Dear Grikwa User"
                                     + ", welcome to the Grikwa Notice Board."
                                     + "Your username is " + toUserName + ". Go to the following address: "
                                     + authenticationUrl + " to verify your account. Grikwa Team";
@@ -438,11 +438,11 @@ namespace Grikwa.Models
                 string from = RESET_FROM_EMAIL_ADDRESS;
                 string subject = "Grikwa Password Reset";
 
-                string bodyHTML = "<h1><strong>Dear " + toName + "</strong>.</h1>"
+                string bodyHTML = "<h1><strong>Dear Grikwa User</strong>.</h1>"
                               + "<p>Click <a href='" + url
                               + "'>here</a> to reset your password. "
                               + "This token will exprire after 5 hours. Request new token if this token has expired. <br/> <h5>Grikwa Team</h5>";
-                string bodyText = "Dear " + toName + ". "
+                string bodyText = "Dear Grikwa User. "
                               + "Go to this address: " + url
                               + " to reset your password. "
                               + "This token will exprire after 5 hours. Request new token if this token has expired. Grikwa Team";

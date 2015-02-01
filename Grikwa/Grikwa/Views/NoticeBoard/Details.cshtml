@@ -7,82 +7,184 @@
 
 <h2>Details</h2>
 
-<div class="col-xs-4 col-sm-5 pricing-box details-box">
-    <div class="widget-box">
-        <div class="widget-header header-color-purple">
-            <span>@Model.Name</span>
-        </div>
-
-        <div class="widget-body">
-            <div class="widget-main">
-                <div class="row-fluid">
-                    @{
-                        try
-                        {
-                            <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
-                        }
-                        catch (Exception e)
-                        {
-                            <img align="left" class="img-thumbnail" src="~/Images/Products/image-0.jpg" alt="text book image">
-                        }
-                    }
-                    <ul class="list-unstyled">
-                        <li>
-                            <strong>By:</strong> @Html.ActionLink(Model.UserFullName, "BusinessCard", "NoticeBoard", new { @id = Model.UserID }, null)
-                        </li>
-                        <li>
-                            <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
-                        </li>
-                        <li><h5>Short Description</h5></li>
-                        <li>
-                            @Model.ShortDescription
-                        </li>
-                        <li><h5>Long Description</h5></li>
-                        <li>
-                            @Model.LongDescription
-                        </li>
-                    </ul>
-                </div>
-                <hr />
-                @*@if (Model.ProductStatus != Grikwa.Models.ProductStatus.SOLD)
-                {
-                    <span class="badge badge-info" title="Offers">@Model.Offers Offers</span>
-                }*@
-                <div data-a-sign="R " class="price">
-                    @Model.Price
-                </div>
+@using (Html.BeginForm("Chat", "NoticeBoard", FormMethod.Get, new { @id = "chat-message-form" }))
+{
+    <div class="col-xs-4 col-sm-5 pricing-box details-box">
+        <div class="widget-box">
+            <div class="widget-header header-color-purple">
+                <span>@Model.Name</span>
             </div>
+            @if (Model.ProductIntention == Grikwa.Models.ProductIntention.SELL)
+            {
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="row-fluid">
+                            @{
+                                try
+                                {
+                                    <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
+                                }
+                                catch (Exception e)
+                                {
+                                    <img align="left" class="img-thumbnail" src="~/Images/Products/image-0.jpg" alt="text book image">
+                                }
+                            }
+                            <ul class="list-unstyled">
+                                <li>
+                                    <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
+                                </li>
+                                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                                {
+                                    <li>
+                                        <strong>Contact Number:</strong> @Model.PhoneNumber
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Email))
+                                {
+                                    <li>
+                                        <strong>Contact Email:</strong><a href="@Url.Action("Get", "NoticeBoard", new { @id = Model.ProductID })"> @Model.Email</a>
+                                    </li>
+                                }
+                                @*<li>
+                                        <strong>By:</strong> @Html.ActionLink(Model.UserFullName, "BusinessCard", "NoticeBoard", new { @id = Model.UserID }, null)
+                                    </li>*@
 
-            <div>
-                @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
-                {
-                    <span class="btn btn-danger btn-block disabled">
-                        SOLD
-                    </span>
-                }
-                else if (Model.ProductStatus == Grikwa.Models.ProductStatus.REQUESTED)
-                {
-                    <a href="@Url.Action("Chat", "Store")" class="btn btn-light btn-block btn-inverse">
-                        <i class="icon-comments bigger-110"></i>
-                        <span>PENDING...</span>
-                    </a>
-                }
-                else if (Request.IsAuthenticated && Context.User.Identity.Name.Equals(Model.UserName))
-                {
-                    <a href="@Url.Action("Edit", "Store", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
-                        <i class="icon-edit-sign bigger-110"></i>
-                        <span>Edit</span>
-                    </a>
-                }
-                else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
-                {
-                    <a href="@Url.Action("Buy", "Store", new { @id = Model.ProductID })" class="btn btn-yellow btn-block btn-inverse">
-                        <i class="icon-shopping-cart bigger-110"></i>
-                        <span>Buy</span>
-                        <input type="hidden" value="@Model.Name" />
-                    </a>
-                }
-            </div>
+                                <li><strong>Short Description:</strong> @Model.ShortDescription</li>
+
+                                <li><strong>Long Description:</strong> @Model.LongDescription</li>
+                            </ul>
+                        </div>
+                        <hr />
+                        <div data-a-sign="R " class="price">
+                            @Model.Price
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
+                        {
+                            <span class="btn btn-danger btn-block disabled">
+                                SOLD
+                            </span>
+                        }
+                        else if (Model.ProductStatus == Grikwa.Models.ProductStatus.REQUESTED)
+                        {
+                            <a href="@Url.Action("Chat", "NoticeBoard")" class="btn btn-light btn-block btn-inverse">
+                                <i class="icon-comments bigger-110"></i>
+                                <span>PENDING...</span>
+                            </a>
+                        }
+                        else if (Request.IsAuthenticated && Context.User.Identity.Name.Equals(Model.UserName))
+                        {
+                            <a href="@Url.Action("EditProduct", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
+                                <i class="icon-edit-sign bigger-110"></i>
+                                <span>Edit</span>
+                            </a>
+                        }
+                        else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
+                        {
+                            <a id="chat-message" href="#" class="btn btn-yellow btn-block btn-inverse">
+                                <i class="icon-comments bigger-110"></i>
+                                <span>Message</span>
+                                <input type="hidden" value="@Model.Name" />
+                                <input id="saleProductID" type="hidden" value="@Model.ProductID" />
+                                <input id="saleProductName" type="hidden" value="@Model.Name">
+                                <input id="saleProductOwnerID" type="hidden" value="@Model.UserID">
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+            else if (Model.ProductIntention == Grikwa.Models.ProductIntention.NOTIFY)
+            {
+                <div class="widget-body">
+                    <div class="widget-main">
+                        <div class="row-fluid">
+                            @{
+                                try
+                                {
+                                    <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
+                                }
+                                catch (Exception e)
+                                {
+                                    <img align="left" class="img-thumbnail" src="~/Images/Products/image-0.jpg" alt="text book image">
+                                }
+                            }
+                            <ul class="list-unstyled">
+                                @*<li>
+                                        <strong>By:</strong> @Html.ActionLink(Model.UserFullName, "BusinessCard", "NoticeBoard", new { @id = Model.UserID }, null)
+                                    </li>*@
+                                <li>
+                                    <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
+                                </li>
+                                @if (!string.IsNullOrEmpty(Model.PhoneNumber))
+                                {
+                                    <li>
+                                        <strong>Contact Number:</strong> @Model.PhoneNumber
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Email))
+                                {
+                                    <li>
+                                        <strong>Contact Email:</strong><a href="@Url.Action("Get", "NoticeBoard", new { @id = Model.ProductID })"> @Model.Email</a>
+                                    </li>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.WebsiteLink))
+                                {
+                                    <li>
+                                        <strong>Website:</strong><a href="@Model.WebsiteLink" target="_blank"> @Model.WebsiteLink</a>
+                                    </li>
+                                }
+                                <li><strong>Description:</strong> @Model.LongDescription</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
+                        {
+                            <span class="btn btn-danger btn-block disabled">
+                                SOLD
+                            </span>
+                        }
+                        else if (Model.ProductStatus == Grikwa.Models.ProductStatus.REQUESTED)
+                        {
+                            <a href="@Url.Action("Chat", "NoticeBoard")" class="btn btn-light btn-block btn-inverse">
+                                <i class="icon-comments bigger-110"></i>
+                                <span>PENDING...</span>
+                            </a>
+                        }
+                        else if (Request.IsAuthenticated && Context.User.Identity.Name.Equals(Model.UserName))
+                        {
+                            <a href="@Url.Action("EditNotice", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
+                                <i class="icon-edit-sign bigger-110"></i>
+                                <span>Edit</span>
+                            </a>
+                        }
+                        else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
+                        {
+                            <a id="chat-message" href="#" class="btn btn-yellow btn-block btn-inverse">
+                                <i class="icon-comments bigger-110"></i>
+                                <span>Message</span>
+                                <input type="hidden" value="@Model.Name" />
+                                <input id="saleProductID" type="hidden" value="@Model.ProductID" />
+                                <input id="saleProductName" type="hidden" value="@Model.Name">
+                                <input id="saleProductOwnerID" type="hidden" value="@Model.UserID">
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     </div>
-</div>
+}
+@section scripts{
+    <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
+    <script type="text/javascript">
+        $(".price").each(function (index) {
+            var price = Number($(this).html());
+            $(this).autoNumeric('init');
+            $(this).autoNumeric("set", price);
+        });
+    </script>
+}

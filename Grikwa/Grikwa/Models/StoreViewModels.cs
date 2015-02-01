@@ -112,10 +112,12 @@ namespace Grikwa.Models
 
         [MaxLength(50)]
         [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
 
         [MaxLength(15)]
         [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
         public virtual string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Please select at least one category")]
@@ -151,12 +153,18 @@ namespace Grikwa.Models
         [Display(Name = "Terms and Conditions*")]
         public virtual bool AcceptTerms { get; set; }
 
+        [MaxLength(200)]
+        [Display(Name = "Website link (start with http:// or https://)")]
+        public string WebsiteLink { get; set; }
+
         [MaxLength(50)]
         [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
 
         [MaxLength(15)]
         [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
         public virtual string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Please select at least one category")]
@@ -205,10 +213,12 @@ namespace Grikwa.Models
 
         [MaxLength(50)]
         [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
 
         [MaxLength(15)]
         [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
         public virtual string PhoneNumber { get; set; }
 
         [Required(ErrorMessage="Please select at least one category")]
@@ -227,7 +237,7 @@ namespace Grikwa.Models
         [FileSize(5243000)]
         [FileType("jpg,jpeg,png")]
         [Display(Name = "Replace Poster Image With")]
-        public virtual HttpPostedFileBase ProductImage { get; set; }
+        public virtual HttpPostedFileBase PosterImage { get; set; }
 
         [MaxLength(50)]
         [Display(Name = "Poster Name*")]
@@ -244,12 +254,18 @@ namespace Grikwa.Models
         [Required(ErrorMessage = "At least one keyword is required")]
         public virtual string KeyWords { get; set; }
 
+        [MaxLength(200)]
+        [Display(Name = "Website link (start with http:// or https://)")]
+        public string WebsiteLink { get; set; }
+
         [MaxLength(50)]
         [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
         public virtual string Email { get; set; }
 
         [MaxLength(15)]
         [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
         public virtual string PhoneNumber { get; set; }
 
         [Required(ErrorMessage = "Please select at least one category")]
@@ -274,6 +290,12 @@ namespace Grikwa.Models
         public string LongDescription { get; set; }
 
         public decimal Price { get; set; }
+
+        public virtual string Email { get; set; }
+
+        public virtual string PhoneNumber { get; set; }
+
+        public virtual string WebsiteLink { get; set; }
 
         public DateTime DatePosted { get; set; }
 
@@ -350,6 +372,7 @@ namespace Grikwa.Models
         public static int CurrentStartPage { get; set; }
         public static int CurrentEndPage { get; set; }
         public const int PageSize = 12;
+        public const int PosterPageSize = 6;
         public const int PaginationSize = 10;
 
         public static int TotalPages()

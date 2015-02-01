@@ -5,13 +5,7 @@
 }
 
 @section styles{
-    <link href="~/Content/dropzone.css" rel="stylesheet" />
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
-    <style>
-        .dropzone {
-            min-height: 250px !important;
-        }
-    </style>
 }
 
 <h2>Notify About Something</h2>
@@ -25,28 +19,17 @@
         <hr />
         @Html.ValidationSummary(true)
 
-        <div class="form-group">
+        <div class="form-group dropzo">
             @Html.LabelFor(model => model.PosterImage, new { @class = "control-label col-md-2" })
-            <div class="col-md-6 dropzone dz-clickable">
-                <input id="ProductImage" style="display:none;" multiple="multiple" name="ProductImage" type="file" class="form-control" />
-                <div class="dz-default dz-message">
-                    <span>
-                        <span class="smaller-90 bolder">
-                            <i class="icon-caret-right red"></i> Drop files
-                        </span>to upload
-                        <span class="smaller-40 grey">(or click)</span>
-                        <br>
-                        <i class="upload-icon icon-cloud-upload blue icon-3x"></i>
-                    </span>
-                </div>
-                <div class="clearfix"></div>
+            <div class="col-md-6 ace-file-input ace-file-multiple">
+                <input id="PosterImage" name="PosterImage" type="file" class="form-control" />
                 @Html.ValidationMessageFor(model => model.PosterImage)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control limited", maxlength = "25" })
                 @Html.ValidationMessageFor(model => model.Name)
             </div>
@@ -54,7 +37,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Categories, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 <select name="Categories" id="Categories" class="chzn-select form-control" multiple="multiple">
                     @foreach (var option in (ViewBag.Categories as MultiSelectList))
                     {
@@ -74,23 +57,31 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.Email, new { @class = "form-control limited", maxlength = "50" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control limited", maxlength = "50" })
                 @Html.ValidationMessageFor(model => model.Email)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.PhoneNumber, new { @class = "form-control limited", maxlength = "13" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control limited", maxlength = "13" })
                 @Html.ValidationMessageFor(model => model.PhoneNumber)
             </div>
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.WebsiteLink, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => model.WebsiteLink, new { @class = "form-control limited", maxLength = "200" })
+                @Html.ValidationMessageFor(model => model.WebsiteLink)
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextAreaFor(model => model.Description, 4, 50, new { @class = "form-control limited", maxlength = "300" })
                 @Html.ValidationMessageFor(model => model.Description)
             </div>
@@ -98,7 +89,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.KeyWords, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.TextAreaFor(model => model.KeyWords, new { @class = "form-control limited", maxlength = "250" })
                 @Html.ValidationMessageFor(model => model.KeyWords)
             </div>
@@ -106,44 +97,99 @@
 
         <div class="form-group">
             @Html.ActionLink("Agree To Terms and Conditions", "Terms", "Home", null, new { @class = "control-label col-md-2", @for = "AcceptTerms" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.CheckBoxFor(model => model.AcceptTerms, new { @class = "form-control form-checkbox" })
                 @Html.ValidationMessageFor(model => model.AcceptTerms)
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" value="Post" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
 @section scripts{
+    <script src="~/Scripts/prettify.js"></script>
     <script src="~/Scripts/typeahead-bs2.min.js"></script>
-    <script src="~/Scripts/dropzone.min.js"></script>
     <script src="~/Scripts/ace-elements.min.js"></script>
     <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap-tag.min.js"></script>
     <script type="text/javascript">
+        $(function () {
+            var $form = $('#notifyForm');
+            var file_input = $form.find('input[type=file]');
+            var upload_in_progress = false;
 
-        jQuery(function ($) {
-            try {
-                $(".dropzone").dropzone({
-                    paramName: "file", // The name that will be used to transfer the file
-                    maxFilesize: 0.5, // MB
-                    addRemoveLinks: true,
-                    dictDefaultMessage:
-                    '<span class="bigger-150 bolder"><i class="icon-caret-right red"></i> Drop files</span> to upload \
-				    <span class="smaller-80 grey">(or click)</span> <br /> \
-				    <i class="upload-icon icon-cloud-upload blue icon-3x"></i>',
-                    dictResponseError: 'Error while uploading file!',
+            file_input.ace_file_input({
+                style: 'well',
+                btn_choose: 'Drop an image here or click to choose',
+                btn_change: null,
+                no_icon: 'icon-picture',
+                droppable: true,
+                thumbnail: 'large',
+                before_remove: function () {
+                    if (upload_in_progress)
+                        return false;//if we are in the middle of uploading a file, don't allow resetting file input
+                    return true;
+                },
+                before_change: function (files, dropped) {
+                    var file = files[0];
+                    if (typeof file == "string") {//files is just a file name here (in browsers that don't support FileReader API)
+                        if (!(/\.(jpe?g|png|gif)$/i).test(file)) {
+                            alert('Please select an image file!');
+                            return false;
+                        }
+                    }
+                    else {
+                        var type = $.trim(file.type);
+                        if ((type.length > 0 && !(/^image\/(jpe?g|png|gif)$/i).test(type))
+                                || (type.length == 0 && !(/\.(jpe?g|png|gif)$/i).test(file.name))//for android's default browser!
+                            ) {
+                            alert('Please select an image file!');
+                            return false;
+                        }
 
-                    //change the previewTemplate to use Bootstrap progress bars
-                    previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  <div class=\"dz-details\">\n    <div class=\"dz-filename\"><span data-dz-name></span></div>\n    <div class=\"dz-size\" data-dz-size></div>\n    <img data-dz-thumbnail />\n  </div>\n  <div class=\"progress progress-small progress-striped active\"><div class=\"progress-bar progress-bar-success\" data-dz-uploadprogress></div></div>\n  <div class=\"dz-success-mark\"><span></span></div>\n  <div class=\"dz-error-mark\"><span></span></div>\n  <div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n</div>"
-                });
-            } catch (e) {
-                alert('Dropzone.js does not support older browsers!');
-            }
+                        if (file.size > 5243000) {//~5Mb
+                            alert('File size should not exceed 5MB!');
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            });
+
+
+            $form.on('submit', function () {
+                if (!file_input.data('ace_input_files')) return false;//no files selected
+
+                if ("FormData" in window) {
+                    //for modern browsers that support FormData and uploading files via ajax
+                    var fd = new FormData($form.get(0));
+
+                    //if file has been drag&dropped , append it to FormData
+                    if (file_input.data('ace_input_method') == 'drop') {
+                        var files = file_input.data('ace_input_files');
+                        if (files && files.length > 0) {
+                            fd.append(file_input.attr('name'), files[0]);
+                            //to upload multiple files, the 'name' attribute should be something like this: myfile[]
+                        }
+                    }
+                }
+            });
+
+            $form.on('reset', function () {
+                file_input.ace_file_input('reset_input');
+            });
+        });
+
+        $(".chzn-select").chosen(
+        {
+            display_selected_options: false,
+            placeholder_text: "Select some categories",
+            search_contains: true
         });
     </script>
 }

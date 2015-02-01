@@ -460,6 +460,22 @@ $(function () {
             }
         });
 
+        $("#chat-message").click(function () {
+            var productName = $("#saleProductName").attr("value");
+            var productID = $("#saleProductID").attr("value");
+            var supplierID = $("#saleProductOwnerID").attr("value");
+            var requestMessage = "(Regarding product: "+ productName + ") ";
+
+            if (requestMessage != "") {
+                if (supplierID != myUserID) { // check if room already exist also
+                    chat.server.createChatRoomForLiveChat(requestMessage, myUserID, myUserName, supplierID, productID).done(function () {
+
+                                    });
+                    $("#chat-message-form").submit();
+                }
+            }
+        });
+
     });
 
 });

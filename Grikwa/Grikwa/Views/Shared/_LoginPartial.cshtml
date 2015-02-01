@@ -3,7 +3,9 @@
 
 @if (Request.IsAuthenticated)
 {
-
+    
+    
+    
     if (Session == null || Session["userName"] == null)
     {
         Grikwa.Controllers.AccountController.SetCurrentUserSessionInfo(Request, Session);
@@ -14,13 +16,11 @@
     @Html.AntiForgeryToken()
 
     <ul class="nav navbar-nav navbar-right">
-        <li class="">
-            <a href="@Url.Action("Chat", "NoticeBoard")" title="Transactions">
-                <i id="messageBell" class="icon-envelope icon-animated-vertical"></i>
-                <span id="messageCount" class="badge badge-important">0</span>
-                My Transactions
+        <li>
+            <a href="@Url.Action("Index", "NoticeBoard")" title="My Store">
+                <i class="icon-home"></i>
+                Home
             </a>
-            <input type="hidden" id="uid" value="@Session["userID"].ToString()" />
         </li>
         <li>
             <a href="@Url.Action("BusinessCard", "NoticeBoard", new { @id = @Session["userID"].ToString() })" title="My Store">
@@ -29,9 +29,17 @@
             </a>
         </li>
         <li>
+            <a href="@Url.Action("Chat", "NoticeBoard")" title="Transactions">
+                <i id="messageBell" class="icon-envelope icon-animated-vertical"></i>
+                <span id="messageCount" class="badge badge-important">0</span>
+                My Transactions
+            </a>
+            <input type="hidden" id="uid" value="@Session["userID"].ToString()" />
+        </li>
+        <li>
             <a href="@Url.Action("Manage","Account")" title="Manage">
                 <i class="icon-user"></i>
-                @Session["userName"].ToString()
+                My Profile@*@Session["userName"].ToString()*@
             </a>
         </li>
 
