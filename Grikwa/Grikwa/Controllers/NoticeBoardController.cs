@@ -202,7 +202,7 @@ namespace Grikwa.Controllers
             // bad request
             if (query == null || query.Length == 0)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "NoticeBoard");
             }
 
             // set pagination returnURL
