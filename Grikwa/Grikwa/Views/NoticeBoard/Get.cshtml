@@ -1,0 +1,38 @@
+﻿@model Grikwa.Models.Product
+
+@{
+    ViewBag.Title = "Get";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Send Email</h2>
+
+@using (Html.BeginForm("Get", "NoticeBoard", FormMethod.Post, new {@id = "getForm" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <label for="form-field-9">
+            Email message to @Model.ContactEmail.
+            Regarding product: @Html.ActionLink(Model.Name, "Details", "NoticeBoard", new { @id = Model.ProductID }, null) .
+            <font color="red">
+                *
+            </font>
+        </label>
+        <div>
+            <textarea cols="400" rows="4" class="form-control limited" name="RequestMessage" id="RequestMessage" maxlength="500"></textarea>
+        </div>
+    </div>
+
+    <p id="requestError" class="red text">
+
+    </p>
+    <p>
+        By clicking "Send" you agree to the <a href="@Url.Action("Terms","Home")">Terms and Conditions</a>.
+    </p>
+    <p>
+        <input class="btn btn-info" type="submit" value="Send">
+    </p>
+    <input name="ProductID" id="ProductID" type="hidden" value="@Model.ProductID" />
+}
+
+

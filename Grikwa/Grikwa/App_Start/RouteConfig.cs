@@ -21,8 +21,8 @@ namespace Grikwa
 
             routes.MapRoute(
                 name: "Shop",
-                url: "store-{institution}",
-                defaults: new { controller = "Store", action = "Index", institution = "uct"}
+                url: "noticeboard-{institution}",
+                defaults: new { controller = "NoticeBoard", action = "Index", institution = "uct"}
                 );
         }
     }

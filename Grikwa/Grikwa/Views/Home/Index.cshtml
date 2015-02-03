@@ -1,26 +1,153 @@
-﻿@model IEnumerable<Grikwa.Models.InstitutionViewModel>
-
+﻿@model Grikwa.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Select Institution Page";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Grikwa - Home</title>
+    <meta name="description" content="User register page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @Styles.Render("~/Content/css")
+    <link href="~/Content/ace.min.css" rel="stylesheet" />
+    <link href="~/Content/ace-rtl.min.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/ace-fonts.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
-<div class="main-content center community-list">
-    @foreach (var institution in Model)
-    {
-        for (var i = 0; i < 5; i++) 
-        { 
-        <div class="col-md-3 community-item">
-            <a href="@Url.Action("Institution", "Store", new { name = institution.Code })"><span class="community">@institution.Name</span></a>
-        </div>
+    @*<link rel="stylesheet" href="assets/css/chosen.css" />*@
+
+    <style type="text/css">
+        body {
+            background: url(../../Images/Backgrounds/home.jpg);
         }
-    }
-    
-</div>
-@section scripts{
-    <script src="~/Scripts/plugins.js"></script>
-    <script src="~/Scripts/circletype.js"></script>
-    <script>
-        $(".community").circleType({ radius: 80 });
+
+        #loginScreen {
+            height: auto;
+            width: 415px;
+            top: 20%;
+            left: 35%;
+            /*margin: 0 auto;*/
+            position: fixed;
+            z-index: 10;
+            background: rgba(0,0,25,0.9);
+            border: 5px solid #cccccc;
+            border: 3px solid rgba(0,0,255,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .Terms-condition {
+            color: #FFF;
+        }
+
+        .whiteFont {
+            color: #fff;
+        }
+
+        .purpose {
+            margin-top: 10px;
+            margin-bottom: 23px;
+        }
+
+        .login-or-signin {
+            margin: 8px;
+            position: relative;
+            z-index: 0;
+            color: #FFF;
+        }
+
+            .login-or-signin:before {
+                content: "";
+                display: block;
+                position: absolute;
+                z-index: -1;
+                top: 50%;
+                left: 0;
+                right: 0;
+            }
+
+        .form-group{
+            margin-bottom:5px !important;
+        }
+
+        .validation-summary-errors{
+            color:silver;
+        }
+    </style>
+</head>
+<body>
+    <div id="loginScreen" class="divider widget-main">
+        <img id="logo" src="~/Images/Logos/grikwa.png" alt="logo">
+        <h3 class="whiteFont purpose"> Your Institution Notice Board </h3>
+        <a class="width-90 btn btn-sm btn-primary" href="@Url.Action("Login","Account")">
+            <i class="icon-lock icon-on-right"></i>
+            Log in
+        </a>
+
+        <div class="login-or-signin center"><span class="bigger-110">OR</span></div>
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form", @id = "reg" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary()
+            <fieldset>
+                <div class="form-group">
+                    <select id="Institution" name="Institution" class=" width-90 valid form-group">
+                        <option value="">Select Institution</option>
+                        @foreach (var community in Model.Institutions)
+                        {
+                            if (Model.Institution == community.InstitutionID)
+                            {
+                                <option selected="selected" value="@community.InstitutionID">@community.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@community.InstitutionID">@community.Name</option>
+                            }
+                        }
+                    </select>
+                    @*@Html.ValidationMessage("Institution")*@
+                </div>
+                <div class="form-group">
+                    <span class="width-90 input-icon input-icon-right">
+                        <input type="email" name="Email" value="@Model.Email" class="form-control" placeholder="Student Email" maxlength="50" />
+                        <i class="icon-envelope"></i>
+                    </span>
+                    @*@Html.ValidationMessageFor(model => model.Email)*@
+                </div>
+
+                <div class="form-group">
+                    <span class="width-90 input-icon input-icon-right">
+                        <input type="password" name="Password" class="form-control" placeholder="Password" maxlength="15" />
+                        <i class="icon-lock"></i>
+                    </span>
+                    @*@Html.ValidationMessageFor(model => model.Password)*@
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" value="Register" class="width-90  btn btn-sm  btn-success">
+                        <i class="icon-arrow-right icon-on-right"></i>
+                        Sign up
+                    </button>
+                </div>
+            </fieldset>
+        }
+        <br>
+        <p class="whiteFont"> Signing up means you agree to Grikwa's <a href="@Url.Action("Terms", "Home")" class="Terms-condition">Terms and Conditions</a></p>
+    </div>
+    <!--a> About Us </a>
+    <a> Contact Us </a-->
+    <div id="cover">
+    </div>
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
     </script>
-}
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/ace.min.js"></script>
+</body>
+</html> 

@@ -1,17 +1,17 @@
 ﻿
-@using (Html.BeginForm("Search", "Store", FormMethod.Post, new {@class = "form-search"}))
+@using (Html.BeginForm("Search", "NoticeBoard", FormMethod.Post, new { @class = "form-search" }))
 {
-    <div class="ro">
-        @*<div class="col-md-5">
-            <div class="input-group">*@
-                <input name="query" id="query" type="text" class="form-control search-query input-lg" placeholder="Looking for..." />
-                @*<span class="input-group-btn">*@
-                    <button type="submit" class="btn btn-purple">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group">
+                <input name="query" id="query" type="text" class="form-control search-query" placeholder="Looking for..." />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-purple btn-sm">
                         Search
-                        <i class="icon-search icon-on-right bigger-110" ></i>
+                        <i class="icon-search icon-on-right" ></i>
                     </button>
-                @*</span>*@
-            @*</div>
-        </div>*@
+                </span>
+            </div>
+        </div>
     </div>
 }

@@ -1,0 +1,191 @@
+﻿@model Grikwa.Models.EditPosterModel
+
+@{
+    ViewBag.Title = "Edit Notice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/Content/chosen.min.css" rel="stylesheet" />
+}
+
+<h2>Edit Notice</h2>
+
+@using (Html.BeginForm("EditNotice", "NoticeBoard", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "editNoticeForm" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Poster</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.PosterID)
+        @Html.HiddenFor(model => model.UserID)
+        <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.PosterID, sizeType = 1})" alt="product image">
+        <div class="form-group">
+            @Html.LabelFor(model => model.PosterImage, new { @class = "control-label col-md-2" })
+            <div class="col-md-6 ace-file-input ace-file-multiple">
+                <input id="PosterImage" name="PosterImage" type="file" class="form-control" />
+                @Html.ValidationMessageFor(model => model.PosterImage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control limited", maxlength = "25" })
+                @Html.ValidationMessageFor(model => model.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Categories, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <select name="Categories" id="Categories" class="chzn-select form-control" multiple="multiple">
+                    @foreach (var option in (ViewBag.Categories as MultiSelectList))
+                    {
+                        if (option.Selected)
+                        {
+                            <option value="@option.Value" selected="selected">@option.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Categories)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control limited", maxLength = "50" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PhoneNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.PhoneNumber, new { @class = "form-control limited", maxLength = "15" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WebsiteLink, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBoxFor(model => model.WebsiteLink, new { @class = "form-control limited", maxLength = "200" })
+                @Html.ValidationMessageFor(model => model.WebsiteLink)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => model.Description, 4, 50, new { @class = "form-control limited", maxlength = "300" })
+                @Html.ValidationMessageFor(model => model.Description)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.KeyWords, new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextAreaFor(model => model.KeyWords, new { @class = "form-control limited", maxlength = "250" })
+                @Html.ValidationMessageFor(model => model.KeyWords)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-6">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+    <script src="~/Scripts/prettify.js"></script>
+    <script src="~/Scripts/typeahead-bs2.min.js"></script>
+    <script src="~/Scripts/ace-elements.min.js"></script>
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script src="~/Scripts/bootstrap-tag.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var $form = $('#editNoticeForm');
+            var file_input = $form.find('input[type=file]');
+            var upload_in_progress = false;
+
+            file_input.ace_file_input({
+                style: 'well',
+                btn_choose: 'Drop an image here or click to choose',
+                btn_change: null,
+                no_icon: 'icon-picture',
+                droppable: true,
+                thumbnail: 'large',
+                before_remove: function () {
+                    if (upload_in_progress)
+                        return false;//if we are in the middle of uploading a file, don't allow resetting file input
+                    return true;
+                },
+                before_change: function (files, dropped) {
+                    var file = files[0];
+                    if (typeof file == "string") {//files is just a file name here (in browsers that don't support FileReader API)
+                        if (!(/\.(jpe?g|png|gif)$/i).test(file)) {
+                            alert('Please select an image file!');
+                            return false;
+                        }
+                    }
+                    else {
+                        var type = $.trim(file.type);
+                        if ((type.length > 0 && !(/^image\/(jpe?g|png|gif)$/i).test(type))
+                                || (type.length == 0 && !(/\.(jpe?g|png|gif)$/i).test(file.name))//for android's default browser!
+                            ) {
+                            alert('Please select an image file!');
+                            return false;
+                        }
+
+                        if (file.size > 5243000) {//~5Mb
+                            alert('File size should not exceed 5MB!');
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            });
+
+
+            $form.on('submit', function () {
+                //if (!file_input.data('ace_input_files')) return false;//no files selected
+
+                if ("FormData" in window) {
+                    //for modern browsers that support FormData and uploading files via ajax
+                    var fd = new FormData($form.get(0));
+
+                    //if file has been drag&dropped , append it to FormData
+                    if (file_input.data('ace_input_method') == 'drop') {
+                        var files = file_input.data('ace_input_files');
+                        if (files && files.length > 0) {
+                            fd.append(file_input.attr('name'), files[0]);
+                            //to upload multiple files, the 'name' attribute should be something like this: myfile[]
+                        }
+                    }
+                }
+            });
+
+            $form.on('reset', function () {
+                file_input.ace_file_input('reset_input');
+            });
+        });
+
+        $(".chzn-select").chosen(
+        {
+            display_selected_options: false,
+            placeholder_text: "Select some categories",
+            search_contains: true
+        });
+    </script>
+}

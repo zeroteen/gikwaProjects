@@ -75,53 +75,101 @@ namespace Grikwa.Models
     public class SellProductModel
     {
 
-        [Required]
         [FileSize(5243000)]
         [FileType("jpg,jpeg,png")]
-        [Display(Name="Product Image")]
+        [Display(Name="Product Image*")]
+        [Required(ErrorMessage = "The product image is required")]
         public virtual HttpPostedFileBase ProductImage { get; set; }
         
-        [Required]
         [MaxLength(50)]
-        [Display(Name="Product Name")]
+        [Display(Name="Product Name*")]
+        [Required(ErrorMessage = "The product name is required")]
         public virtual string Name { get; set; }
 
-        [Required]
         [MaxLength(100)]
-        [Display(Name = "Short Description")]
+        [Display(Name = "Short Description*")]
+        [Required(ErrorMessage = "The short description is required")]
         public virtual string ShortDescription { get; set; }
 
-        [Required]
         [MaxLength(250)]
-        [Display(Name = "Long Description")]
+        [Display(Name = "Long Description*")]
+        [Required(ErrorMessage = "The long description is required")]
         public virtual string LongDescription { get; set; }
 
-        [Required]
         [DataType(DataType.Currency)]
-        [Display(Name = "Price in Rands (R)")]
+        [Display(Name = "Price in Rands (R)*")]
+        [Required(ErrorMessage = "The Price is required")]
         public virtual decimal Price { get; set; }
 
-        [Required]
-        [Display(Name = "Email Notification")]
-        public virtual bool EmailNotification { get; set; }
-
-        [Required]
-        [Display(Name = "Send Sale Request Email Notification After?")]
-        public virtual byte NumberOfSaleRequests { get; set; }
-
-        [Required]
         [MaxLength(250)]
-        [Display(Name="Keywords")]
+        [Display(Name="Keywords*")]
+        [Required(ErrorMessage = "At least one keyword is required")]
         public virtual string KeyWords { get; set; }
 
         [Required]
-        [Display(Name = "Terms and Conditions")]
+        [Display(Name = "Terms and Conditions*")]
         public virtual bool AcceptTerms { get; set; }
 
+        [MaxLength(50)]
+        [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
+        public virtual string Email { get; set; }
+
+        [MaxLength(15)]
+        [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
+        public virtual string PhoneNumber { get; set; }
+
         [Required(ErrorMessage = "Please select at least one category")]
-        [Display(Name = "Categories")]
+        [Display(Name = "Categories*")]
         public virtual ICollection<int> Categories { get; set; }
 
+    }
+
+    public class NotifyPosterModel
+    {
+        [FileSize(5243000)]
+        [FileType("jpg,jpeg,png")]
+        [Display(Name = "Poster Image*")]
+        [Required(ErrorMessage = "The poster image is required")]
+        public virtual HttpPostedFileBase PosterImage { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name = "Poster Name*")]
+        [Required(ErrorMessage = "The poster name is required")]
+        public virtual string Name { get; set; }
+
+        [MaxLength(300)]
+        [Display(Name = "Description*")]
+        [Required(ErrorMessage = "The description is required")]
+        public virtual string Description { get; set; }
+
+        [MaxLength(250)]
+        [Display(Name = "Keywords*")]
+        [Required(ErrorMessage = "At least one keyword is required")]
+        public virtual string KeyWords { get; set; }
+
+        [Required]
+        [Display(Name = "Terms and Conditions*")]
+        public virtual bool AcceptTerms { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Website link (start with http:// or https://)")]
+        public string WebsiteLink { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
+        public virtual string Email { get; set; }
+
+        [MaxLength(15)]
+        [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
+        public virtual string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Please select at least one category")]
+        [Display(Name = "Categories*")]
+        public virtual ICollection<int> Categories { get; set; }
     }
 
     public class EditProductModel
@@ -138,41 +186,90 @@ namespace Grikwa.Models
         [Display(Name = "Replace Product Image With")]
         public virtual HttpPostedFileBase ProductImage { get; set; }
 
-        [Required]
         [MaxLength(50)]
-        [Display(Name = "Product Name")]
+        [Display(Name = "Product Name*")]
+        [Required(ErrorMessage = "The product name is required")]
         public virtual string Name { get; set; }
 
-        [Required]
         [MaxLength(100)]
-        [Display(Name = "Short Description")]
+        [Display(Name = "Short Description*")]
+        [Required(ErrorMessage = "The short description is required")]
         public virtual string ShortDescription { get; set; }
 
-        [Required]
         [MaxLength(250)]
-        [Display(Name = "Long Description")]
+        [Display(Name = "Long Description*")]
+        [Required(ErrorMessage = "The long description is required")]
         public virtual string LongDescription { get; set; }
 
-        [Required]
         [DataType(DataType.Currency)]
-        [Display(Name = "Price in Rands")]
+        [Display(Name = "Price in Rands (R)*")]
+        [Required(ErrorMessage = "The price is required")]
         public virtual decimal Price { get; set; }
 
-        [Required]
-        [Display(Name = "Email Notification")]
-        public virtual bool EmailNotification { get; set; }
-
-        [Required]
-        [Display(Name = "Send Sale Request Email Notification After?")]
-        public virtual byte NumberOfSaleRequests { get; set; }
-
-        [Required]
         [MaxLength(250)]
-        [Display(Name = "Keywords")]
+        [Display(Name = "Keywords*")]
+        [Required(ErrorMessage = "At least one keyword is required")]
         public virtual string KeyWords { get; set; }
 
+        [MaxLength(50)]
+        [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
+        public virtual string Email { get; set; }
+
+        [MaxLength(15)]
+        [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
+        public virtual string PhoneNumber { get; set; }
+
         [Required(ErrorMessage="Please select at least one category")]
-        [Display(Name = "Categories")]
+        [Display(Name = "Categories*")]
+        public virtual ICollection<int> Categories { get; set; }
+    }
+
+    public class EditPosterModel
+    {
+        [Required]
+        public virtual int PosterID { get; set; }
+
+        [Required]
+        public virtual string UserID { get; set; }
+
+        [FileSize(5243000)]
+        [FileType("jpg,jpeg,png")]
+        [Display(Name = "Replace Poster Image With")]
+        public virtual HttpPostedFileBase PosterImage { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name = "Poster Name*")]
+        [Required(ErrorMessage = "The poster name is required")]
+        public virtual string Name { get; set; }
+
+        [MaxLength(300)]
+        [Display(Name = "Description*")]
+        [Required(ErrorMessage = "The long description is required")]
+        public virtual string Description { get; set; }
+
+        [MaxLength(250)]
+        [Display(Name = "Keywords*")]
+        [Required(ErrorMessage = "At least one keyword is required")]
+        public virtual string KeyWords { get; set; }
+
+        [MaxLength(200)]
+        [Display(Name = "Website link (start with http:// or https://)")]
+        public string WebsiteLink { get; set; }
+
+        [MaxLength(50)]
+        [Display(Name = "Contact Email")]
+        [DataType(DataType.EmailAddress)]
+        public virtual string Email { get; set; }
+
+        [MaxLength(15)]
+        [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
+        public virtual string PhoneNumber { get; set; }
+
+        [Required(ErrorMessage = "Please select at least one category")]
+        [Display(Name = "Categories*")]
         public virtual ICollection<int> Categories { get; set; }
     }
 
@@ -194,9 +291,17 @@ namespace Grikwa.Models
 
         public decimal Price { get; set; }
 
+        public virtual string Email { get; set; }
+
+        public virtual string PhoneNumber { get; set; }
+
+        public virtual string WebsiteLink { get; set; }
+
         public DateTime DatePosted { get; set; }
 
         public int Offers { get; set; }
+
+        public ProductIntention ProductIntention { get; set; }
 
         public ProductStatus ProductStatus { get; set; }
     }
@@ -209,6 +314,14 @@ namespace Grikwa.Models
         public string Qualification { get; set; }
         public bool HasPicture { get; set; }
         public IEnumerable<CatalogProductModel> Products { get; set; }
+    }
+
+    public class GetModel
+    {
+        [MaxLength(500)]
+        public virtual string RequestMessage { get; set; }
+
+        public virtual int ProductID { get; set; }
     }
 
     public class PendingUser
@@ -267,6 +380,7 @@ namespace Grikwa.Models
         public static int CurrentStartPage { get; set; }
         public static int CurrentEndPage { get; set; }
         public const int PageSize = 12;
+        public const int PosterPageSize = 6;
         public const int PaginationSize = 10;
 
         public static int TotalPages()

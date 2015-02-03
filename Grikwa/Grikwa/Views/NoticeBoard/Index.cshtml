@@ -6,12 +6,15 @@
 }
 
 <h2>@Session["currentInstitution"]</h2>
+<div>
+    @Html.Partial("_SearchPartial")
+</div>
+<h3>@Html.ActionLink("Post An Ad", "PostAdvert", "NoticeBoard", new { @class = "btn btn-purple btn-post btn-post-ad" })</h3>
 
-<h3>@Html.ActionLink("Click Here To Sell Something", "Sell", "Store", new { @class = "btn btn-lg btn-purple btn-block" })</h3>
 
 <div class="row">
 
-    <div class="col-sm-3 btn-purple">
+    <div class="col-sm-3">
         @Html.Partial("_CategoryPartial", (Session["categories"] as IEnumerable<Grikwa.Models.Category>))
     </div>
 
@@ -36,3 +39,13 @@
         @Html.Partial("_PaginationPartial")
     </div>
 </div>
+@section scripts{
+    <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
+    <script type="text/javascript">
+        $(".price").each(function (index) {
+            var price = Number($(this).html());
+            $(this).autoNumeric('init');
+            $(this).autoNumeric("set", price);
+        });
+    </script>
+}

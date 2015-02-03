@@ -87,7 +87,7 @@ namespace Grikwa.Controllers
 
                         Session.Add("currentInstitution", institution.abbreviation);
 
-                        return RedirectToAction("Index", "Store");
+                        return RedirectToAction("Index", "NoticeBoard");
                     }
                     return RedirectToLocal(returnUrl);
                 }
@@ -217,7 +217,7 @@ namespace Grikwa.Controllers
 
             if (token == null || email == null)
             {
-                return RedirectToAction("Index", "Store");
+                return RedirectToAction("Index", "NoticeBoard");
             }
             else
             {
@@ -325,15 +325,7 @@ namespace Grikwa.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-
-            RegisterViewModel RegisterView = new RegisterViewModel();
-            RegisterView.Institutions = GetInstitutions();
-            RegisterView.Qualifications = new List<Qualification>() { };
-            RegisterView.Titles = GetTitles();
-            RegisterView.InstitutionSelectList = new SelectList(RegisterView.Institutions, "InstitutionID", "Name");
-            RegisterView.TitleSelectList = new SelectList(RegisterView.Titles, "TitleID", "TitleID");
-
-            return View(RegisterView);
+            return RedirectToAction("Index", "Home");
         }
 
         //
@@ -346,118 +338,97 @@ namespace Grikwa.Controllers
 
             if (ModelState.IsValid)
             {
+                #region validate email
+                Institution institution = db.Institutions.Find(model.Institution);
+                Resident resident = db.Residents.Find(1);
+                Faculty faculty = db.Faculties.Find(1);
+                Qualification qualification = db.Qualifications.Find(1);
 
-                if (model.AcceptTerms)
+                bool emailValid = false;
+                string username = "";
+                string extension = "";
+
+                try
                 {
+                    username = model.Email.Substring(0, model.Email.IndexOf('@')).ToLower();
+                    extension = model.Email.Substring(model.Email.IndexOf('@') + 1).ToLower();
 
-                    #region validate email
-                    Resident resident = db.Residents.Find(1);
-                    Institution institution = db.Institutions.Find(model.InstitutionID);
-                    Qualification qualification = db.Qualifications.Find(model.QualificationID);
-                    Faculty faculty = (from f in db.Institution_Faculty_Qualifications
-                                       where f.Institution_Faculty.InstitutionID == model.InstitutionID && f.QualificationID == model.QualificationID
-                                       select f.Institution_Faculty.Faculty).First();
-
-                    bool emailValid = false;
-                    string username = "";
-                    string extension = "";
-
-                    try
+                    // validate the email extension the student entered
+                    if (institution.Extension1.Equals(extension) || institution.Extension2.Equals(extension)
+                        || institution.Extension3.Equals(extension) || institution.Extension4.Equals(extension)
+                        || institution.Extension5.Equals(extension))
                     {
-                        username = model.Email.Substring(0, model.Email.IndexOf('@')).ToLower();
-                        extension = model.Email.Substring(model.Email.IndexOf('@') + 1).ToLower();
-
-                        // validate the email extension the student entered
-                        if (institution.Extension1.Equals(extension) || institution.Extension2.Equals(extension)
-                            || institution.Extension3.Equals(extension) || institution.Extension4.Equals(extension)
-                            || institution.Extension5.Equals(extension))
-                        {
-                            emailValid = true;
-                        }
-                        else
-                        {
-                            emailValid = false;
-                            ModelState.AddModelError("Email", "The student email address entered is not valid");
-                        }
+                        emailValid = true;
                     }
-                    catch (Exception e)
+                    else
                     {
                         emailValid = false;
-                        Trace.WriteLine(e.Message, "Invalid Email During Registration: " + model.Email);
                         ModelState.AddModelError("Email", "The student email address entered is not valid");
                     }
-                    #endregion
+                }
+                catch (Exception e)
+                {
+                    emailValid = false;
+                    Trace.WriteLine(e.Message, "Invalid Email During Registration: " + model.Email);
+                    ModelState.AddModelError("Email", "The student email address entered is not valid");
+                }
+                #endregion
 
-                    #region create user and send verification email
-                    if (emailValid)
+                #region create user and send verification email
+                if (emailValid)
+                {
+
+                    // set text info to be able to capitalize the product name
+                    TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
+
+                    var user = new ApplicationUser()
+                    {
+                        UserName = username,
+                        Email = model.Email,
+                        Institution = institution,
+                        Faculty = faculty,
+                        Qualification = qualification,
+                        Resident = resident,
+                        Verified = false,
+                        RegistrationDate = DateTime.Now,
+                        LastSeen = DateTime.Now
+                    };
+
+                    var result = await UserManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
                     {
 
-                        // set text info to be able to capitalize the product name
-                        TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
+                        // get user info
+                        var unverifiedUser = UserManager.FindByName(user.UserName);
+                        var userFullName = user.TitleID + " " + user.Intials + " " + user.Surname;
 
-                        var user = new ApplicationUser()
+                        // send verification email
+                        bool success = NotificationsHelper.SendEmailWithVerificationToken(user.Email, userFullName, user.UserName, ControllerContext);
+                        if (!success)
                         {
-                            UserName = username,
-                            Surname = ti.ToTitleCase(model.Surname),
-                            Intials = ti.ToUpper(model.Initials),
-                            Email = model.Email,
-                            Institution = institution,
-                            TitleID = model.Title.TitleID,
-                            Qualification = qualification,
-                            Faculty = faculty,
-                            Resident = resident,
-                            Verified = false,
-                            AcceptedTerms = model.AcceptTerms,
-                            Picture = null,
-                            RegistrationDate = DateTime.Now,
-                            LastSeen = DateTime.Now
-                        };
-
-                        var result = await UserManager.CreateAsync(user, model.Password);
-
-                        if (result.Succeeded)
-                        {
-
-                            // get user info
-                            var unverifiedUser = UserManager.FindByName(user.UserName);
-                            var userFullName = user.TitleID + " " + user.Intials + " " + user.Surname;
-
-                            // send verification email
-                            bool success = NotificationsHelper.SendEmailWithVerificationToken(user.Email, userFullName, user.UserName, ControllerContext);
-                            if (!success)
-                            {
-                                ModelState.AddModelError("", "An error occured while sending the verifiaction email. We will try to send the verification again soon.");
-                            }
-                            else
-                            {
-                                Session.Add("currentInstitution", institution.abbreviation);
-                                Session.Add("verifyName", userFullName);
-                                return RedirectToAction("Verification", "Account");
-                            }
-
+                            ModelState.AddModelError("", "An error occured while sending the verifiaction email. We will try to send the verification again soon.");
                         }
                         else
                         {
-                            AddErrors(result);
+                            Session.Add("currentInstitution", institution.abbreviation);
+                            Session.Add("verifyName", userFullName);
+                            return RedirectToAction("Verification", "Account");
                         }
+
                     }
-                    #endregion
+                    else
+                    {
+                        AddErrors(result);
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError("AcceptTerms", "Please accept the terms and conditions.");
-                }
+                #endregion
             }
 
             // recreate form data
             model.Institutions = GetInstitutions();
-            model.InstitutionSelectList = new SelectList(model.Institutions, "InstitutionID", "Name", model.InstitutionID);
-            model.Titles = GetTitles();
-            model.TitleSelectList = new SelectList(model.Titles, "TitleID", "TitleID", model.Title.TitleID);
-            model.Qualifications = GetQualifications(model.InstitutionID);
-
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View("~/Views/Home/Index.cshtml", model);
         }
 
         [AllowAnonymous]
@@ -477,7 +448,7 @@ namespace Grikwa.Controllers
         {
             if (token == null || email == null)
             {
-                return RedirectToAction("Index", "Store");
+                return RedirectToAction("Index", "NoticeBoard");
             }
             else if (AccountHelper.IsTokenValid(token, 120, email))
             {
@@ -516,14 +487,14 @@ namespace Grikwa.Controllers
                                                    select c).ToList());
                     }
 
-                    // go to institution store
-                    return RedirectToAction("Index", "Store");
+                    // go to institution NoticeBoard
+                    return RedirectToAction("Index", "NoticeBoard");
                 }
             }
 
             // something went wrong
             Trace.WriteLine("*** WARNING: Verification of user with email: " + email + " failed.", "Verification Failed");
-            return RedirectToAction("Index", "Store");
+            return RedirectToAction("Index", "NoticeBoard");
         }
 
 
@@ -548,7 +519,7 @@ namespace Grikwa.Controllers
                 HasPicture = user.Picture == null ? false : true
             };
 
-            editUser.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", user.Title.TitleID);
+            editUser.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", (user.Title == null ? "0" : user.Title.TitleID));
             return View(editUser);
         }
 
@@ -633,7 +604,7 @@ namespace Grikwa.Controllers
                 }
             }
 
-            model.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", model.Title.TitleID);
+            model.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", (model.Title == null ? "0" : model.Title.TitleID));
 
             return View(model); // something went wrong, redisplay the edit form
         }
@@ -645,7 +616,7 @@ namespace Grikwa.Controllers
 
         #endregion
 
-        #endregion        
+        #endregion
 
         #region Admin Stuff
         //[Authorize(Roles="Administrator")]

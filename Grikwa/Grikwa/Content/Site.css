@@ -2,15 +2,8 @@
     padding-bottom: 20px;
 }
 
-h1{
+h1, h2, h3{
     font-family:Abel;
-}
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
 }
 
 /* styles for validation helpers */
@@ -68,7 +61,6 @@ input[type="checkbox"].input-validation-error {
     text-align: center;
     color: black;
     bottom: 0;
-    width: 100%;
 }
 
 .university-icon{
@@ -90,3 +82,36 @@ input[type="checkbox"].input-validation-error {
     .account-menu > a:hover{
         color:#68217a;
     }
+
+.form-checkbox{
+    width:35px;
+}
+
+.btn-post-ad{
+    width:23%;
+}
+
+.advert-thumbnail{
+    padding:0px !important;
+    border-radius:0px !important;
+    max-height: 100% !important;
+    height: auto;
+}
+
+.advert-body{
+    padding:4px;
+}
+
+.details-box{
+    left:30%;
+}
+
+.btn-purple{
+    background-color:#438eb9 !important;
+    border-color: #438eb9 !important;
+}
+
+.header-color-purple{
+    background-color:#438eb9 !important;
+    border-color: #438eb9 !important;
+}

@@ -24,13 +24,7 @@ namespace Grikwa
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/font-awesome.min.css",
-                      "~/Content/ace-fonts.css",
-                      "~/Content/ace.css",
-                      "~/Content/ace-rtl.min.css",
-                      "~/Content/ace-skins.min.css",
-                      "~/Content/site.css"));
+                      "~/Content/bootstrap.css"));
         }
     }
 }

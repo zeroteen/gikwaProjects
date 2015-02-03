@@ -174,7 +174,7 @@ function addMessageToChatWindow(message) {
                                         + "</span>"
                                     + "</div>"
                                     + "<div class='name'>"
-                                        + "<a href='/Store/BusinessCard/" + message.SenderID + "' >"
+                                        + "<a href='/NoticeBoard/BusinessCard/" + message.SenderID + "' >"
                                         + name
                                         + "</a>"
                                     + "</div>"
@@ -202,12 +202,12 @@ function clearChatRoomForChange(chatRoomName) {
         var productList = "Products: "
         for (var product = 0; product < chatRoom.Products.length; product++) {
             if (product == 0) {
-                productList += "<a href='/Store/Details?id="
+                productList += "<a href='/NoticeBoard/Details?id="
                                 + chatRoom.Products[product].ProductID + "'>"
                                 + chatRoom.Products[product].Name + "</a>";
             }
             else {
-                productList += ", <a href='/Store/Details?id="
+                productList += ", <a href='/NoticeBoard/Details?id="
                                 + chatRoom.Products[product].ProductID + "'>"
                                 + chatRoom.Products[product].Name + "</a>";
             }
@@ -457,6 +457,22 @@ $(function () {
             else {
                 $("#requestError").html("Please enter a sale request messgae")
                 return false;
+            }
+        });
+
+        $("#chat-message").click(function () {
+            var productName = $("#saleProductName").attr("value");
+            var productID = $("#saleProductID").attr("value");
+            var supplierID = $("#saleProductOwnerID").attr("value");
+            var requestMessage = "(Regarding product: "+ productName + ") ";
+
+            if (requestMessage != "") {
+                if (supplierID != myUserID) { // check if room already exist also
+                    chat.server.createChatRoomForLiveChat(requestMessage, myUserID, myUserName, supplierID, productID).done(function () {
+
+                                    });
+                    $("#chat-message-form").submit();
+                }
             }
         });
 
