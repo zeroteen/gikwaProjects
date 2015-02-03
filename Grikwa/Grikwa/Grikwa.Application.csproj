@@ -316,6 +316,8 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Backgrounds\blur2.jpg" />
+    <Content Include="Images\Backgrounds\Blur_image.jpg" />
     <Content Include="Images\facebook.png" />
     <Content Include="Images\faviconfinak.ico" />
     <Content Include="Images\favicongri.ico" />
@@ -692,6 +694,7 @@
     <Content Include="Views\InstitutionCompanyManager\Details.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Edit.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Index.cshtml" />
+    <Content Include="Views\Home\NewIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
