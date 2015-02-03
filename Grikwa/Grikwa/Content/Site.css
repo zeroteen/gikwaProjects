@@ -106,3 +106,13 @@ input[type="checkbox"].input-validation-error {
 .details-box{
     left:30%;
 }
+
+.btn-purple{
+    background-color:#438eb9 !important;
+    border-color: #438eb9 !important;
+}
+
+.header-color-purple{
+    background-color:#438eb9 !important;
+    border-color: #438eb9 !important;
+}

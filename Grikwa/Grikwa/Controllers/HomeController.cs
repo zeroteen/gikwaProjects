@@ -39,8 +39,8 @@ namespace Grikwa.Controllers
             {
                 // get the product
                 var image = from i in db.Institutions
-                              where i.abbreviation.Equals(code)
-                              select i.Image;
+                            where i.abbreviation.Equals(code)
+                            select i.Image;
 
                 var count = await image.CountAsync();
                 if (count < 1)
@@ -76,7 +76,7 @@ namespace Grikwa.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Contact([Bind(Include="From,Name,Message")] ContactUsModel model)
+        public ActionResult Contact([Bind(Include = "From,Name,Message")] ContactUsModel model)
         {
 
             if (ModelState.IsValid)
@@ -91,7 +91,7 @@ namespace Grikwa.Controllers
 
         private void SendContactUsMessage(string From, string Name, string Message)
         {
-          
+
             try
             {
                 MailMessage mail = new MailMessage();
@@ -100,12 +100,12 @@ namespace Grikwa.Controllers
                 string subject = "Grikwa Contact Us";
                 string bodyHTML = "<h1><strong>Dear Grikwa Stuff</strong>.</h1>"
                                   + "<h3>Contact Us Messgae</h3>"
-                                  + "<p><strong>Name</strong>: "+Name+"</p>"
-                                  + "<p><strong>Email Address</strong>: "+From+"</p>"
-                                  + "<p><strong>Message</strong>: "+Message+"</p>"
+                                  + "<p><strong>Name</strong>: " + Name + "</p>"
+                                  + "<p><strong>Email Address</strong>: " + From + "</p>"
+                                  + "<p><strong>Message</strong>: " + Message + "</p>"
                                   + " <br/> <h5>Grikwa Team</h5>";
                 string bodyText = "Dear Grikwa Stuuf. "
-                                  + "Contact Us Message. Name:" + Name + ". Email Address: " + From+ ". Message: " + Message
+                                  + "Contact Us Message. Name:" + Name + ". Email Address: " + From + ". Message: " + Message
                                   + " .Grikwa Team";
 
                 // To
@@ -127,7 +127,7 @@ namespace Grikwa.Controllers
             }
             catch (SmtpFailedRecipientException smtpFailedRecipientException)
             {
-                Trace.WriteLine(smtpFailedRecipientException.Message, "Contact Us Email From : " + From +" failed.");
+                Trace.WriteLine(smtpFailedRecipientException.Message, "Contact Us Email From : " + From + " failed.");
             }
             catch (SmtpException smtpException)
             {
@@ -149,7 +149,7 @@ namespace Grikwa.Controllers
             return View();
         }
 
-        public ActionResult PopulateDatabase()
+        public ActionResult PopulateDatabase(int start, int end, string inst, string pass)
         {
 
             // fill institutions
@@ -215,27 +215,33 @@ namespace Grikwa.Controllers
             //db.Categories.Add(new Category() { Name = "Other", IconName = "icon-star", Code = "other" });
 
             //db.SaveChangesAsync();
+            Institution institution = db.Institutions.First(x => x.abbreviation == inst);
+            Resident resident = db.Residents.Find(1);
+            Faculty faculty = db.Faculties.Find(1);
+            Qualification qualification = db.Qualifications.Find(1);
 
-            //var user = new ApplicationUser()
-            //{
-            //    UserName = "mplmas009",
-            //    Email = "mplmas009@myuct.ac.za",
-            //    Faculty = new Faculty() { Name = "Humanity" },
-            //    Intials = "MB",
-            //    Surname = "Mapaila",
-            //    Title = new Title() { TitleID = "Sir", Description = "A Sir" },
-            //    Qualification = new Qualification() { Code = "BA", FullName = "Bachelor in Arts" },
-            //    Institution = new Institution() { abbreviation = "Stellies", Name = "Stellenbosch University", Extension1 = "sun.ac.za" },
-            //    Resident = new Resident() { Name = "Woolsack Resident" },
-            //    Verified = true,
-            //    LastSeen = DateTime.Now,
-            //    RegistrationDate = DateTime.Now
-            //};
+            for (var i = start; i<=end; i++){
 
-            //UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+                var user = new ApplicationUser()
+                {
+                    UserName = "grikwa"+inst+""+i,
+                    Email = "grikwa@gmail.com",
+                    Faculty = faculty,
+                    Intials = "G",
+                    Surname = "Grikwa"+i,
+                    Qualification = qualification,
+                    Institution = institution,
+                    Resident = resident,
+                    Verified = true,
+                    LastSeen = DateTime.Now,
+                    RegistrationDate = DateTime.Now
+                };
+
+                UserManager<ApplicationUser> UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
 
 
-            //UserManager.Create(user, "springs35");
+                UserManager.Create(user, pass+""+i);
+            }
             ////UserManager.CreateIdentity(user, "admin");
 
             return View();

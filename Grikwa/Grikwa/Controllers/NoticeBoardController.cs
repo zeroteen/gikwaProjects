@@ -644,6 +644,23 @@ namespace Grikwa.Controllers
             return View(product);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Get([Bind(Include = "ProductID,RequestMessage")] GetModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var product = db.Products.Find(model.ProductID);
+                var customer = db.Users.First(x => x.UserName == User.Identity.Name);
+                var supplierEmail = (string.IsNullOrEmpty(product.ContactEmail) || string.IsNullOrWhiteSpace(product.ContactEmail)) ? product.User.Email : product.ContactEmail;
+                NotificationsHelper.SendSaleRequestEmail(supplierEmail, customer.Email, product.Name, model.RequestMessage);
+                return RedirectToAction("SaleRequestSent", "NoticeBoard");
+            }
+
+            return RedirectToAction("Index", "NoticeBoard");
+        }
+
         public ActionResult SaleRequestSent()
         {
             return View();

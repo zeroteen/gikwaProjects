@@ -42,7 +42,7 @@
                                 @if (!string.IsNullOrEmpty(Model.Email))
                                 {
                                     <li>
-                                        <strong>Contact Email:</strong><a href="@Url.Action("Get", "NoticeBoard", new { @id = Model.ProductID })"> @Model.Email</a>
+                                        <strong>Contact Email:</strong> @Model.Email
                                     </li>
                                 }
                                 @*<li>
@@ -83,13 +83,13 @@
                         }
                         else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
                         {
-                            <a id="chat-message" href="#" class="btn btn-yellow btn-block btn-inverse">
+                            <a id="chat-message" href="@Url.Action("Get", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-yellow btn-block btn-inverse">
                                 <i class="icon-comments bigger-110"></i>
                                 <span>Message</span>
-                                <input type="hidden" value="@Model.Name" />
+                                @*<input type="hidden" value="@Model.Name" />
                                 <input id="saleProductID" type="hidden" value="@Model.ProductID" />
                                 <input id="saleProductName" type="hidden" value="@Model.Name">
-                                <input id="saleProductOwnerID" type="hidden" value="@Model.UserID">
+                                <input id="saleProductOwnerID" type="hidden" value="@Model.UserID">*@
                             </a>
                         }
                     </div>
@@ -126,7 +126,7 @@
                                 @if (!string.IsNullOrEmpty(Model.Email))
                                 {
                                     <li>
-                                        <strong>Contact Email:</strong><a href="@Url.Action("Get", "NoticeBoard", new { @id = Model.ProductID })"> @Model.Email</a>
+                                        <strong>Contact Email:</strong> @Model.Email
                                     </li>
                                 }
                                 @if (!string.IsNullOrEmpty(Model.WebsiteLink))
@@ -163,13 +163,13 @@
                         }
                         else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
                         {
-                            <a id="chat-message" href="#" class="btn btn-yellow btn-block btn-inverse">
+                            <a id="chat-message" href="@Url.Action("Get", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-yellow btn-block btn-inverse">
                                 <i class="icon-comments bigger-110"></i>
                                 <span>Message</span>
-                                <input type="hidden" value="@Model.Name" />
-                                <input id="saleProductID" type="hidden" value="@Model.ProductID" />
-                                <input id="saleProductName" type="hidden" value="@Model.Name">
-                                <input id="saleProductOwnerID" type="hidden" value="@Model.UserID">
+                                @*<input type="hidden" value="@Model.Name" />
+                                    <input id="saleProductID" type="hidden" value="@Model.ProductID" />
+                                    <input id="saleProductName" type="hidden" value="@Model.Name">
+                                    <input id="saleProductOwnerID" type="hidden" value="@Model.UserID">*@
                             </a>
                         }
                     </div>

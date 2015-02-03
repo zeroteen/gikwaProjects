@@ -31,7 +31,7 @@
             /*margin: 0 auto;*/
             position: fixed;
             z-index: 10;
-            background: rgba(0,0,255,0.3);
+            background: rgba(0,0,25,0.9);
             border: 5px solid #cccccc;
             border: 3px solid rgba(0,0,255,0.1);
             border-radius: 10px;
@@ -80,7 +80,7 @@
 <body>
     <div id="loginScreen" class="divider widget-main">
         <img id="logo" src="~/Images/Logos/grikwa.png" alt="logo">
-        <h3 class="whiteFont purpose"> Your Community Notice Board </h3>
+        <h3 class="whiteFont purpose"> Your Institution Notice Board </h3>
         <a class="width-90 btn btn-sm btn-primary" href="@Url.Action("Login","Account")">
             <i class="icon-lock icon-on-right"></i>
             Log in
@@ -93,8 +93,8 @@
             @Html.ValidationSummary()
             <fieldset>
                 <div class="form-group">
-                    <select id="Institution" name="Institution" class=" width-90 valid form-group" id="community" name="community">
-                        <option value="">Select community</option>
+                    <select id="Institution" name="Institution" class=" width-90 valid form-group">
+                        <option value="">Select Institution</option>
                         @foreach (var community in Model.Institutions)
                         {
                             if (Model.Institution == community.InstitutionID)

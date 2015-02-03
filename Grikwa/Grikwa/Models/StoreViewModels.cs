@@ -316,6 +316,14 @@ namespace Grikwa.Models
         public IEnumerable<CatalogProductModel> Products { get; set; }
     }
 
+    public class GetModel
+    {
+        [MaxLength(500)]
+        public virtual string RequestMessage { get; set; }
+
+        public virtual int ProductID { get; set; }
+    }
+
     public class PendingUser
     {
         public string UserID { get; set; }

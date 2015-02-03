@@ -7,18 +7,19 @@
 
 <h2>Send Email</h2>
 
-@using (Html.BeginForm("SaleRequestSent", "NoticeBoard", FormMethod.Get, new {@id = "saleRequestForm" }))
+@using (Html.BeginForm("Get", "NoticeBoard", FormMethod.Post, new {@id = "getForm" }))
 {
+    @Html.AntiForgeryToken()
     <div>
         <label for="form-field-9">
             Email message to @Model.ContactEmail.
-            Regarding product: @Html.ActionLink(Model.Name, "Details", "Store", new { @id = Model.ProductID }, null) .
+            Regarding product: @Html.ActionLink(Model.Name, "Details", "NoticeBoard", new { @id = Model.ProductID }, null) .
             <font color="red">
                 *
             </font>
         </label>
         <div>
-            <textarea cols="400" rows="4" class="form-control limited" id="saleRequestMessage" maxlength="150"></textarea>
+            <textarea cols="400" rows="4" class="form-control limited" name="RequestMessage" id="RequestMessage" maxlength="500"></textarea>
         </div>
     </div>
 
@@ -29,14 +30,9 @@
         By clicking "Send" you agree to the <a href="@Url.Action("Terms","Home")">Terms and Conditions</a>.
     </p>
     <p>
-        <button id="sendSaleRequest" class="btn btn-info" type="button" value="submit">
-            <i class="icon-ok bigger-110"></i>
-            Send
-        </button>
+        <input class="btn btn-info" type="submit" value="Send">
     </p>
-    <input id="saleProductID" type="hidden" value="@Model.ProductID" />
-    <input id="saleProductName" type="hidden" value="@Model.Name">
-    <input id="saleProductOwnerID" type="hidden" value="@Model.User.Id">
+    <input name="ProductID" id="ProductID" type="hidden" value="@Model.ProductID" />
 }
 
 

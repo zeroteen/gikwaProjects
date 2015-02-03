@@ -23,19 +23,19 @@
             </a>
         </li>
         <li>
-            <a href="@Url.Action("BusinessCard", "NoticeBoard", new { @id = @Session["userID"].ToString() })" title="My Store">
+            <a href="@Url.Action("BusinessCard", "NoticeBoard", new { @id = @Session["userID"].ToString() })" title="My Ads">
                 <i class="icon-star"></i>
-                My Store
+                My Adverts
             </a>
         </li>
-        <li>
+        @*<li>
             <a href="@Url.Action("Chat", "NoticeBoard")" title="Transactions">
                 <i id="messageBell" class="icon-envelope icon-animated-vertical"></i>
                 <span id="messageCount" class="badge badge-important">0</span>
                 My Transactions
             </a>
             <input type="hidden" id="uid" value="@Session["userID"].ToString()" />
-        </li>
+        </li>*@
         <li>
             <a href="@Url.Action("Manage","Account")" title="Manage">
                 <i class="icon-user"></i>

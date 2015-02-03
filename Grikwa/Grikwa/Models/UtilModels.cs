@@ -591,6 +591,59 @@ namespace Grikwa.Models
             return success;
         }
 
+        public static void SendSaleRequestEmail(string supplierEmail, string customerEmail, string productName, string customerMessage)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+
+                string from = customerEmail;
+                string subject = "Grikwa - Reply To Advert";
+                string bodyHTML = "<h1><strong>Dear Grikwa User</strong>.</h1>"
+                                  + "<h4>You have a reply on Grikwa regarding product: " + productName + ".</h4>"
+                                  + "<p>Below is the message from the customer:</p>"
+                                  + "<p>" + customerMessage + "</p>"
+                                  + "<p>You can reply to this email to start communicating with the customer.</p>"
+                                  + "<p>Visit <a href='http://www.grikwa.co.za'>Grikwa Notice Board</a> to see other adverts.</p>"
+                                  + " <br/> <h5>Grikwa Team</h5>";
+                string bodyText = "Dear Grikwa User. "
+                                  + "You have a sale request on Grikwa regarding product: " + productName + ". "
+                                  + "The following is the message from the customer:"
+                                  + customerMessage + ". You can reply to this email to start communicating with the customer."
+                                  + "Visit http://www.grikwa.co.za to see other adverts."
+                                  + "Grikwa Team";
+
+                // To
+                mail.To.Add(supplierEmail);
+
+                // From
+                mail.From = new MailAddress(from);
+
+                // Subject and multipart/alternative Body
+                mail.Subject = subject;
+                mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(bodyText, null, MediaTypeNames.Text.Plain));
+                mail.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(bodyHTML, null, MediaTypeNames.Text.Html));
+
+                SmtpClient smtp = new SmtpClient("smtp.sendgrid.net", Convert.ToInt32(587));
+                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("azure_a34c075f62bba74426624b9a65795a59@azure.com", "pqx33rsp"); // Enter senders User name and password
+                smtp.Credentials = credentials;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+            }
+            catch (SmtpFailedRecipientException smtpFailedRecipientException)
+            {
+                Trace.WriteLine(smtpFailedRecipientException.Message, "Sale Request Email To: " + supplierEmail);
+            }
+            catch (SmtpException smtpException)
+            {
+                Trace.WriteLine(smtpException.Message, "Sale Request Email To: " + supplierEmail);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message, "Sale Request Email To: " + supplierEmail);
+            }
+        }
+
         /// <summary>
         /// Retrieves the domain of the web application so the verification urls can be constructed.
         /// </summary>

@@ -519,7 +519,7 @@ namespace Grikwa.Controllers
                 HasPicture = user.Picture == null ? false : true
             };
 
-            editUser.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", user.Title.TitleID);
+            editUser.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", (user.Title == null ? "0" : user.Title.TitleID));
             return View(editUser);
         }
 
@@ -604,7 +604,7 @@ namespace Grikwa.Controllers
                 }
             }
 
-            model.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", model.Title.TitleID);
+            model.TitleSelectList = new SelectList(GetTitles(), "TitleID", "TitleID", (model.Title == null ? "0" : model.Title.TitleID));
 
             return View(model); // something went wrong, redisplay the edit form
         }
