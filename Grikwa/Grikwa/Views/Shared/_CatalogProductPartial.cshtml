@@ -22,24 +22,28 @@
                     @{
                         try
                         {
-                            <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 1})" alt="product image">
+                            <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
+                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 1})" alt="product image">
+                            </a>
                         }
                         catch (Exception e)
                         {
-                            <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="~/Images/Products/thumb-0.jpg" alt="text book image">
+                            <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
+                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="~/Images/Products/thumb-0.jpg" alt="text book image">
+                            </a>
                         }
                     }
-                    <ul class="list-unstyled advert-body">
+                    @*<ul class="list-unstyled advert-body">
                         <li>
                             <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Model.DatePosted.AddHours(2).ToShortTimeString()
                         </li>
                         <li>
                             @Model.ShortDescription
                         </li>
-                    </ul>
+                    </ul>*@
                 </div>
 
-                <div>
+                @*<div>
                     @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
                     {
                         <span class="btn btn-danger btn-block disabled">
@@ -67,11 +71,10 @@
                             <span data-a-sign="R " class="price">
                                 @Model.Price
                             </span>
-                            @*@Model.Price*@
                             <input type="hidden" value="@Model.Name" />
                         </a>
                     }
-                </div>
+                </div>*@
             </div>
         }
         else if (Model.ProductIntention == Grikwa.Models.ProductIntention.NOTIFY)
@@ -94,16 +97,20 @@
                     @{
                         try
                         {
-                            <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id = Model.ProductID, sizeType = 1 })" alt="product image">
+                            <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
+                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id = Model.ProductID, sizeType = 1 })" alt="product image">
+                            </a>
                         }
                         catch (Exception e)
                         {
-                            <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="~/Images/Products/thumb-0.jpg" alt="text book image">
+                            <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
+                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="~/Images/Products/thumb-0.jpg" alt="text book image">
+                            </a>
                         }
                     }
                 </div>
             </div>
-            <div>
+            @*<div>
                 @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
                 {
                     <span class="btn btn-danger btn-block disabled">
@@ -131,7 +138,7 @@
                         <input type="hidden" value="@Model.Name" />
                     </a>
                 }
-            </div>
+            </div>*@
         }
     </div>
 </div>

@@ -22,7 +22,7 @@
         @Html.HiddenFor(model => model.ProductID)
         @Html.HiddenFor(model => model.UserID)
         <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 1})" alt="product image">
-        @*<div class="clearfix"></div>*@
+        <a href="@Url.Action("Delete","NoticeBoard", new {@id = @Model.ProductID})" class="btn btn-danger">Delete Advert</a>
         <div class="form-group">
             @Html.LabelFor(model => model.ProductImage, new { @class = "control-label col-md-2" })
             <div class="col-md-6 ace-file-input ace-file-multiple">
@@ -86,7 +86,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ShortDescription, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.TextAreaFor(model => model.ShortDescription, new { @class = "form-control limited", maxlength = "25" })
+                @Html.TextBoxFor(model => model.ShortDescription, new { @class = "form-control limited", maxlength = "25" })
                 @Html.ValidationMessageFor(model => model.ShortDescription)
             </div>
         </div>
@@ -94,7 +94,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LongDescription, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.TextAreaFor(model => model.LongDescription, 4, 50, new { @class = "form-control limited", maxlength = "300" })
+                @Html.TextAreaFor(model => model.LongDescription, 4, 50, new { @class = "form-control limited", maxlength = "1500" })
                 @Html.ValidationMessageFor(model => model.LongDescription)
             </div>
         </div>

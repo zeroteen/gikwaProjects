@@ -91,9 +91,9 @@ namespace Grikwa.Models
         [Required(ErrorMessage = "The short description is required")]
         public virtual string ShortDescription { get; set; }
 
-        [MaxLength(250)]
-        [Display(Name = "Long Description*")]
-        [Required(ErrorMessage = "The long description is required")]
+        [MaxLength(1500)]
+        [Display(Name = "Long Description")]
+        //[Required(ErrorMessage = "The long description is required")]
         public virtual string LongDescription { get; set; }
 
         [DataType(DataType.Currency)]
@@ -139,9 +139,9 @@ namespace Grikwa.Models
         [Required(ErrorMessage = "The poster name is required")]
         public virtual string Name { get; set; }
 
-        [MaxLength(300)]
-        [Display(Name = "Description*")]
-        [Required(ErrorMessage = "The description is required")]
+        [MaxLength(1500)]
+        [Display(Name = "Description")]
+        //[Required(ErrorMessage = "The description is required")]
         public virtual string Description { get; set; }
 
         [MaxLength(250)]
@@ -196,9 +196,9 @@ namespace Grikwa.Models
         [Required(ErrorMessage = "The short description is required")]
         public virtual string ShortDescription { get; set; }
 
-        [MaxLength(250)]
-        [Display(Name = "Long Description*")]
-        [Required(ErrorMessage = "The long description is required")]
+        [MaxLength(1500)]
+        [Display(Name = "Long Description")]
+        //[Required(ErrorMessage = "The long description is required")]
         public virtual string LongDescription { get; set; }
 
         [DataType(DataType.Currency)]
@@ -244,9 +244,9 @@ namespace Grikwa.Models
         [Required(ErrorMessage = "The poster name is required")]
         public virtual string Name { get; set; }
 
-        [MaxLength(300)]
-        [Display(Name = "Description*")]
-        [Required(ErrorMessage = "The long description is required")]
+        [MaxLength(1500)]
+        [Display(Name = "Description")]
+        //[Required(ErrorMessage = "The long description is required")]
         public virtual string Description { get; set; }
 
         [MaxLength(250)]

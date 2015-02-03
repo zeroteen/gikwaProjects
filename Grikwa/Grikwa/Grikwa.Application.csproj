@@ -233,6 +233,7 @@
     <Compile Include="Controllers\SlotSettingManagerController.cs" />
     <Compile Include="Controllers\NoticeBoardController.cs" />
     <Compile Include="Controllers\UnitManagerController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -290,6 +291,8 @@
     <Content Include="Content\ace-skins.min.css" />
     <Content Include="Content\ace.css" />
     <Content Include="Content\ace.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\chosen-sprite%402x.png" />
@@ -700,6 +703,15 @@
     <Content Include="Views\InstitutionCompanyManager\Details.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Edit.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Index.cshtml" />
+    <Content Include="Views\NoticeBoard\Notify.cshtml" />
+    <Content Include="Views\NoticeBoard\PostAdvert.cshtml" />
+    <Content Include="Views\NoticeBoard\EditNotice.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Home\NewIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

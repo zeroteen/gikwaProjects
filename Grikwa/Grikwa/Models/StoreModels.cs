@@ -58,7 +58,7 @@ namespace Grikwa.Models
         [MaxLength(100)]
         public virtual string ShortDescription { get; set; }
 
-        [MaxLength(300)]
+        [MaxLength(1500)]
         public virtual string LongDescription { get; set; }
 
         [DataType(DataType.Currency)]
