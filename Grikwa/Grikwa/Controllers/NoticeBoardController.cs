@@ -37,7 +37,7 @@ namespace Grikwa.Controllers
 
                 // get all products in this institution
                 var ps = from p in db.Products
-                         where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention==ProductIntention.SELL
+                         where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention==ProductIntention.SELL && p.Visible == true
                          select new CatalogProductModel()
                          {
                              ProductID = p.ProductID,
@@ -52,7 +52,7 @@ namespace Grikwa.Controllers
                              DatePosted = p.DatePosted
                          };
                 var ps2 = from p in db.Products
-                         where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention == ProductIntention.NOTIFY
+                          where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention == ProductIntention.NOTIFY && p.Visible == true
                          select new CatalogProductModel()
                          {
                              ProductID = p.ProductID,
@@ -81,7 +81,7 @@ namespace Grikwa.Controllers
 
             // get all products at the default institution ("UCT")
             var products = from p in db.Products
-                           where p.User.Institution.abbreviation.Equals("UCT")
+                           where p.User.Institution.abbreviation.Equals("UCT") && p.Visible == true
                            select new CatalogProductModel()
                            {
                                ProductID = p.ProductID,
@@ -109,22 +109,22 @@ namespace Grikwa.Controllers
         private async Task<List<CatalogProductModel>> SetPendingProducts(List<CatalogProductModel> products)
         {
             // check for pending products
-            if (Request.IsAuthenticated)
-            {
-                var userName = User.Identity.Name;
-                var pendingProducts = await (from p in db.ConversationRoomProducts
-                                             where !(p.Product.User.UserName.Equals(userName))
-                                             && (p.ConversationRoom.User1.UserName.Equals(userName) || p.ConversationRoom.User2.UserName.Equals(userName))
-                                             select p.ProductID).ToListAsync();
+            //if (Request.IsAuthenticated)
+            //{
+            //    var userName = User.Identity.Name;
+            //    var pendingProducts = await (from p in db.ConversationRoomProducts
+            //                                 where !(p.Product.User.UserName.Equals(userName))
+            //                                 && (p.ConversationRoom.User1.UserName.Equals(userName) || p.ConversationRoom.User2.UserName.Equals(userName))
+            //                                 select p.ProductID).ToListAsync();
 
-                foreach (var product in products)
-                {
-                    if (pendingProducts.Contains(product.ProductID))
-                    {
-                        product.ProductStatus = ProductStatus.REQUESTED;
-                    }
-                }
-            }
+            //    foreach (var product in products)
+            //    {
+            //        if (pendingProducts.Contains(product.ProductID))
+            //        {
+            //            product.ProductStatus = ProductStatus.REQUESTED;
+            //        }
+            //    }
+            //}
 
             return products;
         }
@@ -145,7 +145,7 @@ namespace Grikwa.Controllers
 
             // get catalog product in a specific category
             var products = from p in db.ProductCategories
-                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category)
+                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category) && p.Product.Visible == true
                            select new CatalogProductModel()
                            {
                                ProductID = p.Product.ProductID,
@@ -213,7 +213,7 @@ namespace Grikwa.Controllers
 
             // get all products that match the serach query
             var ps = from p in db.Products
-                     where p.User.Institution.abbreviation.Equals(name) &&
+                     where p.User.Institution.abbreviation.Equals(name) && p.Visible == true && 
                            (p.Name.Contains(query) ||
                             p.ShortDescription.Contains(query) ||
                             p.LongDescription.Contains(query) ||
@@ -278,7 +278,7 @@ namespace Grikwa.Controllers
 
             // get all the user's products
             var products = from p in db.Products
-                           where p.User.Id.Equals(id) && p.User.Institution.Name == user.Institution
+                           where p.User.Id.Equals(id) && p.User.Institution.Name == user.Institution && p.Visible == true
                            select new CatalogProductModel()
                             {
                                 ProductID = p.ProductID,
@@ -456,7 +456,8 @@ namespace Grikwa.Controllers
                             WebsiteLink = poster.WebsiteLink,
                             ProductIntention = ProductIntention.NOTIFY,
                             ThumbnailImage = thumbnailImage,
-                            FullSizeImage = fullSizeImage
+                            FullSizeImage = fullSizeImage,
+                            Visible = true
                         };
                         db.Products.Add(newPoster);
 
@@ -571,6 +572,7 @@ namespace Grikwa.Controllers
                             ProductIntention = ProductIntention.SELL,
                             KeyWords = product.KeyWords,
                             User = user,
+                            Visible = true,
                             ThumbnailImage = thumbnailImage,
                             FullSizeImage = fullSizeImage
                         };
@@ -628,7 +630,7 @@ namespace Grikwa.Controllers
 
             var product = await db.Products.FindAsync(id);
 
-            if (product == null || product.ProductStatus == ProductStatus.SOLD)
+            if (product == null || product.ProductStatus == ProductStatus.SOLD || product.Visible == false)
             {
                 return HttpNotFound("The product you want to buy was just bought by someone else or does not exist anymore.");
             }
@@ -652,6 +654,10 @@ namespace Grikwa.Controllers
             if (ModelState.IsValid)
             {
                 var product = db.Products.Find(model.ProductID);
+                if (product == null || product.ProductStatus == ProductStatus.SOLD || product.Visible == false)
+                {
+                    return HttpNotFound("The product you want to buy was just bought by someone else or does not exist anymore.");
+                }
                 var customer = db.Users.First(x => x.UserName == User.Identity.Name);
                 var supplierEmail = (string.IsNullOrEmpty(product.ContactEmail) || string.IsNullOrWhiteSpace(product.ContactEmail)) ? product.User.Email : product.ContactEmail;
                 NotificationsHelper.SendSaleRequestEmail(supplierEmail, customer.Email, product.Name, model.RequestMessage);
@@ -669,7 +675,7 @@ namespace Grikwa.Controllers
         public ActionResult Chat()
         {
             var products = from p in db.Products
-                           where p.User.UserName.Equals(User.Identity.Name) && p.ProductStatus != ProductStatus.SOLD
+                           where p.User.UserName.Equals(User.Identity.Name) && p.ProductStatus != ProductStatus.SOLD && p.Visible == true
                            select new
                            {
                                ProductID = p.ProductID,
@@ -847,7 +853,7 @@ namespace Grikwa.Controllers
             var product = await db.Products.FindAsync(id);
 
             // if not found
-            if (product == null)
+            if (product == null || product.Visible == false)
             {
                 return HttpNotFound();
             }

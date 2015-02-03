@@ -233,6 +233,7 @@
     <Compile Include="Controllers\SlotSettingManagerController.cs" />
     <Compile Include="Controllers\NoticeBoardController.cs" />
     <Compile Include="Controllers\UnitManagerController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -701,6 +702,11 @@
     <Content Include="Views\NoticeBoard\Notify.cshtml" />
     <Content Include="Views\NoticeBoard\PostAdvert.cshtml" />
     <Content Include="Views\NoticeBoard\EditNotice.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

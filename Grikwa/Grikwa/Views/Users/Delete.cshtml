@@ -1,0 +1,161 @@
+﻿@model Grikwa.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ApplicationUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PasswordHash)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PasswordHash)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SecurityStamp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SecurityStamp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Intials)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Intials)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OptionalEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OptionalEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Verified)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Verified)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AcceptedTerms)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AcceptedTerms)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastSeen)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastSeen)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Picture)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Picture)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Faculty.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Faculty.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Institution.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Institution.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qualification.Code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qualification.Code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Resident.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Resident.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title.Description)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

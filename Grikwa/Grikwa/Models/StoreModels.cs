@@ -90,6 +90,8 @@ namespace Grikwa.Models
 
         public virtual byte[] ThumbnailImage { get; set; }
 
+        public virtual bool Visible { get; set; }
+
     }
 
     public class Sale
@@ -259,26 +261,26 @@ namespace Grikwa.Models
         {
             int count = 0;
 
-            using (var db = new ApplicationDbContext())
-            {
-                var cRooms = (from cr in db.ConversationRooms
-                              select cr).ToList();
-                var rooms = (from r in cRooms
-                             select new Room
-                             {
-                                 Name = r.Name,
-                                 User1DatabaseID = r.User1ID,
-                                 User1ID = r.User1.UserName,
-                                 User1Name = r.User1.TitleID + " " + r.User1.Intials + " " + r.User1.Surname,
-                                 User1LastSeen = r.User1.LastSeen,
-                                 User2DatabaseID = r.User2ID,
-                                 User2ID = r.User2.UserName,
-                                 User2LastSeen = r.User2.LastSeen,
-                                 User2Name = r.User2.TitleID + " " + r.User2.Intials + " " + r.User2.Surname
-                             }).ToList();
-                Rooms.UnionWith(rooms);
-                count = rooms.Count();
-            }
+            //using (var db = new ApplicationDbContext())
+            //{
+            //    var cRooms = (from cr in db.ConversationRooms
+            //                  select cr).ToList();
+            //    var rooms = (from r in cRooms
+            //                 select new Room
+            //                 {
+            //                     Name = r.Name,
+            //                     User1DatabaseID = r.User1ID,
+            //                     User1ID = r.User1.UserName,
+            //                     User1Name = r.User1.TitleID + " " + r.User1.Intials + " " + r.User1.Surname,
+            //                     User1LastSeen = r.User1.LastSeen,
+            //                     User2DatabaseID = r.User2ID,
+            //                     User2ID = r.User2.UserName,
+            //                     User2LastSeen = r.User2.LastSeen,
+            //                     User2Name = r.User2.TitleID + " " + r.User2.Intials + " " + r.User2.Surname
+            //                 }).ToList();
+            //    Rooms.UnionWith(rooms);
+            //    count = rooms.Count();
+            //}
 
             return count;
         }
