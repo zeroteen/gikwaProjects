@@ -21,6 +21,12 @@ namespace Grikwa.Controllers
 
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public ActionResult NewIndex()
+        {
+            return View();
+        }
+
+
         public async Task<ActionResult> Index()
         {
             RegisterViewModel registerModel = new RegisterViewModel();

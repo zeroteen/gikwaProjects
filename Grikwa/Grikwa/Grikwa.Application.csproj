@@ -233,7 +233,6 @@
     <Compile Include="Controllers\SlotSettingManagerController.cs" />
     <Compile Include="Controllers\NoticeBoardController.cs" />
     <Compile Include="Controllers\UnitManagerController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -321,6 +320,8 @@
     </Content>
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\Backgrounds\blur2.jpg" />
+    <Content Include="Images\Backgrounds\Blur_image.jpg" />
     <Content Include="Images\Backgrounds\home.jpg" />
     <Content Include="Images\Backgrounds\home2.jpg" />
     <Content Include="Images\facebook.png" />
@@ -699,14 +700,6 @@
     <Content Include="Views\InstitutionCompanyManager\Details.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Edit.cshtml" />
     <Content Include="Views\InstitutionCompanyManager\Index.cshtml" />
-    <Content Include="Views\NoticeBoard\Notify.cshtml" />
-    <Content Include="Views\NoticeBoard\PostAdvert.cshtml" />
-    <Content Include="Views\NoticeBoard\EditNotice.cshtml" />
-    <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Users\Delete.cshtml" />
-    <Content Include="Views\Users\Details.cshtml" />
-    <Content Include="Views\Users\Edit.cshtml" />
-    <Content Include="Views\Users\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
