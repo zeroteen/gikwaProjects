@@ -88,7 +88,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .btn-post-ad{
-    width:23%;
+    width:100%;
 }
 
 .advert-thumbnail{
@@ -114,4 +114,45 @@ input[type="checkbox"].input-validation-error {
 .header-color-purple{
     background-color:#438eb9 !important;
     border-color: #438eb9 !important;
+}
+
+.advert > :first-child > .text {
+  position: absolute;
+  right: 7px;
+  left: 7px;
+  bottom: 5px;
+  top: 5px;
+  text-align: center;
+  color: #FFF;
+  background-color: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.advert > :first-child > .text:before {
+  /* makes the inner text become vertically centered*/
+
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: 0;
+  /* Adjusts for spacing */
+
+}
+.advert > :first-child > .text > .inner {
+  padding: 4px 0;
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 90%;
+}
+.advert:hover > :first-child > .text {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.advert-price{
+    color:#FFF !important;
 }

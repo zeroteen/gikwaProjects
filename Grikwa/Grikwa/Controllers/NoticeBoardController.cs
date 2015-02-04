@@ -68,7 +68,7 @@ namespace Grikwa.Controllers
                          };
 
                 // setup pagination
-                PaginationModel.TotalItems = await ps.CountAsync();
+                PaginationModel.TotalItems = (await ps.CountAsync()) + (await ps2.CountAsync());
                 var pageIndex = PaginationModel.GoToPage(id) - 1;
 
                 SetFilters();
@@ -91,6 +91,7 @@ namespace Grikwa.Controllers
                                UserFullName = p.User.TitleID + " " + p.User.Intials + " " + p.User.Surname,
                                Price = p.Price,
                                ShortDescription = p.ShortDescription,
+                               ProductIntention = p.ProductIntention,
                                ProductStatus = p.ProductStatus,
                                DatePosted = p.DatePosted
                            };
@@ -109,22 +110,22 @@ namespace Grikwa.Controllers
         private async Task<List<CatalogProductModel>> SetPendingProducts(List<CatalogProductModel> products)
         {
             // check for pending products
-            //if (Request.IsAuthenticated)
-            //{
-            //    var userName = User.Identity.Name;
-            //    var pendingProducts = await (from p in db.ConversationRoomProducts
-            //                                 where !(p.Product.User.UserName.Equals(userName))
-            //                                 && (p.ConversationRoom.User1.UserName.Equals(userName) || p.ConversationRoom.User2.UserName.Equals(userName))
-            //                                 select p.ProductID).ToListAsync();
+            if (Request.IsAuthenticated)
+            {
+                var userName = User.Identity.Name;
+                var pendingProducts = await (from p in db.ConversationRoomProducts
+                                             where !(p.Product.User.UserName.Equals(userName))
+                                             && (p.ConversationRoom.User1.UserName.Equals(userName) || p.ConversationRoom.User2.UserName.Equals(userName))
+                                             select p.ProductID).ToListAsync();
 
-            //    foreach (var product in products)
-            //    {
-            //        if (pendingProducts.Contains(product.ProductID))
-            //        {
-            //            product.ProductStatus = ProductStatus.REQUESTED;
-            //        }
-            //    }
-            //}
+                foreach (var product in products)
+                {
+                    if (pendingProducts.Contains(product.ProductID))
+                    {
+                        product.ProductStatus = ProductStatus.REQUESTED;
+                    }
+                }
+            }
 
             return products;
         }
@@ -145,7 +146,28 @@ namespace Grikwa.Controllers
 
             // get catalog product in a specific category
             var products = from p in db.ProductCategories
-                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category) && p.Product.Visible == true
+                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category)
+                           && p.Product.Visible == true && p.Product.ProductIntention == ProductIntention.NOTIFY
+                           select new CatalogProductModel()
+                           {
+                               ProductID = p.Product.ProductID,
+                               Name = p.Product.Name,
+                               UserID = p.Product.UserID,
+                               UserName = p.Product.User.UserName,
+                               UserFullName = p.Product.User.TitleID + " " + p.Product.User.Intials + " " + p.Product.User.Surname,
+                               Price = p.Product.Price,
+                               ShortDescription = p.Product.ShortDescription,
+                               ProductIntention = p.Product.ProductIntention,
+                               ProductStatus = p.Product.ProductStatus,
+                               DatePosted = p.Product.DatePosted,
+                               Offers = (from cp in db.ConversationRoomProducts
+                                         where cp.ProductID == p.ProductID
+                                         select cp).Count()
+                           };
+
+            var products1 = from p in db.ProductCategories
+                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category) 
+                           && p.Product.Visible == true && p.Product.ProductIntention == ProductIntention.SELL
                            select new CatalogProductModel()
                            {
                                ProductID = p.Product.ProductID,
@@ -156,20 +178,24 @@ namespace Grikwa.Controllers
                                Price = p.Product.Price,
                                ShortDescription = p.Product.ShortDescription,
                                ProductStatus = p.Product.ProductStatus,
+                               ProductIntention =p.Product.ProductIntention,
                                DatePosted = p.Product.DatePosted,
                                Offers = (from cp in db.ConversationRoomProducts
                                          where cp.ProductID == p.ProductID
                                          select cp).Count()
                            };
 
-            PaginationModel.TotalItems = await products.CountAsync();
+
+            PaginationModel.TotalItems = (await products.CountAsync()) + (await products1.CountAsync());
             var pageIndex = PaginationModel.GoToPage(page) - 1;
 
             // set filters
             SetFilters();
-
-            var unpendingProducts = await products.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PageSize).Take(PaginationModel.PageSize).ToListAsync();
-            return View("Index", await SetPendingProducts(unpendingProducts));
+            var unpendingPosters = await products.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
+            var n = unpendingPosters.Count;
+            var unpendingProducts = await products1.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+            unpendingPosters.AddRange(unpendingProducts);
+            return View("Index", await SetPendingProducts(unpendingPosters));
         }
 
         private string GetCurrentInstitution()
@@ -213,7 +239,30 @@ namespace Grikwa.Controllers
 
             // get all products that match the serach query
             var ps = from p in db.Products
-                     where p.User.Institution.abbreviation.Equals(name) && p.Visible == true && 
+                     where p.User.Institution.abbreviation.Equals(name) && p.Visible == true && p.ProductIntention == ProductIntention.NOTIFY &&
+                           (p.Name.Contains(query) ||
+                            p.ShortDescription.Contains(query) ||
+                            p.LongDescription.Contains(query) ||
+                            p.KeyWords.Contains(query))
+                     select new CatalogProductModel()
+                     {
+                         ProductID = p.ProductID,
+                         Name = p.Name,
+                         UserID = p.UserID,
+                         UserName = p.User.UserName,
+                         UserFullName = p.User.TitleID + " " + p.User.Intials + " " + p.User.Surname,
+                         Price = p.Price,
+                         ShortDescription = p.ShortDescription,
+                         ProductIntention = p.ProductIntention,
+                         ProductStatus = p.ProductStatus,
+                         DatePosted = p.DatePosted,
+                         Offers = (from cp in db.ConversationRoomProducts
+                                   where cp.ProductID == p.ProductID
+                                   select cp).Count()
+                     };
+
+            var ps2 = from p in db.Products
+                      where p.User.Institution.abbreviation.Equals(name) && p.Visible == true && p.ProductIntention == ProductIntention.SELL &&
                            (p.Name.Contains(query) ||
                             p.ShortDescription.Contains(query) ||
                             p.LongDescription.Contains(query) ||
@@ -228,6 +277,7 @@ namespace Grikwa.Controllers
                          Price = p.Price,
                          ShortDescription = p.ShortDescription,
                          ProductStatus = p.ProductStatus,
+                         ProductIntention = p.ProductIntention,
                          DatePosted = p.DatePosted,
                          Offers = (from cp in db.ConversationRoomProducts
                                    where cp.ProductID == p.ProductID
@@ -235,14 +285,16 @@ namespace Grikwa.Controllers
                      };
 
             // setup pagination
-            PaginationModel.TotalItems = await ps.CountAsync();
+            PaginationModel.TotalItems = (await ps.CountAsync()) + (await ps2.CountAsync());
             var pageIndex = PaginationModel.GoToPage(page) - 1;
+
             SetFilters();
+            var unpendingPosters = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
+            var n = unpendingPosters.Count;
+            var unpendingProducts = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+            unpendingPosters.AddRange(unpendingProducts);
 
-            // get unpending products
-            var products = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PageSize).Take(PaginationModel.PageSize).ToListAsync();
-
-            return View("Index", await SetPendingProducts(products));
+            return View("Index", await SetPendingProducts(unpendingPosters));
         }
 
         public async Task<ActionResult> BusinessCard(string id, int page = 1)
@@ -289,6 +341,7 @@ namespace Grikwa.Controllers
                                 Price = p.Price,
                                 ShortDescription = p.ShortDescription,
                                 ProductStatus = p.ProductStatus,
+                                ProductIntention = p.ProductIntention,
                                 DatePosted = p.DatePosted,
                                 Offers = (from cp in db.ConversationRoomProducts
                                           where cp.ProductID == p.ProductID
@@ -672,20 +725,20 @@ namespace Grikwa.Controllers
             return View();
         }
 
-        public ActionResult Chat()
-        {
-            var products = from p in db.Products
-                           where p.User.UserName.Equals(User.Identity.Name) && p.ProductStatus != ProductStatus.SOLD && p.Visible == true
-                           select new
-                           {
-                               ProductID = p.ProductID,
-                               Name = p.Name
-                           };
+        //public ActionResult Chat()
+        //{
+        //    var products = from p in db.Products
+        //                   where p.User.UserName.Equals(User.Identity.Name) && p.ProductStatus != ProductStatus.SOLD && p.Visible == true
+        //                   select new
+        //                   {
+        //                       ProductID = p.ProductID,
+        //                       Name = p.Name
+        //                   };
 
-            SoldProductModel product = new SoldProductModel();
-            product.Products = new SelectList(products.ToList(), "ProductID", "Name");
-            return View(product);
-        }
+        //    SoldProductModel product = new SoldProductModel();
+        //    product.Products = new SelectList(products.ToList(), "ProductID", "Name");
+        //    return View(product);
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]

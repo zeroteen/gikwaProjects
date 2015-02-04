@@ -74,7 +74,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.WebsiteLink, new { @class = "control-label col-md-2" })
             <div class="col-md-6">
-                @Html.TextAreaFor(model => model.WebsiteLink, new { @class = "form-control limited", maxLength = "200" })
+                @Html.TextBoxFor(model => model.WebsiteLink, new { @class = "form-control limited", maxLength = "200" })
                 @Html.ValidationMessageFor(model => model.WebsiteLink)
             </div>
         </div>

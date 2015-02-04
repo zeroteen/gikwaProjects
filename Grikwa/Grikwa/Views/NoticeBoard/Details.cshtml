@@ -31,7 +31,7 @@
                             }
                             <ul class="list-unstyled">
                                 <li>
-                                    <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
+                                    <strong>Posted:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
                                 </li>
                                 @if (!string.IsNullOrEmpty(Model.PhoneNumber))
                                 {
@@ -115,7 +115,7 @@
                                         <strong>By:</strong> @Html.ActionLink(Model.UserFullName, "BusinessCard", "NoticeBoard", new { @id = Model.UserID }, null)
                                     </li>*@
                                 <li>
-                                    <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
+                                    <strong>Posted:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
                                 </li>
                                 @if (!string.IsNullOrEmpty(Model.PhoneNumber))
                                 {
@@ -129,10 +129,16 @@
                                         <strong>Contact Email:</strong> @Model.Email
                                     </li>
                                 }
-                                @if (!string.IsNullOrEmpty(Model.WebsiteLink))
+                                @if (!string.IsNullOrEmpty(Model.WebsiteLink) && !string.IsNullOrWhiteSpace(Model.WebsiteLink))
                                 {
+                                    var protocol = "http://";
+                                        if (Model.WebsiteLink.IndexOf("https://") > -1)
+                                        {
+                                            protocol = "https://";
+                                        }
+                                    var websiteLink = Model.WebsiteLink.Replace(protocol, "");
                                     <li>
-                                        <strong>Website:</strong><a href="@Model.WebsiteLink" target="_blank"> @Model.WebsiteLink</a>
+                                        <strong>Website:</strong><a href="@(protocol + websiteLink)" target="_blank"> @websiteLink</a>
                                     </li>
                                 }
                                 <li><strong>Description:</strong> @Model.LongDescription</li>

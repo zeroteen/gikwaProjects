@@ -18,12 +18,26 @@
             </div>*@
 
             <div class="widget-body">
-                <div class="">
+                <div class="advert">
                     @{
                         try
                         {
                             <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
                                 <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 1})" alt="product image">
+                                <div class="text">
+                                    <div class="inner">
+                                        <ul class="list-unstyled advert-body center">
+                                            <li>
+                                                <strong>Posted:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
+                                            </li>
+                                            <li>
+                                                <span data-a-sign="R " class="price advert-price">
+                                                    @Model.Price
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </a>
                         }
                         catch (Exception e)
@@ -93,12 +107,17 @@
             </div>
 
             <div class="widget-body">
-                <div class="">
+                <div class="advert">
                     @{
                         try
                         {
                             <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
                                 <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id = Model.ProductID, sizeType = 1 })" alt="product image">
+                                <div class="text">
+                                    <div class="inner">
+                                        Click for more info
+                                    </div>
+                                </div>
                             </a>
                         }
                         catch (Exception e)

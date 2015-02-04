@@ -38,3 +38,14 @@
         @Html.Partial("_PaginationPartial")
     </div>
 </div>
+@section scripts{
+    <script src="~/Scripts/ace-elements.min.js"></script>
+    <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
+    <script type="text/javascript">
+        $(".price").each(function (index) {
+            var price = Number($(this).html());
+            $(this).autoNumeric('init');
+            $(this).autoNumeric("set", price);
+        });
+    </script>
+}

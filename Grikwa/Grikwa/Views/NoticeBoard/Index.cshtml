@@ -9,9 +9,9 @@
 <div>
     @Html.Partial("_SearchPartial")
 </div>
-<h3>@Html.ActionLink("Post An Ad", "PostAdvert", "NoticeBoard", new { @class = "btn btn-purple btn-post btn-post-ad" })</h3>
 
-
+<h3 class="col-sm-3">@Html.ActionLink("Post An Ad", "PostAdvert", "NoticeBoard", new { @class = "btn btn-purple btn-post btn-post-ad" })</h3>
+<div class="clearfix"></div>
 <div class="row">
 
     <div class="col-sm-3">
@@ -40,6 +40,7 @@
     </div>
 </div>
 @section scripts{
+    <script src="~/Scripts/ace-elements.min.js"></script>
     <script src="~/Scripts/autoNumeric/autoNumeric-1.9.18.min.js"></script>
     <script type="text/javascript">
         $(".price").each(function (index) {
