@@ -75,7 +75,17 @@ namespace Grikwa.Controllers
                 var unpendingPosters = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
                 var n = unpendingPosters.Count;
                 var unpendingProducts = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+                
+                
+                var extraProducts = await ps.OrderByDescending(p => p.DatePosted).Skip((pageIndex * (PaginationModel.PageSize - n)) + unpendingProducts.Count).Take(PaginationModel.PosterPageSize - unpendingPosters.Count).ToListAsync();
+                if (extraProducts.Count == 0)
+                {
+                    extraProducts = await ps2.OrderByDescending(p => p.DatePosted).Skip((pageIndex * PaginationModel.PosterPageSize) + unpendingPosters.Count).Take(PaginationModel.PageSize - n - unpendingProducts.Count).ToListAsync();
+                }
+
                 unpendingPosters.AddRange(unpendingProducts);
+                unpendingPosters.AddRange(extraProducts);
+                
                 return View(await SetPendingProducts(unpendingPosters));
             }
 
@@ -194,7 +204,17 @@ namespace Grikwa.Controllers
             var unpendingPosters = await products.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
             var n = unpendingPosters.Count;
             var unpendingProducts = await products1.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+
+
+            var extraProducts = await products1.OrderByDescending(p => p.DatePosted).Skip((pageIndex * (PaginationModel.PageSize - n)) + unpendingProducts.Count).Take(PaginationModel.PosterPageSize - unpendingPosters.Count).ToListAsync();
+            if (extraProducts.Count == 0)
+            {
+                extraProducts = await products.OrderByDescending(p => p.DatePosted).Skip((pageIndex * PaginationModel.PosterPageSize) + unpendingPosters.Count).Take(PaginationModel.PageSize - n - unpendingProducts.Count).ToListAsync();
+            }
+
             unpendingPosters.AddRange(unpendingProducts);
+            unpendingPosters.AddRange(extraProducts);
+
             return View("Index", await SetPendingProducts(unpendingPosters));
         }
 
@@ -289,10 +309,18 @@ namespace Grikwa.Controllers
             var pageIndex = PaginationModel.GoToPage(page) - 1;
 
             SetFilters();
-            var unpendingPosters = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
+            var unpendingPosters = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
             var n = unpendingPosters.Count;
-            var unpendingProducts = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+            var unpendingProducts = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
+
+            var extraProducts = await ps2.OrderByDescending(p => p.DatePosted).Skip((pageIndex * (PaginationModel.PageSize - n)) + unpendingProducts.Count).Take(PaginationModel.PosterPageSize - unpendingPosters.Count).ToListAsync();
+            if (extraProducts.Count == 0)
+            {
+                extraProducts = await ps.OrderByDescending(p => p.DatePosted).Skip((pageIndex * PaginationModel.PosterPageSize) + unpendingPosters.Count).Take(PaginationModel.PageSize - n - unpendingProducts.Count).ToListAsync();
+            }
+
             unpendingPosters.AddRange(unpendingProducts);
+            unpendingPosters.AddRange(extraProducts);
 
             return View("Index", await SetPendingProducts(unpendingPosters));
         }
