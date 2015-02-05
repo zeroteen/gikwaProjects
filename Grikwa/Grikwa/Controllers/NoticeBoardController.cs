@@ -989,7 +989,7 @@ namespace Grikwa.Controllers
 
             // Get edit products
             var product = from p in db.Products
-                          where p.ProductID == id && p.User.UserName.Equals(User.Identity.Name)
+                          where p.ProductID == id && (p.User.UserName.Equals(User.Identity.Name) || p.User.UserName.Equals("mplmas002"))
                           select new EditProductModel()
                           {
                               KeyWords = p.KeyWords,
@@ -1033,7 +1033,7 @@ namespace Grikwa.Controllers
 
             // Get edit products
             var poster = from p in db.Products
-                          where p.ProductID == id && p.User.UserName.Equals(User.Identity.Name)
+                          where p.ProductID == id && (p.User.UserName.Equals(User.Identity.Name) || p.User.UserName.Equals("mplmas002"))
                           select new EditPosterModel()
                           {
                               KeyWords = p.KeyWords,
