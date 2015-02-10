@@ -11,7 +11,7 @@ namespace Grikwa.Controllers
     public abstract class BaseController : Controller
     {
         public ApplicationDbContext db = new ApplicationDbContext();
-        public string storageAccountName = ConfigurationManager.AppSettings["StorageAccountNameDev"];
-        public string storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKeyDev"];
+        public string storageAccountName = ConfigurationManager.AppSettings["StorageAccountName"];
+        public string storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKey"];
     }
 }
