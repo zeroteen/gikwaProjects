@@ -37,8 +37,7 @@ namespace Infrastructure.Implementations
         private CloudBlobContainer SetUpContainer(string storageAccountName,
           string storageAccountKey, string containerName)
         {
-            string connectionString = "UseDevelopmentStorage=true";//string.Format(@"DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}",
-            //storageAccountName, storageAccountKey);
+            string connectionString = string.Format(@"DefaultEndpointsProtocol=https;AccountName={0};AccountKey={1}", storageAccountName, storageAccountKey); //"UseDevelopmentStorage=true";
 
             //get a reference to the container where you want to put the files
             CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(connectionString);
