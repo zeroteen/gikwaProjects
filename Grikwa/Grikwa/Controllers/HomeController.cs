@@ -257,8 +257,8 @@ namespace Grikwa.Controllers
 
         public async Task<ActionResult> MoveImagesToBlobStorage(string startDate)
         {
-            var storageAccountName = ConfigurationManager.AppSettings["StorageAccountNameDev"];
-            var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKeyDev"];
+            var storageAccountName = ConfigurationManager.AppSettings["StorageAccountName"];
+            var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKey"];
             var start = DateTime.Parse(startDate);
             foreach(var product in db.Products.Where(x => x.DatePosted >= start).Include(x => x.User).Include(x => x.User.Institution))
             {
@@ -285,8 +285,16 @@ namespace Grikwa.Controllers
         {
             var storageAccountName = ConfigurationManager.AppSettings["StorageAccountNameDev"];
             var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKeyDev"];
-            foreach (var product in db.Products.Where(x => x.Visible == false))
+            foreach (var product in db.Products.Where(x => x.Visible == false).Include(x => x.User).Include(x => x.User.Institution))
             {
+                if (!string.IsNullOrEmpty(product.ThumbnailImageName) && !string.IsNullOrEmpty(product.ThumbnailImageName)){
+                    var containerName = product.User.Institution.abbreviation.ToLower();
+                    var thumbnailName = product.ThumbnailImageName;
+                    var fullSizeName = product.FullSizeImageName;
+                    var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
+                    await blobStorage.DeleteBlobAsync(thumbnailName);
+                    await blobStorage.DeleteBlobAsync(fullSizeName);
+                }
                 db.Products.Remove(product);
             }
             await db.SaveChangesAsync();
