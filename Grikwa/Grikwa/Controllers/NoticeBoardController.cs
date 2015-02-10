@@ -51,7 +51,10 @@ namespace Grikwa.Controllers
                              ShortDescription = p.ShortDescription,
                              ProductStatus = p.ProductStatus,
                              ProductIntention = p.ProductIntention,
-                             DatePosted = p.DatePosted
+                             DatePosted = p.DatePosted,
+                             ThumbnailImageName = p.ThumbnailImageName,
+                             FullSizeImageName = p.FullSizeImageName,
+                             Institution = p.User.Institution.abbreviation
                          };
                 var ps2 = from p in db.Products
                           where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention == ProductIntention.NOTIFY && p.Visible == true
@@ -66,7 +69,10 @@ namespace Grikwa.Controllers
                              ShortDescription = p.ShortDescription,
                              ProductStatus = p.ProductStatus,
                              ProductIntention = p.ProductIntention,
-                             DatePosted = p.DatePosted
+                             DatePosted = p.DatePosted,
+                             ThumbnailImageName = p.ThumbnailImageName,
+                             FullSizeImageName = p.FullSizeImageName,
+                             Institution = p.User.Institution.abbreviation
                          };
 
                 // setup pagination
@@ -172,9 +178,9 @@ namespace Grikwa.Controllers
                                ProductIntention = p.Product.ProductIntention,
                                ProductStatus = p.Product.ProductStatus,
                                DatePosted = p.Product.DatePosted,
-                               Offers = (from cp in db.ConversationRoomProducts
-                                         where cp.ProductID == p.ProductID
-                                         select cp).Count()
+                               ThumbnailImageName = p.Product.ThumbnailImageName,
+                               FullSizeImageName = p.Product.FullSizeImageName,
+                               Institution = p.Product.User.Institution.abbreviation
                            };
 
             var products1 = from p in db.ProductCategories
@@ -192,9 +198,9 @@ namespace Grikwa.Controllers
                                ProductStatus = p.Product.ProductStatus,
                                ProductIntention =p.Product.ProductIntention,
                                DatePosted = p.Product.DatePosted,
-                               Offers = (from cp in db.ConversationRoomProducts
-                                         where cp.ProductID == p.ProductID
-                                         select cp).Count()
+                               ThumbnailImageName = p.Product.ThumbnailImageName,
+                               FullSizeImageName = p.Product.FullSizeImageName,
+                               Institution = p.Product.User.Institution.abbreviation
                            };
 
 
@@ -278,9 +284,9 @@ namespace Grikwa.Controllers
                          ProductIntention = p.ProductIntention,
                          ProductStatus = p.ProductStatus,
                          DatePosted = p.DatePosted,
-                         Offers = (from cp in db.ConversationRoomProducts
-                                   where cp.ProductID == p.ProductID
-                                   select cp).Count()
+                         ThumbnailImageName = p.ThumbnailImageName,
+                         FullSizeImageName = p.FullSizeImageName,
+                         Institution = p.User.Institution.abbreviation
                      };
 
             var ps2 = from p in db.Products
@@ -301,9 +307,9 @@ namespace Grikwa.Controllers
                          ProductStatus = p.ProductStatus,
                          ProductIntention = p.ProductIntention,
                          DatePosted = p.DatePosted,
-                         Offers = (from cp in db.ConversationRoomProducts
-                                   where cp.ProductID == p.ProductID
-                                   select cp).Count()
+                         ThumbnailImageName = p.ThumbnailImageName,
+                         FullSizeImageName = p.FullSizeImageName,
+                         Institution = p.User.Institution.abbreviation
                      };
 
             // setup pagination
@@ -397,36 +403,16 @@ namespace Grikwa.Controllers
             return RedirectToAction("Index", "NoticeBoard");
         }
 
-        public async Task<ActionResult> AdvertImage(int? id, int? sizeType)
+        public async Task<ActionResult> AdvertImage(string institution, string imageName)
         {
-            if (id == null || sizeType == null)
+            if (string.IsNullOrEmpty(institution) || string.IsNullOrEmpty(imageName))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            using (var db1 = new ApplicationDbContext())
-            {
-
-                // get the product
-                var product = await db1.Products.FindAsync(id);
-
-                if (product == null)
-                {
-                    return HttpNotFound("Image was not found"); // image was not found
-                }
-
-                byte[] imageBytes = null;
-                if (sizeType == 1) // thumbnail
-                {
-                    imageBytes = product.ThumbnailImage;
-                }
-                else if (sizeType == 2) // big image
-                {
-                    imageBytes = product.FullSizeImage;
-                }
-
-                return File(imageBytes, "image/png");
-            }
+            var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, institution);
+            var imageBytes = await blobStorage.DownloadToByteArrayAsync(imageName);
+            return File(imageBytes, "image/png");
         }
 
         /// <summary>
@@ -525,8 +511,8 @@ namespace Grikwa.Controllers
                         var thumbnailName = Guid.NewGuid().ToString()+".png";
                         var fullSizeName = Guid.NewGuid().ToString() + ".png";
                         var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
-                        blobStorage.UploadFromByteArray(thumbnailImage, thumbnailName);
-                        blobStorage.UploadFromByteArray(fullSizeImage, fullSizeName);
+                        await blobStorage.UploadFromByteArrayAsync(thumbnailImage, thumbnailName);
+                        await blobStorage.UploadFromByteArrayAsync(fullSizeImage, fullSizeName);
 
                         // set text info to be able to capitalize the poster name
                         TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
@@ -650,8 +636,8 @@ namespace Grikwa.Controllers
                         var thumbnailName = Guid.NewGuid().ToString() + ".png";
                         var fullSizeName = Guid.NewGuid().ToString() + ".png";
                         var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
-                        blobStorage.UploadFromByteArray(thumbnailImage, thumbnailName);
-                        blobStorage.UploadFromByteArray(fullSizeImage, fullSizeName);
+                        await blobStorage.UploadFromByteArrayAsync(thumbnailImage, thumbnailName);
+                        await blobStorage.UploadFromByteArrayAsync(fullSizeImage, fullSizeName);
 
                         // set text info to be able to capitalize the product name
                         TextInfo ti = CultureInfo.CurrentCulture.TextInfo;
@@ -1138,8 +1124,8 @@ namespace Grikwa.Controllers
                     var thumbnailName = editedProduct.ThumbnailImageName;
                     var fullSizeName = editedProduct.FullSizeImageName;
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
-                    blobStorage.UploadFromByteArray(thumbnailImage, thumbnailName);
-                    blobStorage.UploadFromByteArray(fullSizeImage, fullSizeName);
+                    await blobStorage.UploadFromByteArrayAsync(thumbnailImage, thumbnailName);
+                    await blobStorage.UploadFromByteArrayAsync(fullSizeImage, fullSizeName);
                 }
 
                 // set text info to be able to capitalize the product name
@@ -1240,8 +1226,8 @@ namespace Grikwa.Controllers
                     var thumbnailName = editedPoster.ThumbnailImageName;
                     var fullSizeName = editedPoster.FullSizeImageName;
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
-                    blobStorage.UploadFromByteArray(thumbnailImage, thumbnailName);
-                    blobStorage.UploadFromByteArray(fullSizeImage, fullSizeName);
+                    await blobStorage.UploadFromByteArrayAsync(thumbnailImage, thumbnailName);
+                    await blobStorage.UploadFromByteArrayAsync(fullSizeImage, fullSizeName);
                 }
 
                 // set text info to be able to capitalize the poster name
@@ -1323,8 +1309,8 @@ namespace Grikwa.Controllers
             var thumbnailName = product.ThumbnailImageName;
             var fullSizeName = product.FullSizeImageName;
             var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
-            blobStorage.DeleteBlob(thumbnailName);
-            blobStorage.DeleteBlob(fullSizeName);
+            await blobStorage.DeleteBlobAsync(thumbnailName);
+            await blobStorage.DeleteBlobAsync(fullSizeName);
             db.Products.Remove(product);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");

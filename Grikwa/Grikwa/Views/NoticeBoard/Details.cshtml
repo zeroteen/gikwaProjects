@@ -5,6 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@functions{
+    public string GetImageUrl(string institution, string imageName)
+    {
+
+        if (System.Configuration.ConfigurationManager.AppSettings["ImageLocation"] == "blob")
+        {
+            return Url.Action("AdvertImage", "NoticeBoard", new { isntitution = institution, imageName = imageName });
+        }
+        else
+        {
+            return System.Configuration.ConfigurationManager.AppSettings["CdnUrl"] + institution + "/" + imageName;
+        }
+    }
+}
+
 <h2>Details</h2>
 
 @using (Html.BeginForm("Chat", "NoticeBoard", FormMethod.Get, new { @id = "chat-message-form" }))
@@ -22,7 +37,7 @@
                             @{
                                 try
                                 {
-                                    <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
+                                    <img align="middle" class="img-thumbnail img-responsive" src="@GetImageUrl(Model.Institution, Model.FullSizeImageName)" alt="product image">
                                 }
                                 catch (Exception e)
                                 {
@@ -103,7 +118,7 @@
                             @{
                                 try
                                 {
-                                    <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 2})" alt="product image">
+                                    <img align="middle" class="img-thumbnail img-responsive" src="@GetImageUrl(Model.Institution, Model.FullSizeImageName)" alt="product image">
                                 }
                                 catch (Exception e)
                                 {

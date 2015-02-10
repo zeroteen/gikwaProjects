@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Infrastructure.Implementations
 {
@@ -91,6 +92,15 @@ namespace Infrastructure.Implementations
             return status;
         }
 
+        public async Task<string> UploadFromByteArrayAsync(Byte[] uploadBytes, string targetFileName)
+        {
+            string status = string.Empty;
+            CloudBlockBlob blob = cloudBlobContainer.GetBlockBlobReference(targetFileName);
+            await blob.UploadFromByteArrayAsync(uploadBytes, 0, uploadBytes.Length);
+            status = "Uploaded byte array successfully.";
+            return status;
+        }
+
         public string UploadFromStream(Stream stream, string targetBlobName)
         {
             string status = string.Empty;
@@ -134,6 +144,17 @@ namespace Infrastructure.Implementations
             return myByteArray;
         }
 
+        public async Task<Byte[]> DownloadToByteArrayAsync(string targetFileName)
+        {
+            CloudBlockBlob blob = cloudBlobContainer.GetBlockBlobReference(targetFileName);
+            //you have to fetch the attributes to read the length
+            await blob.FetchAttributesAsync();
+            long fileByteLength = blob.Properties.Length;
+            Byte[] myByteArray = new Byte[fileByteLength];
+            await blob.DownloadToByteArrayAsync(myByteArray, 0);
+            return myByteArray;
+        }
+
         public string DownloadToStream(string sourceBlobName, Stream stream)
         {
             string status = string.Empty;
@@ -166,6 +187,22 @@ namespace Infrastructure.Implementations
             string status = string.Empty;
             CloudBlockBlob blobSource = cloudBlobContainer.GetBlockBlobReference(blobName);
             bool blobExisted = blobSource.DeleteIfExists();
+            if (blobExisted)
+            {
+                status = "Blob existed; deleted.";
+            }
+            else
+            {
+                status = "Blob did not exist.";
+            }
+            return status;
+        }
+
+        public async Task<string> DeleteBlobAsync(string blobName)
+        {
+            string status = string.Empty;
+            CloudBlockBlob blobSource = cloudBlobContainer.GetBlockBlobReference(blobName);
+            bool blobExisted = await blobSource.DeleteIfExistsAsync();
             if (blobExisted)
             {
                 status = "Blob existed; deleted.";

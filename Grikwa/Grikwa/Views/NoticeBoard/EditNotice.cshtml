@@ -5,6 +5,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@functions{
+    public string GetImageUrl(string institution, string imageName)
+    {
+
+        if (System.Configuration.ConfigurationManager.AppSettings["ImageLocation"] == "blob")
+        {
+            return Url.Action("AdvertImage", "NoticeBoard", new { isntitution = institution, imageName = imageName });
+        }
+        else
+        {
+            return System.Configuration.ConfigurationManager.AppSettings["CdnUrl"] + institution + "/" + imageName;
+        }
+    }
+}
+
 @section styles{
     <link href="~/Content/chosen.min.css" rel="stylesheet" />
 }
@@ -21,7 +36,7 @@
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.PosterID)
         @Html.HiddenFor(model => model.UserID)
-        <img align="middle" class="img-thumbnail img-responsive" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.PosterID, sizeType = 1})" alt="product image">
+        <img align="middle" class="img-thumbnail img-responsive" src="@GetImageUrl(Model.Institution, Model.ThumbnailImageName)" alt="product image">
         <a href="@Url.Action("Delete","NoticeBoard", new {@id = @Model.PosterID})" class="btn btn-danger">Delete Advert</a>
         <div class="form-group">
             @Html.LabelFor(model => model.PosterImage, new { @class = "control-label col-md-2" })

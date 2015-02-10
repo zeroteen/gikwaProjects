@@ -13,6 +13,8 @@ using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Diagnostics;
+using System.Configuration;
+using Infrastructure.Implementations;
 
 namespace Grikwa.Controllers
 {
@@ -44,7 +46,7 @@ namespace Grikwa.Controllers
             using (var db1 = new ApplicationDbContext())
             {
                 // get the product
-                var image = from i in db.Institutions
+                var image = from i in db1.Institutions
                             where i.abbreviation.Equals(code)
                             select i.Image;
 
@@ -250,6 +252,44 @@ namespace Grikwa.Controllers
             }
             ////UserManager.CreateIdentity(user, "admin");
 
+            return View();
+        }
+
+        public async Task<ActionResult> MoveImagesToBlobStorage(string startDate)
+        {
+            var storageAccountName = ConfigurationManager.AppSettings["StorageAccountNameDev"];
+            var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKeyDev"];
+            var start = DateTime.Parse(startDate);
+            foreach(var product in db.Products.Where(x => x.DatePosted >= start).Include(x => x.User).Include(x => x.User.Institution))
+            {
+                if (product.FullSizeImage != null && product.ThumbnailImage != null)
+                {
+                    var containerName = product.User.Institution.abbreviation.ToLower();
+                    var thumbnailName = Guid.NewGuid().ToString() + ".png";
+                    var fullSizeName = Guid.NewGuid().ToString() + ".png";
+                    var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
+                    await blobStorage.UploadFromByteArrayAsync(product.ThumbnailImage, thumbnailName);
+                    await blobStorage.UploadFromByteArrayAsync(product.FullSizeImage, fullSizeName);
+                    product.ThumbnailImageName = thumbnailName;
+                    product.FullSizeImageName = fullSizeName;
+                    product.ThumbnailImage = null;
+                    product.FullSizeImage = null;
+                    db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+                }
+            }
+            await db.SaveChangesAsync();
+            return View();
+        }
+
+        public async Task<ActionResult> DeleteHiddenProducts()
+        {
+            var storageAccountName = ConfigurationManager.AppSettings["StorageAccountNameDev"];
+            var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKeyDev"];
+            foreach (var product in db.Products.Where(x => x.Visible == false))
+            {
+                db.Products.Remove(product);
+            }
+            await db.SaveChangesAsync();
             return View();
         }
     }

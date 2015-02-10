@@ -1,5 +1,20 @@
 ﻿@model Grikwa.Models.CatalogProductModel
 
+@functions{
+    public string GetImageUrl(string institution, string imageName)
+    {
+
+        if (System.Configuration.ConfigurationManager.AppSettings["ImageLocation"] == "blob")
+        {
+            return Url.Action("AdvertImage", "NoticeBoard", new { isntitution = institution, imageName = imageName });
+        }
+        else
+        {
+            return System.Configuration.ConfigurationManager.AppSettings["CdnUrl"] + institution + "/" + imageName;
+        }
+    }
+}
+
 <div class="col-xs-6 col-md-3 pricing-box">
     <div class="widget-box">
         @if (Model.ProductIntention == Grikwa.Models.ProductIntention.SELL)
@@ -9,21 +24,13 @@
                     @Model.Name
                 </span>
             </div>
-            @*<div class="">
-                <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
-                    <span>
-                        @Model.Name
-                    </span>
-                </a>
-            </div>*@
-
             <div class="widget-body">
                 <div class="advert">
                     @{
                         try
                         {
                             <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
-                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id=Model.ProductID, sizeType = 1})" alt="product image">
+                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@GetImageUrl(Model.Institution, Model.ThumbnailImageName)" alt="product image">
                                 <div class="text">
                                     <div class="inner">
                                         <ul class="list-unstyled advert-body center">
@@ -44,62 +51,28 @@
                         {
                             <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
                                 <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="~/Images/Products/thumb-0.jpg" alt="text book image">
+                                <div class="text">
+                                    <div class="inner">
+                                        <ul class="list-unstyled advert-body center">
+                                            <li>
+                                                <strong>Posted:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Html.Raw("@") @Model.DatePosted.AddHours(2).ToShortTimeString()
+                                            </li>
+                                            <li>
+                                                <span data-a-sign="R " class="price advert-price">
+                                                    @Model.Price
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </a>
                         }
                     }
-                    @*<ul class="list-unstyled advert-body">
-                        <li>
-                            <strong>On:</strong> @Model.DatePosted.AddHours(2).ToShortDateString() @Model.DatePosted.AddHours(2).ToShortTimeString()
-                        </li>
-                        <li>
-                            @Model.ShortDescription
-                        </li>
-                    </ul>*@
                 </div>
-
-                @*<div>
-                    @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
-                    {
-                        <span class="btn btn-danger btn-block disabled">
-                            SOLD
-                        </span>
-                    }
-                    else if (Model.ProductStatus == Grikwa.Models.ProductStatus.REQUESTED)
-                    {
-                        <a href="@Url.Action("Chat", "NoticeBoard")" class="btn btn-light btn-block btn-inverse">
-                            <i class="icon-comments bigger-110"></i>
-                            <span>PENDING...</span>
-                        </a>
-                    }
-                    else if (Request.IsAuthenticated && Context.User.Identity.Name.Equals(Model.UserName))
-                    {
-                        <a href="@Url.Action("EditProduct", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
-                            <i class="icon-edit-sign bigger-110"></i>
-                            <span>Edit</span>
-                        </a>
-                    }
-                    else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
-                    {
-                        <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-yellow btn-block btn-inverse">
-                            <i class="icon-shopping-cart bigger-110"></i>
-                            <span data-a-sign="R " class="price">
-                                @Model.Price
-                            </span>
-                            <input type="hidden" value="@Model.Name" />
-                        </a>
-                    }
-                </div>*@
             </div>
         }
         else if (Model.ProductIntention == Grikwa.Models.ProductIntention.NOTIFY)
         {
-            @*<div class="">
-                <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
-                    <span>
-                        More Info
-                    </span>
-                </a>
-            </div>*@
             <div class="widget-header header-color-purple">
                 <span>
                     @Model.Name
@@ -112,7 +85,7 @@
                         try
                         {
                             <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
-                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@Url.Action("AdvertImage", "NoticeBoard", new { @id = Model.ProductID, sizeType = 1 })" alt="product image">
+                                <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="@GetImageUrl(Model.Institution, Model.ThumbnailImageName)" alt="product image">
                                 <div class="text">
                                     <div class="inner">
                                         Click for more info
@@ -124,40 +97,16 @@
                         {
                             <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })">
                                 <img align="middle" class="img-thumbnail img-responsive advert-thumbnail" src="~/Images/Products/thumb-0.jpg" alt="text book image">
+                                <div class="text">
+                                    <div class="inner">
+                                        Click for more info
+                                    </div>
+                                </div>
                             </a>
                         }
                     }
                 </div>
             </div>
-            @*<div>
-                @if (Model.ProductStatus == Grikwa.Models.ProductStatus.SOLD)
-                {
-                    <span class="btn btn-danger btn-block disabled">
-                        SOLD
-                    </span>
-                }
-                else if (Model.ProductStatus == Grikwa.Models.ProductStatus.REQUESTED)
-                {
-                    <a href="@Url.Action("Chat", "NoticeBoard")" class="btn btn-light btn-block btn-inverse">
-                        <i class="icon-comments bigger-110"></i>
-                        <span>PENDING...</span>
-                    </a>
-                }
-                else if (Request.IsAuthenticated && Context.User.Identity.Name.Equals(Model.UserName))
-                {
-                    <a href="@Url.Action("EditNotice", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-purple btn-block btn-inverse">
-                        <i class="icon-edit-sign bigger-110"></i>
-                        <span>Edit</span>
-                    </a>
-                }
-                else if (Model.ProductStatus == Grikwa.Models.ProductStatus.NEW)
-                {
-                    <a href="@Url.Action("Details", "NoticeBoard", new { @id = Model.ProductID })" class="btn btn-yellow btn-block btn-inverse">
-                        <i class="icon-info bigger-110"></i>More Info
-                        <input type="hidden" value="@Model.Name" />
-                    </a>
-                }
-            </div>*@
         }
     </div>
 </div>
