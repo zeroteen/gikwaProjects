@@ -201,6 +201,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\CategoryManagerController.cs" />
     <Compile Include="Controllers\CompanyEmployeeManagerController.cs" />
     <Compile Include="Controllers\CompanyItemManagerController.cs" />
@@ -479,7 +480,9 @@
     <Content Include="Scripts\site.js" />
     <Content Include="Scripts\typeahead-bs2.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -746,6 +749,12 @@
     <EmbeddedResource Include="Migrations\201502012323517_Grikwav2.resx">
       <DependentUpon>201502012323517_Grikwav2.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Grikwa.Infrastructure\Grikwa.Infrastructure.csproj">
+      <Project>{659a79b3-9a32-45a3-828f-aaaafc1ffaf5}</Project>
+      <Name>Grikwa.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

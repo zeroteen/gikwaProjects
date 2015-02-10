@@ -181,6 +181,8 @@ namespace Grikwa.Models
         [Required]
         public virtual string UserID { get; set; }
 
+        public string Institution { get; set; }
+
         [FileSize(5243000)]
         [FileType("jpg,jpeg,png")]
         [Display(Name = "Replace Product Image With")]
@@ -224,6 +226,10 @@ namespace Grikwa.Models
         [Required(ErrorMessage="Please select at least one category")]
         [Display(Name = "Categories*")]
         public virtual ICollection<int> Categories { get; set; }
+
+        public virtual string ThumbnailImageName { get; set; }
+
+        public virtual string FullSizeImageName { get; set; }
     }
 
     public class EditPosterModel
@@ -233,6 +239,8 @@ namespace Grikwa.Models
 
         [Required]
         public virtual string UserID { get; set; }
+
+        public string Institution { get; set; }
 
         [FileSize(5243000)]
         [FileType("jpg,jpeg,png")]
@@ -271,6 +279,10 @@ namespace Grikwa.Models
         [Required(ErrorMessage = "Please select at least one category")]
         [Display(Name = "Categories*")]
         public virtual ICollection<int> Categories { get; set; }
+
+        public virtual string ThumbnailImageName { get; set; }
+
+        public virtual string FullSizeImageName { get; set; }
     }
 
     public class CatalogProductModel
@@ -278,6 +290,8 @@ namespace Grikwa.Models
         public int ProductID { get; set; }
 
         public string UserID { get; set; }
+
+        public string Institution { get; set; }
 
         public string UserName { get; set; }
 
@@ -296,6 +310,10 @@ namespace Grikwa.Models
         public virtual string PhoneNumber { get; set; }
 
         public virtual string WebsiteLink { get; set; }
+
+        public virtual string ThumbnailImageName { get; set; }
+
+        public virtual string FullSizeImageName { get; set; }
 
         public DateTime DatePosted { get; set; }
 

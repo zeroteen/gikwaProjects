@@ -86,6 +86,10 @@ namespace Grikwa.Models
 
         public virtual bool AcceptedTerms { get; set; }
 
+        public virtual string ThumbnailImageName { get; set; }
+
+        public virtual string FullSizeImageName { get; set; }
+
         public virtual byte[] FullSizeImage { get; set; }
 
         public virtual byte[] ThumbnailImage { get; set; }

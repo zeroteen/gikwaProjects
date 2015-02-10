@@ -7,13 +7,13 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Grikwa.Models;
+using Infrastructure.Implementations;
 
 namespace Grikwa.Controllers
 {
     [Authorize]
-    public class InstitutionManagerController : Controller
+    public class InstitutionManagerController : BaseController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: /InstitutionManager/
         public ActionResult Index()
@@ -51,8 +51,12 @@ namespace Grikwa.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Institutions.Add(institution);
-                db.SaveChanges();
+                if (db.Institutions.FirstOrDefault(x => x.abbreviation.ToLower() == institution.abbreviation.ToLower()) != null)
+                {
+                    db.Institutions.Add(institution);
+                    db.SaveChanges();
+                    var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, institution.abbreviation);
+                }
                 return RedirectToAction("Index");
             }
 
