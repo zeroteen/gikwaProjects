@@ -38,7 +38,7 @@ namespace Grikwa.Models
         public System.Web.Mvc.SelectList TitleSelectList { get; set; }
 
         [FileSize(5243000)]
-        [FileType("jpg,jpeg,png")]
+        [FileType("jpg,jpeg,png,gif")]
         [Display(Name = "Replace Profile Picture With")]
         public virtual HttpPostedFileBase ProfileImage { get; set; }
     }
@@ -66,7 +66,7 @@ namespace Grikwa.Models
     {
         [Required]
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "Eneter Student Email")]
+        [Display(Name = "Enter Student Email")]
         public string Email { get; set; }
     }
 
@@ -102,7 +102,8 @@ namespace Grikwa.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Username")]
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "Student Email")]
         public string UserName { get; set; }
 
         [Required]

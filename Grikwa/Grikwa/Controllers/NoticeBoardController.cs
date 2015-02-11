@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Diagnostics;
 using Infrastructure.Implementations;
 using System.Configuration;
+using Grikwa.Helpers;
 
 namespace Grikwa.Controllers
 {
@@ -456,8 +457,10 @@ namespace Grikwa.Controllers
                     // get images
                     byte[] fullSizeImage = null;
                     byte[] thumbnailImage = null;
+                    var extention = "png";
                     try
                     {
+                        extention = poster.PosterImage.FileName.Substring(poster.PosterImage.FileName.LastIndexOf('.') + 1);
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(poster.PosterImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
@@ -465,13 +468,13 @@ namespace Grikwa.Controllers
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
-                        fullImg.Save(ms, ImageFormat.Png);
+                        fullImg.Save(ms, ImageHelper.GetImageFormatType(extention));
                         fullSizeImage = ms.ToArray();
                         ms.Dispose();
 
                         // get small image
                         MemoryStream ms2 = new MemoryStream();
-                        thumbNailImg.Save(ms2, ImageFormat.Png);
+                        thumbNailImg.Save(ms2, ImageHelper.GetImageFormatType(extention));
                         thumbnailImage = ms2.ToArray();
                         ms2.Dispose();
 
@@ -508,8 +511,8 @@ namespace Grikwa.Controllers
                     else
                     {
                         var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower(); //ConfigurationManager.AppSettings["StorageAccountContainerDev"];
-                        var thumbnailName = Guid.NewGuid().ToString()+".png";
-                        var fullSizeName = Guid.NewGuid().ToString() + ".png";
+                        var thumbnailName = Guid.NewGuid().ToString();//+"."+extention;
+                        var fullSizeName = Guid.NewGuid().ToString();// +"." + extention;
                         var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
                         await blobStorage.UploadFromByteArrayAsync(thumbnailImage, thumbnailName);
                         await blobStorage.UploadFromByteArrayAsync(fullSizeImage, fullSizeName);
@@ -580,8 +583,10 @@ namespace Grikwa.Controllers
                     // get images
                     byte[] fullSizeImage = null;
                     byte[] thumbnailImage = null;
+                    var extention = "png";
                     try
                     {
+                        extention = product.ProductImage.FileName.Substring(product.ProductImage.FileName.LastIndexOf('.') + 1);
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(product.ProductImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
@@ -589,13 +594,13 @@ namespace Grikwa.Controllers
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
-                        fullImg.Save(ms, ImageFormat.Png);
+                        fullImg.Save(ms, ImageHelper.GetImageFormatType(extention));
                         fullSizeImage = ms.ToArray();
                         ms.Dispose();
 
                         // get small image
                         MemoryStream ms2 = new MemoryStream();
-                        thumbNailImg.Save(ms2, ImageFormat.Png);
+                        thumbNailImg.Save(ms2, ImageHelper.GetImageFormatType(extention));
                         thumbnailImage = ms2.ToArray();
                         ms2.Dispose();
 
@@ -632,9 +637,9 @@ namespace Grikwa.Controllers
                     else
                     {
 
-                        var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower(); 
-                        var thumbnailName = Guid.NewGuid().ToString() + ".png";
-                        var fullSizeName = Guid.NewGuid().ToString() + ".png";
+                        var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower();
+                        var thumbnailName = Guid.NewGuid().ToString();// + "."+ extention;
+                        var fullSizeName = Guid.NewGuid().ToString();// + "."+extention;
                         var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
                         await blobStorage.UploadFromByteArrayAsync(thumbnailImage, thumbnailName);
                         await blobStorage.UploadFromByteArrayAsync(fullSizeImage, fullSizeName);
@@ -934,7 +939,7 @@ namespace Grikwa.Controllers
             }
 
             // Get the product details
-            var product = await db.Products.FindAsync(id);
+            var product = await db.Products.Include(x => x.User).Include(y => y.User.Institution).FirstOrDefaultAsync(x => x.ProductID == id);
 
             // if not found
             if (product == null || product.Visible == false)
@@ -1091,8 +1096,10 @@ namespace Grikwa.Controllers
                     // get images
                     byte[] fullSizeImage = null;
                     byte[] thumbnailImage = null;
+                    var extention = "png";
                     try
                     {
+                        extention = product.ProductImage.FileName.Substring(product.ProductImage.FileName.LastIndexOf('.') + 1);
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(product.ProductImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
@@ -1100,13 +1107,13 @@ namespace Grikwa.Controllers
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
-                        fullImg.Save(ms, ImageFormat.Png);
+                        fullImg.Save(ms, ImageHelper.GetImageFormatType(extention));
                         fullSizeImage = ms.ToArray();
                         ms.Dispose();
 
                         // get small image
                         MemoryStream ms2 = new MemoryStream();
-                        thumbNailImg.Save(ms2, ImageFormat.Png);
+                        thumbNailImg.Save(ms2, ImageHelper.GetImageFormatType(extention));
                         thumbnailImage = ms2.ToArray();
                         ms2.Dispose();
 
@@ -1193,8 +1200,10 @@ namespace Grikwa.Controllers
                     // get images
                     byte[] fullSizeImage = null;
                     byte[] thumbnailImage = null;
+                    var extention = "png";
                     try
                     {
+                        extention = poster.PosterImage.FileName.Substring(poster.PosterImage.FileName.LastIndexOf('.') + 1);
                         System.Drawing.Image originalImage = System.Drawing.Image.FromStream(poster.PosterImage.InputStream);
                         System.Drawing.Image.GetThumbnailImageAbort callback = new System.Drawing.Image.GetThumbnailImageAbort(ThumbnailCallBack);
                         System.Drawing.Image fullImg = originalImage.GetThumbnailImage(500, 500, callback, IntPtr.Zero);
@@ -1202,13 +1211,13 @@ namespace Grikwa.Controllers
 
                         // get large image
                         MemoryStream ms = new MemoryStream();
-                        fullImg.Save(ms, ImageFormat.Png);
+                        fullImg.Save(ms, ImageHelper.GetImageFormatType(extention));
                         fullSizeImage = ms.ToArray();
                         ms.Dispose();
 
                         // get small image
                         MemoryStream ms2 = new MemoryStream();
-                        thumbNailImg.Save(ms2, ImageFormat.Png);
+                        thumbNailImg.Save(ms2, ImageHelper.GetImageFormatType(extention));
                         thumbnailImage = ms2.ToArray();
                         ms2.Dispose();
 

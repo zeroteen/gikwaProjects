@@ -6,11 +6,11 @@
 
         if (System.Configuration.ConfigurationManager.AppSettings["ImageLocation"] == "blob")
         {
-            return Url.Action("AdvertImage", "NoticeBoard", new { isntitution = institution, imageName = imageName });
+            return Url.Action("AdvertImage", "NoticeBoard", new { institution = institution.ToLower(), imageName = imageName });
         }
         else
         {
-            return System.Configuration.ConfigurationManager.AppSettings["CdnUrl"] + institution + "/" + imageName;
+            return System.Configuration.ConfigurationManager.AppSettings["CdnUrl"] + institution.ToLower() + "/" + imageName;
         }
     }
 }

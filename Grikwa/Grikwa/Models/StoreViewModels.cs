@@ -76,7 +76,7 @@ namespace Grikwa.Models
     {
 
         [FileSize(5243000)]
-        [FileType("jpg,jpeg,png")]
+        [FileType("jpg,jpeg,png,gif")]
         [Display(Name="Product Image*")]
         [Required(ErrorMessage = "The product image is required")]
         public virtual HttpPostedFileBase ProductImage { get; set; }
@@ -87,8 +87,8 @@ namespace Grikwa.Models
         public virtual string Name { get; set; }
 
         [MaxLength(100)]
-        [Display(Name = "Short Description*")]
-        [Required(ErrorMessage = "The short description is required")]
+        [Display(Name = "Short Description")]
+        //[Required(ErrorMessage = "The short description is required")]
         public virtual string ShortDescription { get; set; }
 
         [MaxLength(1500)]
@@ -129,7 +129,7 @@ namespace Grikwa.Models
     public class NotifyPosterModel
     {
         [FileSize(5243000)]
-        [FileType("jpg,jpeg,png")]
+        [FileType("jpg,jpeg,png,gif")]
         [Display(Name = "Poster Image*")]
         [Required(ErrorMessage = "The poster image is required")]
         public virtual HttpPostedFileBase PosterImage { get; set; }
@@ -184,7 +184,7 @@ namespace Grikwa.Models
         public string Institution { get; set; }
 
         [FileSize(5243000)]
-        [FileType("jpg,jpeg,png")]
+        [FileType("jpg,jpeg,png,gif")]
         [Display(Name = "Replace Product Image With")]
         public virtual HttpPostedFileBase ProductImage { get; set; }
 
@@ -194,8 +194,8 @@ namespace Grikwa.Models
         public virtual string Name { get; set; }
 
         [MaxLength(100)]
-        [Display(Name = "Short Description*")]
-        [Required(ErrorMessage = "The short description is required")]
+        [Display(Name = "Short Description")]
+        //[Required(ErrorMessage = "The short description is required")]
         public virtual string ShortDescription { get; set; }
 
         [MaxLength(1500)]
@@ -243,7 +243,7 @@ namespace Grikwa.Models
         public string Institution { get; set; }
 
         [FileSize(5243000)]
-        [FileType("jpg,jpeg,png")]
+        [FileType("jpg,jpeg,png,gif")]
         [Display(Name = "Replace Poster Image With")]
         public virtual HttpPostedFileBase PosterImage { get; set; }
 

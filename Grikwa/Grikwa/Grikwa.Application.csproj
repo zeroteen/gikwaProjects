@@ -238,6 +238,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Migrations\201402241240158_AddUserRegistrationDate.cs" />
     <Compile Include="Migrations\201402241240158_AddUserRegistrationDate.Designer.cs">
       <DependentUpon>201402241240158_AddUserRegistrationDate.cs</DependentUpon>

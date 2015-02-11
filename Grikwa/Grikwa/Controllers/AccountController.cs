@@ -64,12 +64,13 @@ namespace Grikwa.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                var user = await UserManager.FindAsync(model.UserName, model.Password);
+                var username = model.UserName.Substring(0, model.UserName.IndexOf('@')).ToLower();
+                var extension = model.UserName.Substring(model.UserName.IndexOf('@') + 1).ToLower();
+                var user = await UserManager.FindAsync(username, model.Password);
                 if (user != null && user.Verified == true)
                 {
                     await SignInAsync(user, model.RememberMe);
-                    FormsAuthentication.SetAuthCookie(user.UserName, false);
+                    FormsAuthentication.SetAuthCookie(username, false);
                     Session.Add("userName", user.TitleID + " " + user.Intials + " " + user.Surname);
                     Session.Add("userID", user.Id);
                     Session.Add("institutionID", user.InstitutionID);
@@ -93,7 +94,7 @@ namespace Grikwa.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    ModelState.AddModelError("", "Invalid student email or password.");
                 }
             }
 
