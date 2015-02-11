@@ -265,8 +265,8 @@ namespace Grikwa.Controllers
                 if (product.FullSizeImage != null && product.ThumbnailImage != null)
                 {
                     var containerName = product.User.Institution.abbreviation.ToLower();
-                    var thumbnailName = Guid.NewGuid().ToString() + ".png";
-                    var fullSizeName = Guid.NewGuid().ToString() + ".png";
+                    var thumbnailName = Guid.NewGuid().ToString();
+                    var fullSizeName = Guid.NewGuid().ToString();
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
                     await blobStorage.UploadFromByteArrayAsync(product.ThumbnailImage, thumbnailName);
                     await blobStorage.UploadFromByteArrayAsync(product.FullSizeImage, fullSizeName);
@@ -283,8 +283,8 @@ namespace Grikwa.Controllers
 
         public async Task<ActionResult> DeleteHiddenProducts()
         {
-            var storageAccountName = ConfigurationManager.AppSettings["StorageAccountNameDev"];
-            var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKeyDev"];
+            var storageAccountName = ConfigurationManager.AppSettings["StorageAccountName"];
+            var storageAccountKey = ConfigurationManager.AppSettings["StorageAccountKey"];
             foreach (var product in db.Products.Where(x => x.Visible == false).Include(x => x.User).Include(x => x.User.Institution))
             {
                 if (!string.IsNullOrEmpty(product.ThumbnailImageName) && !string.IsNullOrEmpty(product.ThumbnailImageName)){
