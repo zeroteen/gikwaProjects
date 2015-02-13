@@ -356,7 +356,7 @@ namespace Grikwa.Controllers
             {
                 if (product.FullSizeImage != null && product.ThumbnailImage != null)
                 {
-                    var containerName = product.User.Institution.abbreviation.ToLower();
+                    var containerName = product.User.Institution.abbreviation.ToLower() + "products";
                     var thumbnailName = Guid.NewGuid().ToString();
                     var fullSizeName = Guid.NewGuid().ToString();
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
@@ -383,7 +383,7 @@ namespace Grikwa.Controllers
             if (product != null){
                 if (product.FullSizeImage != null && product.ThumbnailImage != null)
                 {
-                    var containerName = product.User.Institution.abbreviation.ToLower();
+                    var containerName = product.User.Institution.abbreviation.ToLower() + "products";
                     var thumbnailName = Guid.NewGuid().ToString();
                     var fullSizeName = Guid.NewGuid().ToString();
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
@@ -409,7 +409,7 @@ namespace Grikwa.Controllers
             foreach (var product in db.Products.Where(x => x.Visible == false).Include(x => x.User).Include(x => x.User.Institution))
             {
                 if (!string.IsNullOrEmpty(product.ThumbnailImageName) && !string.IsNullOrEmpty(product.ThumbnailImageName)){
-                    var containerName = product.User.Institution.abbreviation.ToLower();
+                    var containerName = product.User.Institution.abbreviation.ToLower() + "products";
                     var thumbnailName = product.ThumbnailImageName;
                     var fullSizeName = product.FullSizeImageName;
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
