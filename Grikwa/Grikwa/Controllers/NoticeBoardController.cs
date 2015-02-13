@@ -510,7 +510,7 @@ namespace Grikwa.Controllers
                     }
                     else
                     {
-                        var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower(); //ConfigurationManager.AppSettings["StorageAccountContainerDev"];
+                        var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower() + "products"; //ConfigurationManager.AppSettings["StorageAccountContainerDev"];
                         var thumbnailName = Guid.NewGuid().ToString();//+"."+extention;
                         var fullSizeName = Guid.NewGuid().ToString();// +"." + extention;
                         var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
@@ -637,7 +637,7 @@ namespace Grikwa.Controllers
                     else
                     {
 
-                        var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower();
+                        var containerName = db.Institutions.First(x => x.InstitutionID == user.InstitutionID).abbreviation.ToLower() + "products";
                         var thumbnailName = Guid.NewGuid().ToString();// + "."+ extention;
                         var fullSizeName = Guid.NewGuid().ToString();// + "."+extention;
                         var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
@@ -1127,7 +1127,7 @@ namespace Grikwa.Controllers
                         Trace.WriteLine(e.Message, "Product Image Creation Failed During Edit.");
                     }
 
-                    var containerName = db.Institutions.First(x => x.InstitutionID == editedProduct.User.InstitutionID).abbreviation.ToLower();
+                    var containerName = db.Institutions.First(x => x.InstitutionID == editedProduct.User.InstitutionID).abbreviation.ToLower() + "products";
                     var thumbnailName = editedProduct.ThumbnailImageName;
                     var fullSizeName = editedProduct.FullSizeImageName;
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
@@ -1231,7 +1231,7 @@ namespace Grikwa.Controllers
                         Trace.WriteLine(e.Message, "Poster Image Creation Failed During Edit.");
                     }
 
-                    var containerName = db.Institutions.First(x => x.InstitutionID == editedPoster.User.InstitutionID).abbreviation.ToLower();
+                    var containerName = db.Institutions.First(x => x.InstitutionID == editedPoster.User.InstitutionID).abbreviation.ToLower() + "products";
                     var thumbnailName = editedPoster.ThumbnailImageName;
                     var fullSizeName = editedPoster.FullSizeImageName;
                     var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
@@ -1314,7 +1314,7 @@ namespace Grikwa.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Product product = await db.Products.FindAsync(id);
-            var containerName = db.Institutions.First(x => x.InstitutionID == product.User.InstitutionID).abbreviation.ToLower();
+            var containerName = db.Institutions.First(x => x.InstitutionID == product.User.InstitutionID).abbreviation.ToLower() + "products";
             var thumbnailName = product.ThumbnailImageName;
             var fullSizeName = product.FullSizeImageName;
             var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);

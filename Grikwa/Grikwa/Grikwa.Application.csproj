@@ -718,6 +718,7 @@
     <Content Include="Views\Home\NewIndex.cshtml" />
     <Content Include="Views\Home\MoveImagesToBlobStorage.cshtml" />
     <Content Include="Views\Home\DeleteHiddenProducts.cshtml" />
+    <Content Include="Views\Home\MoveImageToBlobStorage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
