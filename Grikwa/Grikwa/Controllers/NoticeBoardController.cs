@@ -1320,7 +1320,9 @@ namespace Grikwa.Controllers
             var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
             await blobStorage.DeleteBlobAsync(thumbnailName);
             await blobStorage.DeleteBlobAsync(fullSizeName);
-            db.Products.Remove(product);
+            product.Visible = false;
+            db.Entry(product).State = System.Data.Entity.EntityState.Modified;
+            //db.Products.Remove(product);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

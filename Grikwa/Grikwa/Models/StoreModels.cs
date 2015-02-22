@@ -96,6 +96,10 @@ namespace Grikwa.Models
 
         public virtual bool Visible { get; set; }
 
+        public virtual int ViewCount { get; set; }
+
+        public virtual int ContactCount { get; set; }
+
     }
 
     public class Sale
@@ -106,7 +110,6 @@ namespace Grikwa.Models
         public virtual string CustomerID { get; set; }
         public virtual ApplicationUser Customer { get; set; }
         public virtual DateTime SaleDate { get; set; }
-
     }
 
     public class Category
