@@ -51,11 +51,12 @@ namespace Grikwa.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (db.Institutions.FirstOrDefault(x => x.abbreviation.ToLower() == institution.abbreviation.ToLower()) != null)
+                if (db.Institutions.FirstOrDefault(x => x.abbreviation.ToLower() == institution.abbreviation.ToLower()) == null)
                 {
                     db.Institutions.Add(institution);
                     db.SaveChanges();
-                    var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, institution.abbreviation);
+                    var containerName = institution.abbreviation.ToLower() + "products";
+                    var blobStorage = new BlobMethods(storageAccountName, storageAccountKey, containerName);
                 }
                 return RedirectToAction("Index");
             }

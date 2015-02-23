@@ -30,31 +30,31 @@ namespace Grikwa.Controllers
             return View(registerModel);
         }
 
-        public async Task<ActionResult> InstitutionImage(string code)
-        {
-            if (code == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+        //public async Task<ActionResult> InstitutionImage(string code)
+        //{
+        //    if (code == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
 
-            using (var db1 = new ApplicationDbContext())
-            {
-                // get the product
-                var image = from i in db1.Institutions
-                            where i.abbreviation.Equals(code)
-                            select i.Image;
+        //    using (var db1 = new ApplicationDbContext())
+        //    {
+        //        // get the product
+        //        var image = from i in db1.Institutions
+        //                    where i.abbreviation.Equals(code)
+        //                    select i.Image;
 
-                var count = await image.CountAsync();
-                if (count < 1)
-                {
-                    return HttpNotFound("Image was not found"); // image was not found
-                }
+        //        var count = await image.CountAsync();
+        //        if (count < 1)
+        //        {
+        //            return HttpNotFound("Image was not found"); // image was not found
+        //        }
 
-                byte[] imageBytes = await image.FirstAsync();
+        //        byte[] imageBytes = await image.FirstAsync();
 
-                return File(imageBytes, "image/png");
-            }
-        }
+        //        return File(imageBytes, "image/png");
+        //    }
+        //}
 
         public ActionResult About()
         {

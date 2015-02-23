@@ -23,7 +23,6 @@ namespace Grikwa.Models
         public virtual string Extension3 { get; set; }
         public virtual string Extension4 { get; set; }
         public virtual string Extension5 { get; set; }
-        public virtual byte[] Image { get; set; }
     }
 
     public class MeetPlace
