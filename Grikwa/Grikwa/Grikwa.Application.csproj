@@ -270,6 +270,10 @@
     <Compile Include="Migrations\201502012323517_Grikwav2.Designer.cs">
       <DependentUpon>201502012323517_Grikwav2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502231700025_Removed Inst Image.cs" />
+    <Compile Include="Migrations\201502231700025_Removed Inst Image.Designer.cs">
+      <DependentUpon>201502231700025_Removed Inst Image.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyModels.cs" />
@@ -775,6 +779,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502012323517_Grikwav2.resx">
       <DependentUpon>201502012323517_Grikwav2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502231700025_Removed Inst Image.resx">
+      <DependentUpon>201502231700025_Removed Inst Image.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
