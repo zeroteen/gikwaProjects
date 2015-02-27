@@ -11,6 +11,7 @@ using Grikwa.Models;
 
 namespace Grikwa.Controllers
 {
+    [RequireHttps]
     public class OrderItemManagerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -18,6 +18,7 @@ using Infrastructure.Implementations;
 
 namespace Grikwa.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
 

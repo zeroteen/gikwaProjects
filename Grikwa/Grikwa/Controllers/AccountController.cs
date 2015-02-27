@@ -22,6 +22,7 @@ using System.Drawing.Imaging;
 
 namespace Grikwa.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {
