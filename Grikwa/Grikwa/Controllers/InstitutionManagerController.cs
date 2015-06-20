@@ -11,7 +11,7 @@ using Infrastructure.Implementations;
 
 namespace Grikwa.Controllers
 {
-    [RequireHttps]
+    
     [Authorize]
     public class InstitutionManagerController : BaseController
     {

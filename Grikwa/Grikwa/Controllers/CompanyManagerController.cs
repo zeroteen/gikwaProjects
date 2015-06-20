@@ -11,7 +11,7 @@ using Grikwa.Models;
 
 namespace Grikwa.Controllers
 {
-    [RequireHttps]
+    
     public class CompanyManagerController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -11,7 +11,7 @@ using Grikwa.Models;
 
 namespace Grikwa.Controllers
 {
-    [RequireHttps]
+    
     [Authorize]
     public class LinkFacultyController : Controller
     {

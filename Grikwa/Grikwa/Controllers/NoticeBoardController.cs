@@ -19,7 +19,7 @@ using Grikwa.Helpers;
 
 namespace Grikwa.Controllers
 {
-    [RequireHttps]
+    
     [Authorize]
     public class NoticeBoardController : BaseController
     {

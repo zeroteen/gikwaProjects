@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace Grikwa.Models
 {
-    [RequireHttps]
+    
     [Authorize]
     public class TitleManagerController : Controller
     {
