@@ -33,15 +33,9 @@ namespace Grikwa.Controllers
             // set pagination filter url
             PaginationModel.FilterURL = Url.Action("Index", "NoticeBoard") + "?id=";
 
-            // get current institution if set
-            if (Session != null && Session["currentInstitution"] != null)
-            {
-                // get institution name
-                var name = (string)Session["currentInstitution"];
-
                 // get all products in this institution
                 var ps = from p in db.Products
-                         where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention==ProductIntention.SELL && p.Visible == true
+                         where p.ProductIntention==ProductIntention.SELL && p.Visible == true
                          select new CatalogProductModel()
                          {
                              ProductID = p.ProductID,
@@ -59,7 +53,7 @@ namespace Grikwa.Controllers
                              Institution = p.User.Institution.abbreviation
                          };
                 var ps2 = from p in db.Products
-                          where p.User.Institution.abbreviation.Equals(name) && p.ProductIntention == ProductIntention.NOTIFY && p.Visible == true
+                          where p.ProductIntention == ProductIntention.NOTIFY && p.Visible == true
                          select new CatalogProductModel()
                          {
                              ProductID = p.ProductID,
@@ -85,46 +79,10 @@ namespace Grikwa.Controllers
                 var unpendingPosters = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * PaginationModel.PosterPageSize).Take(PaginationModel.PosterPageSize).ToListAsync();
                 var n = unpendingPosters.Count;
                 var unpendingProducts = await ps.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
-                
-                
-                /*var extraProducts = await ps.OrderByDescending(p => p.DatePosted).Skip((pageIndex * (PaginationModel.PageSize - n)) + unpendingProducts.Count).Take(PaginationModel.PosterPageSize - unpendingPosters.Count).ToListAsync();
-                if (extraProducts.Count == 0)
-                {
-                    extraProducts = await ps2.OrderByDescending(p => p.DatePosted).Skip((pageIndex * PaginationModel.PosterPageSize) + unpendingPosters.Count).Take(PaginationModel.PageSize - n - unpendingProducts.Count).ToListAsync();
-                }*/
 
                 unpendingPosters.AddRange(unpendingProducts);
-                //unpendingPosters.AddRange(extraProducts);
                 
                 return View(await SetPendingProducts(unpendingPosters));
-            }
-
-            // get all products at the default institution ("UCT")
-            var products = from p in db.Products
-                           where p.User.Institution.abbreviation.Equals("UCT") && p.Visible == true
-                           select new CatalogProductModel()
-                           {
-                               ProductID = p.ProductID,
-                               Name = p.Name,
-                               UserID = p.UserID,
-                               UserName = p.User.UserName,
-                               UserFullName = p.User.TitleID + " " + p.User.Intials + " " + p.User.Surname,
-                               Price = p.Price,
-                               ShortDescription = p.ShortDescription,
-                               ProductIntention = p.ProductIntention,
-                               ProductStatus = p.ProductStatus,
-                               DatePosted = p.DatePosted
-                           };
-
-            // setup pagination
-            PaginationModel.TotalItems = await products.CountAsync();
-            var pageIndex2 = PaginationModel.GoToPage(id) - 1;
-            SetFilters();
-            Session.Add("currentInstitution", "UCT");
-
-            var unpendingProducts2 = await products.OrderByDescending(p => p.DatePosted).Skip(pageIndex2 * PaginationModel.PageSize).Take(PaginationModel.PageSize).ToListAsync();
-
-            return View(await SetPendingProducts(unpendingProducts2));
         }
 
         private async Task<List<CatalogProductModel>> SetPendingProducts(List<CatalogProductModel> products)
@@ -158,15 +116,12 @@ namespace Grikwa.Controllers
                 return RedirectToAction("Index", "NoticeBoard");
             }
 
-            // get current institution
-            string name = GetCurrentInstitution();
-
             // set pagination returnURL
             PaginationModel.FilterURL = Url.Action("Category", "NoticeBoard") + "?category=" + category + "&page=";
 
             // get catalog product in a specific category
             var products = from p in db.ProductCategories
-                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category)
+                           where p.Category.Code.Equals(category)
                            && p.Product.Visible == true && p.Product.ProductIntention == ProductIntention.NOTIFY
                            select new CatalogProductModel()
                            {
@@ -186,7 +141,7 @@ namespace Grikwa.Controllers
                            };
 
             var products1 = from p in db.ProductCategories
-                           where p.Product.User.Institution.abbreviation.Equals(name) && p.Category.Code.Equals(category) 
+                           where p.Category.Code.Equals(category) 
                            && p.Product.Visible == true && p.Product.ProductIntention == ProductIntention.SELL
                            select new CatalogProductModel()
                            {
@@ -215,15 +170,7 @@ namespace Grikwa.Controllers
             var n = unpendingPosters.Count;
             var unpendingProducts = await products1.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
 
-
-            /*var extraProducts = await products1.OrderByDescending(p => p.DatePosted).Skip((pageIndex * (PaginationModel.PageSize - n)) + unpendingProducts.Count).Take(PaginationModel.PosterPageSize - unpendingPosters.Count).ToListAsync();
-            if (extraProducts.Count == 0)
-            {
-                extraProducts = await products.OrderByDescending(p => p.DatePosted).Skip((pageIndex * PaginationModel.PosterPageSize) + unpendingPosters.Count).Take(PaginationModel.PageSize - n - unpendingProducts.Count).ToListAsync();
-            }*/
-
             unpendingPosters.AddRange(unpendingProducts);
-            //unpendingPosters.AddRange(extraProducts);
 
             return View("Index", await SetPendingProducts(unpendingPosters));
         }
@@ -264,12 +211,9 @@ namespace Grikwa.Controllers
             // set pagination returnURL
             PaginationModel.FilterURL = Url.Action("Search", "NoticeBoard") + "?query=" + query + "&page=";
 
-            // current institution
-            string name = GetCurrentInstitution();
-
             // get all products that match the serach query
             var ps = from p in db.Products
-                     where p.User.Institution.abbreviation.Equals(name) && p.Visible == true && p.ProductIntention == ProductIntention.NOTIFY &&
+                     where p.Visible == true && p.ProductIntention == ProductIntention.NOTIFY &&
                            (p.Name.Contains(query) ||
                             p.ShortDescription.Contains(query) ||
                             p.LongDescription.Contains(query) ||
@@ -292,7 +236,7 @@ namespace Grikwa.Controllers
                      };
 
             var ps2 = from p in db.Products
-                      where p.User.Institution.abbreviation.Equals(name) && p.Visible == true && p.ProductIntention == ProductIntention.SELL &&
+                      where p.Visible == true && p.ProductIntention == ProductIntention.SELL &&
                            (p.Name.Contains(query) ||
                             p.ShortDescription.Contains(query) ||
                             p.LongDescription.Contains(query) ||
@@ -323,14 +267,7 @@ namespace Grikwa.Controllers
             var n = unpendingPosters.Count;
             var unpendingProducts = await ps2.OrderByDescending(p => p.DatePosted).Skip(pageIndex * (PaginationModel.PageSize - n)).Take(PaginationModel.PageSize - n).ToListAsync();
 
-            /*var extraProducts = await ps2.OrderByDescending(p => p.DatePosted).Skip((pageIndex * (PaginationModel.PageSize - n)) + unpendingProducts.Count).Take(PaginationModel.PosterPageSize - unpendingPosters.Count).ToListAsync();
-            if (extraProducts.Count == 0)
-            {
-                extraProducts = await ps.OrderByDescending(p => p.DatePosted).Skip((pageIndex * PaginationModel.PosterPageSize) + unpendingPosters.Count).Take(PaginationModel.PageSize - n - unpendingProducts.Count).ToListAsync();
-            }*/
-
             unpendingPosters.AddRange(unpendingProducts);
-            //unpendingPosters.AddRange(extraProducts);
 
             return View("Index", await SetPendingProducts(unpendingPosters));
         }
@@ -368,7 +305,7 @@ namespace Grikwa.Controllers
 
             // get all the user's products
             var products = from p in db.Products
-                           where p.User.Id.Equals(id) && p.User.Institution.Name == user.Institution && p.Visible == true
+                           where p.User.Id.Equals(id) && p.Visible == true
                            select new CatalogProductModel()
                             {
                                 ProductID = p.ProductID,
@@ -723,14 +660,6 @@ namespace Grikwa.Controllers
             if (product == null || product.ProductStatus == ProductStatus.SOLD || product.Visible == false)
             {
                 return HttpNotFound("The product you want to buy was just bought by someone else or does not exist anymore.");
-            }
-            else if (customer.InstitutionID != product.User.InstitutionID)
-            {
-                return View("Forbidden", new ForbiddenMessageModel()
-                            {
-                                Title = "Sale Request Not Allowed",
-                                Message = "You can only enquire about or get items from the community you belong."
-                            });
             }
 
             return View(product);

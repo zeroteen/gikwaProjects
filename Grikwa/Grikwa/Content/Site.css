@@ -156,3 +156,10 @@ input[type="checkbox"].input-validation-error {
 .advert-price{
     color:#FFF !important;
 }
+
+.weblink{
+    width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+    text-overflow:ellipsis;
+}

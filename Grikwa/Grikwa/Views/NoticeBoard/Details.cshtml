@@ -153,7 +153,7 @@
                                         }
                                     var websiteLink = Model.WebsiteLink.Replace(protocol, "");
                                     <li>
-                                        <strong>Website:</strong><a href="@(protocol + websiteLink)" target="_blank"> @websiteLink.Substring(0,50)</a>
+                                        <strong>Website:</strong><a class="weblink" href="@(protocol + websiteLink)" target="_blank"> Go To Website</a>
                                     </li>
                                 }
                                 <li><strong>Description:</strong> @Model.LongDescription</li>
